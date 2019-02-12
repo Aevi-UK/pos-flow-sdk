@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title> | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm"></h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>If you are having issues with integrating AppFlow, this section may help you to troubleshoot it.</p>
+
+<h2 id="general">General</h2>
+<p>AppFlow provides two main mechanism for on-device troubleshooting. The <code class="highlighter-rouge">AppFlow Overview</code> provides <code class="highlighter-rouge">System audit logs</code> which contains information about the state of the system, incl whether any flow services were rejected, any failed initiation calls, etc. This is a good starting point to see what is going on.</p>
+
+<p>In addition, there are audit logs <em>per request</em>, in the <code class="highlighter-rouge">Request history</code> view. From there you can see what happened during a flow and why a flow service may not have been called, etc.</p>
+
+<h2 id="initiation">Initiation</h2>
+<p>If you are having problems calling the APIs, there are a few steps you can follow</p>
+<ul>
+  <li>Are you handling any errors properly? By <a href="handling-errors">handling errors</a>, you should get an error code back outlining the issue</li>
+  <li>If you are not getting errors back, have a look at the <code class="highlighter-rouge">System audit log</code> in <code class="highlighter-rouge">AppFlow Overview</code> on the device to see if it provides any details</li>
+  <li>Make sure the <code class="highlighter-rouge">Flow Processing Service</code> (FPS) is installed on the device</li>
+</ul>
+
+<h2 id="flow-services">Flow services</h2>
+
+<p>If your flow service is not getting called, there are a few possible causes to investigate.</p>
+
+<p>First, check if your application is listed under <code class="highlighter-rouge">Flow services</code> in <code class="highlighter-rouge">AppFlow Overview</code>. If not, it points to an issue with how your application is exposing its API entry points. Double check that you are using the correct intent actions, etc in the manifest.</p>
+
+<p>If your application is listed, then it may be due to;</p>
+<ul>
+  <li>Your application is not defined in the flow. If you are using the <code class="highlighter-rouge">Developer Config Provider</code>, open it and view the relevant flow and from there you can add your app to the relevant flow</li>
+  <li>Your application does not support the stage that it is defined in the flow for. Check intent actions and what methods you are overriding in your service class.</li>
+  <li>Your application is using a different major API version to the flow processing service - check the logs</li>
+  <li>Missing flow type support - have you listed the flow type that is being used as supported via your <code class="highlighter-rouge">PaymentServiceInfoProvider</code> implementation?</li>
+  <li>Unsupported currency - have you specified supported currencies? If so, maybe the current request is using a different currency.</li>
+</ul>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

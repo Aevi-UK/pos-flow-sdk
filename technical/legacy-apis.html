@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Legacy Simple Payment API | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">Legacy Simple Payment API</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>AEVI has provided a “payment initiation” API referred to as the <code class="highlighter-rouge">Simple Payment API</code> for many years now. This is a simple activity-based API that allows a VAA to initiate payments against a single payment app installed on the device.</p>
+
+<p>AppFlow is not a direct replacement for this API as it is much broader than that, we strongly recommend using the new APIs for any new development.</p>
+
+<p>We will be referring to any applications using this old API as <em>legacy</em> apps and these should be migrated to the new AppFlow APIs as soon as possible.</p>
+
+<h2 id="existing-legacy-api-applications">Existing legacy API applications</h2>
+
+<p>AppFlow provides compatibility support for existing applications that are integrated with the legacy APIs. This means that a legacy VAA can still initiate payments as per before, and legacy Payment Apps
+can still accept request and process payments as per before.</p>
+
+<p>There are however a few restrictions;</p>
+
+<ul>
+  <li>Split payments is not supported as the legacy APIs have no mechanism of passing back more than one transaction</li>
+  <li>Post-card-reading flow apps will never receive card data from legacy Payment Apps</li>
+  <li>Multiple payment apps in a flow is not supported when there are legacy payment apps installed</li>
+</ul>
+
+<h2 id="legacy-components">Legacy components</h2>
+
+<p>Whereas FPS itself supports calling into legacy Payment Apps, additional components are required to support the legacy VAA use cases.</p>
+
+<p>There are two different adapter applications intended for two different scenarios.</p>
+
+<h3 id="payment-request-legacy-app">Payment Request Legacy App</h3>
+
+<p><code class="highlighter-rouge">Payment Request Legacy App (PRLA)</code> is required when there is <strong>no</strong> legacy Payment App on the device. PRLA essentially acts as a fully fledged legacy payment app and proxies the requests through to AppFlow. This is required due to how the legacy APIs are designed, where the legacy VAA calls directly into the legacy Payment App via intent.</p>
+
+<p>PRLA does two things;</p>
+
+<ol>
+  <li>
+    <p>It will handle legacy <code class="highlighter-rouge">PaymentAppConfiguration</code> request by querying FPS for available payment apps, and then using a converter to map the AppFlow <code class="highlighter-rouge">PaymentFlowServiceInfo</code> objects into the legacy <code class="highlighter-rouge">PaymentAppConfiguration</code> objects. If there is more than one payment application, the flow configurations will be parsed to find the eligible candidate. If none can be chosen via this process, the legacy support will report back a failure.</p>
+  </li>
+  <li>
+    <p>It will handle legacy <code class="highlighter-rouge">AeviRequest</code> intents, convert the model to a AppFlow <code class="highlighter-rouge">Payment</code> or <code class="highlighter-rouge">Request</code> and route it to FPS via the <code class="highlighter-rouge">Payment Initiation API</code>.</p>
+  </li>
+</ol>
+
+<p>Note that PRLA should <em>not</em> ever be installed alongside a real legacy Payment App as multiple legacy Payment Apps is not supported.</p>
+
+<h3 id="payment-flow-legacy-app">Payment Flow Legacy App</h3>
+
+<p>Unlike PRLA, Payment Flow Legacy App (PFLA) is intended to be used when there <strong>is</strong> a legacy Payment App installed.</p>
+
+<p>PRLA is not involved in the legacy <code class="highlighter-rouge">PaymentAppConfiguration</code> requests. These go straight from the legacy VAA into the legacy Payment App via intent, as FPS has no way of intercepting this.</p>
+
+<p>PRLA will however be able to intercept requests from v2.5.1+ VAAs via a special hook added, allowing it to perform the same function as PRLA and proxy these requests through to FPS.</p>
+
+<h2 id="migration">Migration</h2>
+
+<h3 id="payment-apps">Payment apps</h3>
+
+<p>For payment apps that do not wish to support the separate card reading step, the migration process is fairly straightforward.</p>
+
+<ol>
+  <li>Replace the activity that implements the intent action <code class="highlighter-rouge">com.aevi.payment.CONFIGURATION</code> with a <code class="highlighter-rouge">PaymentFlowServiceInfoProvider</code>, return the relevant model and update the manifest.</li>
+  <li>Replace the activity that implements the intent action <code class="highlighter-rouge">com.aevi.payment.REQUEST</code> with an implementation of <code class="highlighter-rouge">BasePaymentFlowService</code> and update manifest according to docs. This service handles what corresponds to the following in the legacy API: PAYMENT, MOTO_PAYMENT, REFUND, MOTO_REFUND, PRE_AUTHORISATION, COMPLETION, DEPOSIT</li>
+  <li>Ensure that required legacy API parameters are added as references to the AppFlow <code class="highlighter-rouge">TransactionResponse</code>. These ensure backwards compatibility with any legacy VAAs. The keys that should be added as references to all <code class="highlighter-rouge">TransactionResponse</code>s are <code class="highlighter-rouge">merchantId</code>, <code class="highlighter-rouge">merchantName</code>, <code class="highlighter-rouge">terminalId</code> and <code class="highlighter-rouge">transactionDateTime</code>.</li>
+  <li>Add an implementation of <code class="highlighter-rouge">BaseGenericService</code> to handle what in legacy APIs is known as REVERSAL, TOKEN and RECEIPT requests</li>
+  <li>You can now wire up these services to the same activity/fragment UI that were used previously for legacy</li>
+</ol>
+
+<h3 id="vaas--pos-apps">VAAs / POS apps</h3>
+
+<p>The complexity of migration for VAAs / POS apps depend on whether they want to support split scenarios via AppFlow. For non-split scenarios, the migration to AppFlow is <em>fairly</em> straightforward. To add support for split as well does however make the process fairly complex.</p>
+
+<p>For non-split scenarios, the main differences from a POS app point of view are,</p>
+<ul>
+  <li>Unbound request/transaction types - AppFlow supports custom request and transaction types</li>
+  <li>Monetary representation is in subunit form via a <code class="highlighter-rouge">long</code> instead of <code class="highlighter-rouge">BigDecimal</code></li>
+  <li>Native basket support</li>
+  <li>Native customer details support</li>
+  <li>Support for arbitrary data models being passed</li>
+  <li>A request (of type <code class="highlighter-rouge">Payment</code>) can result in multiple transaction responses</li>
+  <li>A request (of type <code class="highlighter-rouge">Payment</code>) can be <em>partially fulfilled</em>, leaving it to the POS app to decide what to do</li>
+</ul>
+
+<p>The last point has the biggest impact, as there can be scenarios where a portion of the request is paid via loyalty points in a flow application, followed by the payment service declining the remainder. This must be handled by the POS application in a sensible way.</p>
+
+<p>For split scenarios, please contact AEVI for assistance.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

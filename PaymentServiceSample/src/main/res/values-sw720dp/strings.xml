@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<resources>
-    <string name="with_token">Approve with token</string>
-    <string name="pss_txn_processing">Payment Service Sample - Transaction processing step</string>
-    <string name="pss_card_reading">Payment Service Sample - Payment card reading step</string>
-    <string name="pss_select_token">Payment Service Sample - Select token</string>
-</resources>

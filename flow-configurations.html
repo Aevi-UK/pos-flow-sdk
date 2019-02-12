@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Flow Configurations | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Flow Configurations</h2>
+					
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>A flow configuration is a JSON structure that defines the flow meta-data, what stages it consists of and what applications to call for each stage, if any. See <a href="/pos-android-sdk/technical/example-flows">Example Flows</a> for what a fully fledged <code class="highlighter-rouge">sale</code> flow and a standard generic flow might look like.</p>
+
+<p>These flow configurations are created by AEVI and/or the acquirers and are bundled inside a Flow Configuration Provider (FCP), which is an application responsible for providing FPS and other components with runtime configuration details.</p>
+
+<p>How AppFlow behaves is defined via these flow configurations, such as</p>
+
+<ul>
+  <li>What types of requests are supported (sale, refund, tokenisation, etc)</li>
+  <li>What flow services get called for any particular flow/type, in any given stage</li>
+  <li>What the rules of application selection are if there is more than one flow service for a stage</li>
+</ul>
+
+<p>What flows are created and what they look like for any given environment is generally down to the acquirer and enabled device requirements. It is common for acquirers to offer <em>app bundles</em> via their various merchant offerings, in which case there is a set of flows associated with each bundle.</p>
+
+<p>For development and testing purposes, we offer a special type of flow config provider as part of this SDK that allows developers to configure the flows dynamically via a user interface.</p>
+
+<h3 id="flow-name-vs-type">Flow name vs type</h3>
+<p>A flow has both a name and a type associated with it. This is due to the fact that AppFlow supports multiple flows per type, to allow for scenarios where different stages and/or applications can be used with the same type. As an example, there may be two different <em>sale</em> flows each with a different loyalty scheme and the merchant initiates the relevant one based on what scheme the customer is signed up with.</p>
+
+<p>Clients must provide the flow type at a minimum, and optionally a flow name to explicitly specify what flow to use. If no name is provided and there are multiple flows available for the given type, a dialog will be presented allowing the merchant to select the desired flow.</p>
+
+<h3 id="custom-types">Custom types</h3>
+<p>In addition to the pre-defined flows, FPS will also create ad-hoc flows dynamically based on the custom request types reported by the flow services. These are generic flows which typically only call a single application. It is however possible for more than one application to support a custom type, in which case the app selection will be done according to <code class="highlighter-rouge">SINGLE_SELECT</code> rules, described below.</p>
+
+<p>If a flow service that has defined a custom request type is uninstalled or no longer defines it, the associated flow will also be removed.</p>
+
+<h3 id="app-execution-types">App execution types</h3>
+<p>The flow configuration defines a field called <code class="highlighter-rouge">appExecutionType</code> that is associated with each stage. This determines how FPS will execute the applications in that stage.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">SINGLE</code> - Only a single application can be defined</li>
+  <li><code class="highlighter-rouge">SINGLE_SELECT</code> - Multiple applications can be defined and runtime filtering and/or selection will determine one</li>
+  <li><code class="highlighter-rouge">MULTIPLE</code> - Multiple applications can be defined and they will be called one by one in order of definition</li>
+  <li><code class="highlighter-rouge">DYNAMIC_SELECT</code> - This is a special dev/test type (not allowed in prod) that can have an empty list of apps for full runtime selection of eligible apps</li>
+</ul>
+
+<h2 id="initiating-a-flow">Initiating a flow</h2>
+<p>For client / POS applications, it is important to understand the relationship between a particular POS/payment function and the flow configurations.</p>
+
+<p>In order to initiate any form of request, the flow <em>type</em> has to be provided. However, since AppFlow supports multiple flows per type, it is also possible to specify the flow <em>name</em> to select one specific flow.</p>
+
+<p>There are two ways for POS applications to determine what flow name to use:</p>
+
+<ul>
+  <li>The available flows are known up front</li>
+  <li>The possible flows are looked up programmatically from desired type</li>
+</ul>
+
+<p>The first case is fairly standard for POS applications where they are customised for a particular acquirer. In these cases, that acquirer project will define specifications that outline the available flows and the POS app can technically hard code the flow names to represent the function they want to initiate.</p>
+
+<p>The second case would allow for dynamic choices of flows, but as FPS already supports this natively, it may not be as useful.</p>
+
+<h2 id="getting-called-in-a-flow">Getting called in a flow</h2>
+<p>When a flow service is called in the flow, the input request will contain a <em>type</em> which has been derived from the flow that is being processed. This type represents the function of the flow and will tell flow services what is expected of them. For instance, a payment app will handle <code class="highlighter-rouge">sale</code> and <code class="highlighter-rouge">refund</code> differently, just like a loyalty app technically could choose to refund points for one flow and reward points in another based on the type.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/appflow-overview">
+												<p class="c-page-nav__heading">AppFlow Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/flow-stages">
+												<p class="c-page-nav__heading">Flow Stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/flow-configurations">
+												<p class="c-page-nav__heading">Flow Configurations</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/apis">
+												<p class="c-page-nav__heading">AppFlow APIs</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/payment-applications">
+												<p class="c-page-nav__heading">Payment Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/design-philosophy">
+												<p class="c-page-nav__heading">Design Philosophy</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/flow-stages" class="c-arrow-link c-arrow-link--prev u-mr-auto">Flow Stages</a>
+									
+									
+										<a href="/pos-android-sdk/apis" class="c-arrow-link c-arrow-link--next u-ml-auto">AppFlow APIs</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

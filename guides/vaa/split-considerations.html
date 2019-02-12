@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Split Applications | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="Special considerations for developing a split-the-bill application for AppFlow">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+					
+					
+						<div class="u-h6">
+							<p>Special considerations for developing a split-the-bill application for AppFlow</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<h1 id="split-the-bill-applications">Split-the-Bill Applications</h1>
+
+<div class="callout callout--danger">
+<p>THIS DOCUMENTATION IS IN PROGRESS. BUILDING SPLIT APPS IS HARD!</p>
+</div>
+
+<p>Split applications are arguably the most complex of all the flow services. For this reason, we have this dedicated page to assist in making sure you get it right.</p>
+
+<p>The role of a split application is to allow a payment to be broken up into multiple transactions. There are two ways in which this could be done;</p>
+
+<ul>
+  <li>A split app sets up all the transactions with amounts / basket details in advance and FPS takes it from there</li>
+  <li>A split app creates new transactions “on demand” as FPS calls it for each round</li>
+</ul>
+
+<p>The first case may seem appealing as a solution, but it falls short when you start looking at details like partially fulfilled transactions, declined transactions, errors etc. AppFlow is quite a dynamic solution in that it reacts to the events that occur in the flow and the same is true for split applications.</p>
+
+<p>The way FPS works is by having a “flow loop”, as is illustrated in this diagram
+<img src="/pos-android-sdk/images/sale-flow.png" alt="default sale flow" title="Sale flow" /></p>
+
+<p>At the end of a transaction (after POST_TRANSACTION), FPS will check if the processed amounts across all transactions is equal or greater than the requested amount in the payment. If it is, then the flow is done and it will move to finalise it. If not, it will go back to the <code class="highlighter-rouge">SPLIT</code> stage and call the split app again. This process is repeated until the check above is true.</p>
+
+<p>Here is an example split flow based on amount splitting,</p>
+
+<ol>
+  <li>A POS app initiates a payment with £10.00 and split enabled</li>
+  <li>FPS will call the split app in the <code class="highlighter-rouge">SPLIT</code> stage</li>
+  <li>The split app sets the request amounts for the first transaction to be £4.00</li>
+  <li>FPS will run through the “inner flow” (PRE-TRANSACTION to POST_TRANSACTION)</li>
+  <li>FPS checks if the processed amounts is equal or greater than the requested amounts, which it is not at this stage</li>
+  <li>FPS will call the split app again, which can now see the previous transaction outcome</li>
+  <li>The split app sets the request amounts to be the remaining £6.00</li>
+  <li>FPS will run through the “inner flow” (PRE-TRANSACTION to POST_TRANSACTION)</li>
+  <li>FPS checks the processed amounts which is now equal to requested</li>
+  <li>The flow is completed</li>
+</ol>
+
+<p>Before we look at edge cases, let’s review what the options are for splitting.</p>
+
+<h2 id="splitting-by-amounts">Splitting by amounts</h2>
+<p>Splitting by amounts is the easiest option programmatically, as it simply involves letting a customer specify how much they want to pay. This leaves complexities such as sharing items like a bottle of wine, etc to the customers themselves.</p>
+
+<p>Once the application has received the desired amount and performed validation on that input, it can call <code class="highlighter-rouge">SplitModel.setBaseAmountForNextTransaction(amount)</code> to set the amount to process for the next transaction.</p>
+
+<h2 id="splitting-by-basket-items">Splitting by basket items</h2>
+<p>Allowing customers to split by basket items (if available) is generally a much better customer experience, as they don’t have to try to calculate how much each person owes etc. It is also fairly trivial to implement a user interface to allow this selection of basket items. However, there are complexities such as:</p>
+
+<ul>
+  <li>Customers wanting to split a single item, like a bottle of wine - when splitting by basket items it is very difficult to track the splitting a single item within the basket. Careful management of the basket items would have to be used to track partial payment for items and customised baskets would have to be used in order to pass sensible information to any receipt printing app.</li>
+  <li>Partially fulfilled transactions - some payment applications allow the concept of a partial authorisation. This means only some of the total amount is paid during a single transaction. If splitting by basket items this could leave an amount unpaid. Therefore, for this reason, it is <em>NOT</em> recommended to split by items for flows containing a payment application that will allow partial auth/payment.</li>
+</ul>
+
+<p>In order to assist with splitting by basket, the API samples contains a <code class="highlighter-rouge">SplitBasketHelper</code> class that helps by tracking what items have been paid for, what is remaining and what is being added for the next transaction. This class can be copied into your application and adapted to suit your needs. The reason it is not part of the API itself is that there is a wide range of split scenarios from simple to very complex and we can not cater for all of these in a sensible way.</p>
+
+<h2 id="edge-cases">Edge cases</h2>
+<ul>
+  <li>additional amounts</li>
+  <li>flow services adding basket / additional amounts, meaning the requested amounts <em>increase</em>
+….</li>
+</ul>
+
+<h2 id="handling-different-outcomes">Handling different outcomes</h2>
+
+<p>Technically it is possible, but extremely unlikely, that a payment app would process more than requested. There are however other scenarios that are likely to happen:</p>
+
+<ul>
+  <li>A transaction is declined</li>
+  <li>A transaction is partially fulfilled</li>
+  <li>The payment is cancelled</li>
+  <li>An error occurs</li>
+</ul>
+
+<p>A split application needs to be able to deal with all these outcomes, which is what makes it the implementation of one very complex.</p>
+
+<h3 id="handling-declined-transactions">Handling declined transactions</h3>
+<p>Split apps must display information for the previous split transaction (if any) outcome including any decline reason. This is to help merchants identify what happened to the last transaction, which is particularly important for declined transactions.</p>
+
+<p>Any additional amounts added by flow services as part of a declined transaction are contained and will not be added to the total requested amounts. Hence, if a follow-up transaction is made for the same customer, the additional amounts will need to be added again.</p>
+
+<h3 id="handling-partially-fulfilled-transactions">Handling partially fulfilled transactions</h3>
+
+<p>A partially fulfilled transaction is the result of two possible scenarios;</p>
+<ul>
+  <li>The payment app host/gateway performed a <em>partial auth</em>, only authorising a portion of the requested amounts</li>
+  <li>A value added flow service (such as loyalty) paid off a portion of the amounts and the host then declined during transaction processing</li>
+</ul>
+
+<p>In these circumstances, a split flow can not be allowed to continue until the customer has paid his share in full, either via a new flow or via a payment method offered via the split app (such as paying in cash).</p>
+
+<h2 id="providing-merchant-controls">Providing merchant controls</h2>
+<p>Split apps must allow the merchant to cancel the transaction via its UI. This is done via calling <code class="highlighter-rouge">SplitModel.setCancelTransaction(true)</code>. Split apps are the only apps allowed to do this.</p>
+
+<p>There are two important requirements that all split apps have to fulfil to be accepted;</p>
+
+<ol>
+  <li>TODO
+2.</li>
+</ol>
+
+<p>Split apps have a much longer timeout than other flow apps to allow for split selection/configuration, etc.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing Flow Services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/integration">
+												<p class="c-page-nav__heading">Integration</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/use-cases">
+												<p class="c-page-nav__heading">Use cases</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
+												<p class="c-page-nav__heading">Receipt Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/split-considerations">
+												<p class="c-page-nav__heading">Split Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
+												<p class="c-page-nav__heading">Dealing with Amounts</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/references">
+												<p class="c-page-nav__heading">References</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/receipt-considerations" class="c-arrow-link c-arrow-link--prev u-mr-auto">Receipt Applications</a>
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts" class="c-arrow-link c-arrow-link--next u-ml-auto">Dealing with Amounts</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

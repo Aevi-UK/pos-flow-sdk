@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Flow Stages | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Flow Stages</h2>
+					
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>A <em>flow</em> is simply a configuration that defines one to many <em>stages</em> and for each stage, defines what applications can be called and what data should be passed to and from them.</p>
+
+<p>There are two types of flows - <code class="highlighter-rouge">payment</code> and <code class="highlighter-rouge">generic</code>. Payment flows are initiated via a <code class="highlighter-rouge">Payment</code> and always involves movement of money from one party to another as requested by a client (POS) app. Examples are purchases and refunds. The generic flows can on the other hand represent any function that is typical for POS/payments like tokenisation or reversals, but also custom functions as defined by flow services.</p>
+
+<h2 id="payment-flows">Payment flows</h2>
+<p>The most common flow is the <em>sale</em> flow, which is used for all standard transactions where a customer is charged for some goods or services.</p>
+
+<p>Below is a diagram illustrating the sale flow. Note that <em>Payment Services</em> are just a type of flow services and integrates with the same API as any other flow service, but for clarity, are named differently here.</p>
+
+<p><img src="/pos-android-sdk/images/sale-flow.png" alt="default sale flow" title="Sale flow" /></p>
+
+<p>As a developer, you can provide flow service applications that target one or more stage(s) of the flow. The FPS will ensure that (if added to the flow configuration) your application is called at the correct stage and you are passed all the request details gathered for the transaction so far. Typically the flow will also ensure the request is fulfilled by the payment application that typically reads payment cards and processes the payments. Your application can be defined to be called at multiple stages of the flow. An example could be a loyalty points app, where you may want to offer a customer the option to use their points for a purchase before payment processing, and you may want to reward the customer with points after a successful purchase.</p>
+
+<p>See here for more details about <a href="flow-configurations">flow configurations</a>.</p>
+
+<h3 id="pre-flow">Pre-flow</h3>
+
+<p>This stage is executed immediately after the source <code class="highlighter-rouge">Payment</code> has been received and validated. It is executed only once per <em>payment</em>, before any actual transactions take place.</p>
+
+<p>Pre-flow is designed to handle the fairly rare use cases where an application other than the POS application initiates a flow. As an example, a loyalty app might be the first point of interaction with a customer where they identify themselves. In order to pass this information onto a payment flow (without using bespoke integrations), the loyalty app can initiate a zero based amounts payment with associated customer data. The POS application will then be called in the pre-flow stage where it can perform its normal function and update the <code class="highlighter-rouge">Payment</code> model with relevant data before the flow continues.</p>
+
+<p>Note; By default, pre-flow is <em>only</em> called for cases where the payment amounts are zero.</p>
+
+<h3 id="split">Split</h3>
+
+<p>If a split application is installed and the request has enabled split, the split stage will be executed where the application can split the requested amount into one or more individual transactions. The most common use case of this is to allow a group of customers to split the bill, either based on amount or via basket items.</p>
+
+<p>See <a href="/pos-android-sdk/guides/vaa/split-considerations">Considerations for Split applications</a> for more details what is required from split apps.</p>
+
+<p>The input request to the split stage is <code class="highlighter-rouge">SplitRequest</code>.</p>
+
+<h3 id="pre-transaction">Pre-transaction</h3>
+
+<p>This stage allows an application to modify request data <em>before</em> any payment card is read.</p>
+
+<p>For most applications, post-card-reading will be a more appropriate stage as card details may then also be available. This is explored in further depth in the API documentation.</p>
+
+<p>The input model here is <code class="highlighter-rouge">TransactionRequest</code>.</p>
+
+<h3 id="payment-card-reading">Payment card reading</h3>
+
+<p>This is an optional stage that a payment app may or may not support (some payment services will not even process payments via cards).</p>
+
+<p>If it is supported and the card reading is successful, card data will be available for the remaining stages.</p>
+
+<h3 id="post-card-reading">Post-card-reading</h3>
+
+<p>This stage is executed after the optional payment card reading step, meaning there may or may not be valid card data available.</p>
+
+<p>The input model here is <code class="highlighter-rouge">TransactionRequest</code>.</p>
+
+<h3 id="payment-processing">Payment processing</h3>
+
+<p>At this stage, the payment app will process the payment based on the data provided (which may or may not have been augmented in previous stages).</p>
+
+<p>At the end of this stage, a <code class="highlighter-rouge">TransactionResponse</code> will be sent back dictating the outcome of the transaction.</p>
+
+<h3 id="post-transaction">Post-transaction</h3>
+
+<p>A <code class="highlighter-rouge">TransactionSummary</code> model will be passed to applications in this stage, which contains a breakdown of the input transaction data and a list of transaction responses for that transaction. It will also contain the card data if any was set by the payment application at either payment app stage.</p>
+
+<p>Note that the only thing an application can augment at this point is adding transaction references.</p>
+
+<h3 id="post-flow">Post-flow</h3>
+
+<p>This stage is executed after all transactions are completed and a final <code class="highlighter-rouge">PaymentResponse</code> object has been created which is available for applications here to read.</p>
+
+<p>At this stage, no response is required or possible as nothing can be changed at this point.</p>
+
+<p><em>Note: Only one post-flow application is supported at this stage.</em></p>
+
+<h2 id="generic-flows">Generic flows</h2>
+
+<p>The generic flows are a lot simpler than the payment flows and consists of only two possible stages.</p>
+
+<h3 id="generic">Generic</h3>
+
+<p>The generic stage is where the request is processed. As an example, for a request of type <code class="highlighter-rouge">tokenisation</code>, this is where a payment app would read a card and generate token.</p>
+
+<p>There can only be one service handling a generic request.</p>
+
+<h3 id="post-generic">Post-generic</h3>
+
+<p>This is the generic equivalent of Post-flow, where an app gets called with the final response and can review that data. It can also add references to that response.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/appflow-overview">
+												<p class="c-page-nav__heading">AppFlow Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/flow-stages">
+												<p class="c-page-nav__heading">Flow Stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/flow-configurations">
+												<p class="c-page-nav__heading">Flow Configurations</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/apis">
+												<p class="c-page-nav__heading">AppFlow APIs</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/payment-applications">
+												<p class="c-page-nav__heading">Payment Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/design-philosophy">
+												<p class="c-page-nav__heading">Design Philosophy</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/appflow-overview" class="c-arrow-link c-arrow-link--prev u-mr-auto">AppFlow Overview</a>
+									
+									
+										<a href="/pos-android-sdk/flow-configurations" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow Configurations</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

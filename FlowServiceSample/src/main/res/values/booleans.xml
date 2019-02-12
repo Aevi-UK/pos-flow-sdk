@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="pre_flow_default">false</bool>
-    <bool name="split_default">true</bool>
-    <bool name="pre_payment_default">false</bool>
-    <bool name="postcard_default">true</bool>
-    <bool name="post_payment_default">false</bool>
-    <bool name="post_flow_default">false</bool>
-</resources>

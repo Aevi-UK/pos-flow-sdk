@@ -1,7 +1,0 @@
-task publishJavadocsAsLatest(type: Exec, dependsOn: javadocs) {
-    commandLine 'aws', '--region', 'eu-west-1', 's3', 'sync', 'documentation/public/javadocs', 's3://pos-flow-docs/javadocs/latest', '--acl', 'public-read'
-}
-
-task publishJavadocsByVersion(type: Exec, dependsOn: javadocs) {
-    commandLine 'aws', '--region', 'eu-west-1', 's3', 'sync', 'documentation/public/javadocs', "s3://pos-flow-docs/javadocs/${rootProject.version}", '--acl', 'public-read'
-}

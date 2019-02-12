@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Transactions | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">Transactions</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>Transactions in AppFlow are a bit more complex than most SDKs due to the support for split transactions and the ability for multiple applications in a transaction to pay portions of the requested amounts.</p>
+
+<h2 id="transaction-models">Transaction models</h2>
+<p>When a <code class="highlighter-rouge">Payment</code> is received by FPS, it will create an initial <code class="highlighter-rouge">Transaction</code> instance representing the total requested amounts. For non-split scenarios, this will be the only <code class="highlighter-rouge">Transaction</code> instance created. For split scenarios, a new instance of <code class="highlighter-rouge">Transaction</code> will be created for each split, reflecting the amounts the split application has requested.</p>
+
+<p>The <code class="highlighter-rouge">Transaction</code> represents the flow journey from <code class="highlighter-rouge">PRE_TRANSACTION</code> to <code class="highlighter-rouge">POST_TRANSACTION</code>, during which a number of flow services may add amounts, pay amounts, etc. For each application that is called throughout a transaction, a request that reflects the current state and is appropriate for that stage is created. All transaction stages receive a <code class="highlighter-rouge">TransactionRequest</code> object except for <code class="highlighter-rouge">POST_TRANSACTION</code>, which receives a <code class="highlighter-rouge">TransactionSummary</code> object.</p>
+
+<p>Any stage that receives a <code class="highlighter-rouge">TransactionRequest</code> has the ability to indirectly generate a <code class="highlighter-rouge">TransactionResponse</code>. Eligible flow services may do so via paying off amounts, which is the case for example loyalty applications and payment applications. Others, like in the <code class="highlighter-rouge">PAYMENT_CARD_READING</code> stage, may lead to a declined transaction. In addition, a split application, may in the <code class="highlighter-rouge">SPLIT</code> stage, pay off an entire <code class="highlighter-rouge">Transaction</code> in one go. Typically via offering a customer the ability to pay via cash. <strong>FIXME</strong> Errrr…do we call POST_TRANSACTION for this!?</p>
+
+<h2 id="transaction-ids">Transaction ids</h2>
+<p>It is important to know what ids to use for what as there are a number of functions that require applications to read or specify ids;</p>
+
+<ul>
+  <li>For multi-stage applications to track a transaction through the stages</li>
+  <li>To create id-based requests such as reversals</li>
+  <li>To look up the correct responses for a given request</li>
+</ul>
+
+<p>The following unique ids are generated, all available via the <code class="highlighter-rouge">getId()</code> method for each model;</p>
+
+<ul>
+  <li>One for each <code class="highlighter-rouge">Payment</code> and <code class="highlighter-rouge">PaymentResponse</code> pair to represent that payment</li>
+  <li>One for each <code class="highlighter-rouge">Transaction</code>, which uniquely identifies that transaction throughout all the stages,</li>
+  <li>One for each <code class="highlighter-rouge">TransactionRequest</code> and <code class="highlighter-rouge">TransactionResponse</code> pair (where a response is applicable)</li>
+</ul>
+
+<p>In addition,</p>
+
+<ul>
+  <li>The <code class="highlighter-rouge">TransactionSummary.getId()</code> will return the id of the <code class="highlighter-rouge">Transaction</code> it represents (as it extends it)</li>
+  <li>Each <code class="highlighter-rouge">TransactionRequest</code> has a <code class="highlighter-rouge">getTransactionId()</code> method that represents the <code class="highlighter-rouge">Transaction</code> that it was created for, allowing flow services to identify the same transaction throughout unique requests for different stages</li>
+</ul>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

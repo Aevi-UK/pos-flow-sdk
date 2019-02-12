@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="charity_percentage">3</integer>
-    <integer name="surcharge_fee">50</integer>
-    <integer name="pay_gift_card_value">500</integer>
-</resources>

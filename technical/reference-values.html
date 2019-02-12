@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Reference Values | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">Reference Values</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>If you are looking for how to pass data for specific use cases, such as ads/promotions, receipts, etc, please see <a href="use-case-driven-data">Use Case Driven Data</a>. In addition, there may be acquirer projects that define their own set of types in addition to these. Please contact AEVI for these scenarios.</p>
+
+<p>Although AEVI does not force nor restrict what keys or values are used by applications, developers <em>should</em> always look to this for commonly used values to ensure consistency with other applications.</p>
+
+<p>If something you consider as common or general is missing here, or you have questions, please contact AEVI or raise a ticket for it.</p>
+
+<p><a href="additional-data-how-to">See our how to guide for AdditionalData</a> for detailed information about how to read or write data of any type.</p>
+
+<h2 id="general--common-data">General / Common data</h2>
+<ul>
+  <li><a href="request-types">Request Types</a></li>
+  <li><a href="payment-methods">Payment Methods</a></li>
+  <li><a href="card-details">Card Details</a></li>
+  <li><a href="customer-details">Customer Details</a></li>
+  <li><a href="account-types">Account Types</a></li>
+  <li><a href="additional-amounts">Additional Amounts</a></li>
+  <li><a href="transactionresponse-references">Transaction Response References</a></li>
+  <li><a href="augmented-data">Augmented Data</a></li>
+</ul>
+
+<h2 id="input-to-a-payment-flow">Input to a payment flow</h2>
+
+<p>These flags can be provided in the <code class="highlighter-rouge">Payment</code> or <code class="highlighter-rouge">Request</code> additional data by the client, or any flow service, to instruct or inform applications in the flow. For flags relevant for payment applications specifically, see next section.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data key</th>
+      <th>Value type</th>
+      <th>Format / Example</th>
+      <th>Used to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“transactionLanguage”</td>
+      <td>String</td>
+      <td>ISO 639-1 two-letter language code, example “en”</td>
+      <td>Used to instruct other applications of the language of the transaction, allowing them to show text, etc in the correct language</td>
+    </tr>
+    <tr>
+      <td>“accessibleMode”</td>
+      <td>Boolean</td>
+      <td>true / false</td>
+      <td>Whether or not apps should cater for visual impairment</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="input-to-payment-apps-specifically">Input to payment apps specifically</h2>
+
+<p>These flags, in addition to the more generic ones above, can be provided in the <code class="highlighter-rouge">Payment</code> (or <code class="highlighter-rouge">Request</code>) additional data by the client, or any flow service, to instruct or inform payment applications.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data key</th>
+      <th>Value type</th>
+      <th>Format / Example</th>
+      <th>Used to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“merchantId”</td>
+      <td>String</td>
+      <td>alpha-numeric</td>
+      <td>Used to specify what merchant initiated the flow in the case of multi-merchant environments</td>
+    </tr>
+    <tr>
+      <td>“cardEntryMethods”</td>
+      <td>String[]</td>
+      <td>[“insert”, “swipe”, “tap”]</td>
+      <td>Used to instruct the payment app what card entry methods to make available to the customer</td>
+    </tr>
+    <tr>
+      <td>“cardNetworks”</td>
+      <td>String[]</td>
+      <td>[“visa”, “mastercard”, “jcb”]</td>
+      <td>Used to instruct the payment app what card schemes to allow for card presentation</td>
+    </tr>
+    <tr>
+      <td>“accountTypes”</td>
+      <td>String[]</td>
+      <td>[“savings”, “credit”]</td>
+      <td>Used to instruct the payment app what account types to support for the transaction</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="general-flags">General flags</h2>
+
+<p>These flags are used for various purposes where the concepts covered are required. As an example, if any scenario requires an amount to be passed, the data key “amount” as outlined here should be used.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data key</th>
+      <th>Value type</th>
+      <th>Format / Example</th>
+      <th>Used to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“transactionId”</td>
+      <td>String</td>
+      <td>alpha-numeric</td>
+      <td>Specify a particular transaction</td>
+    </tr>
+    <tr>
+      <td>“amount”</td>
+      <td>Amount</td>
+      <td>Represents an amount</td>
+      <td>To pass amount details</td>
+    </tr>
+  </tbody>
+</table>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

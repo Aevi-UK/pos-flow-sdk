@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>AppFlow v1 to v2 Migration | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">AppFlow v1 to v2 Migration</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>The second version of these APIs contain some breaking changes that means you will have to adapt your application if it is currently integrated with the first version.</p>
+
+<h2 id="api-structure">API structure</h2>
+<p>The in v1 separate APIs <code class="highlighter-rouge">payment-service-api</code> and <code class="highlighter-rouge">flow-service-api</code> have been merged in this version into a new <code class="highlighter-rouge">payment-flow-service-api</code>.</p>
+
+<p>This means you have to update your dependencies accordingly.</p>
+
+<p>There is no longer any major distinction between what was previously known as a flow service (aka VAAs) and  payment services. A service simply defines what stages it wants to support and that determines what function(s) they can provide. A traditional payment application is a service that gets called during the transaction processing stage.</p>
+
+<h3 id="api-clients">API clients</h3>
+
+<p><code class="highlighter-rouge">FlowClient</code> has been removed and all methods are now defined in <code class="highlighter-rouge">PaymentClient</code> to improve clarity of where to find things (in particular for JavaDocs). In addition, we have the following client changes</p>
+<ul>
+  <li><code class="highlighter-rouge">getSystemSettings()</code>, <code class="highlighter-rouge">getFlowServices()</code> and <code class="highlighter-rouge">getPaymentServices()</code> replaced by <code class="highlighter-rouge">getPaymentSettings()</code></li>
+  <li><code class="highlighter-rouge">getCurrentRequestStatus()</code> removed - instead just use <code class="highlighter-rouge">blockingFirst()</code> on the subscribe method.</li>
+  <li><code class="highlighter-rouge">processRequest()</code> renamed to <code class="highlighter-rouge">initiateRequest()</code> to follow <code class="highlighter-rouge">initiatePayment()</code> naming</li>
+  <li><code class="highlighter-rouge">subscribeToStatusUpdates()</code> has been removed completely</li>
+</ul>
+
+<h2 id="manifest-changes">Manifest changes</h2>
+<h3 id="payment-services">Payment services</h3>
+<p>Payment services, as in services that support transaction processing, which previously used the <code class="highlighter-rouge">payment-service-api</code>, no longer needs to define the “configuration-authority” meta-data for the service that implements “com.aevi.sdk.pos.flow.action.PROCESS_PAYMENT”.</p>
+
+<p>Instead, your applications needs to update the intent filter for the service info provider to
+<code class="highlighter-rouge">com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO</code></p>
+
+<h3 id="flow-services">Flow services</h3>
+<p>Flow services also need to update the intent action for their service info provider to
+<code class="highlighter-rouge">com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO</code></p>
+
+<h2 id="service-info-providers">Service info providers</h2>
+<p>As the APIs are merged, there is now also a single base service info provider that you need to extend from, and a single builder class to generate your service info.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>And the builder to use is <code class="highlighter-rouge">PaymentFlowServiceInfoBuilder</code>.</p>
+
+<h3 id="changes-to-service-info-data">Changes to service info data</h3>
+<ul>
+  <li><code class="highlighter-rouge">withSupportedRequestTypes()</code> has been replaced with <code class="highlighter-rouge">withCustomRequestTypes()</code> and a service now <em>only</em> defines bespoke request types, if any. Example like <code class="highlighter-rouge">showLoyaltyBalance</code>, etc which is bespoke to a particular app.</li>
+  <li><code class="highlighter-rouge">withSupportedTransactionTypes()</code> has been removed (flow configs now determine types)</li>
+  <li>Support to set any custom / arbitrary data via <code class="highlighter-rouge">withAdditionalInfo()</code></li>
+</ul>
+
+<p>For payment service migration, note the following changes</p>
+
+<ul>
+  <li><code class="highlighter-rouge">withTerminalId()</code> renamed to <code class="highlighter-rouge">withLogicalDeviceId()</code></li>
+  <li>New merchants model to represent merchants, use <code class="highlighter-rouge">withMerchants(Merchant... merchants)</code></li>
+  <li><code class="highlighter-rouge">withManualEntrySupport()</code></li>
+  <li><code class="highlighter-rouge">withPrintsReceipts()</code> can now be set as additional data</li>
+  <li><code class="highlighter-rouge">withSupportsFlowCardReading()</code> is no longer required, apps should set the appropriate filter in the manifest indicating card reading support</li>
+</ul>
+
+<h2 id="changes-to-requests">Changes to requests</h2>
+<p>The way flows are managed has changed in order to improve its flexibility. This means that rather than passing a transaction type to the <code class="highlighter-rouge">PaymentBuilder</code> or a <code class="highlighter-rouge">request type</code> to the <code class="highlighter-rouge">Request</code>, you now need to pass the name of the flow that you want to initiate.</p>
+
+<p>There are two ways we expect this to work. In the first case, for most production scenarios, the POS apps will be aware of all the possible flows up-front and most likely hard code what they are. In the second case, for dev, testing, etc, the API can be used to map a type (so the function required) to a list of possible flows. For the most part, it will only be a single flow defined for any given type.</p>
+
+<h2 id="various-other-model-changes">Various other model changes</h2>
+<ul>
+  <li>PaymentStage enum is gone and replaced by the FlowStages string definitions</li>
+  <li>TransactionRequest.getPaymentStage() now getFlowStage() and returns a string instead</li>
+  <li>RequestStatus is deleted as the corresponding API method to obtain it has been deleted</li>
+</ul>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

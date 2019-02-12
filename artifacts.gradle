@@ -1,7 +1,0 @@
-android.applicationVariants.all { variant ->
-    variant.outputs.all {
-        def newApkName
-        newApkName = "${applicationName}-${variant.versionName}.apk"
-        outputFileName = new File(newApkName)
-    }
-}

@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title> | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm"></h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>List of POS initiation functions and how to use with AppFlow.</p>
+
+<p>To check for support for these on a device, use <code class="highlighter-rouge">PaymentClient.getPaymentSettings()</code> and from the returned instance, <code class="highlighter-rouge">paymentSettings.isFlowTypeSupported(flowType)</code>. See table below for all defined flow functions and their respective types.</p>
+
+<p>You can then get the possible flows for that flow type via <code class="highlighter-rouge">paymentSettings.getFlowNamesForType(type)</code>. The returned values can then be used as request type for a generic <code class="highlighter-rouge">Request</code>, or to be set via <code class="highlighter-rouge">paymentBuilder.withPaymentFlow(flowName)</code> for <code class="highlighter-rouge">Payment</code> initiation.</p>
+
+<p>Note that there <em>may</em> be more than one flow defined for any given type, meaning that you either have to know up-front which one to use (most likely as communicated from AEVI or the acquirer as part of a project), or present the choice to the merchant/operator to choose.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Flow type</th>
+      <th>Request type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sale/Purchase</td>
+      <td>sale</td>
+      <td>Payment</td>
+    </tr>
+    <tr>
+      <td>Refund</td>
+      <td>refund</td>
+      <td>Payment</td>
+    </tr>
+    <tr>
+      <td>Pre-Authorisation</td>
+      <td>preAuthorisation</td>
+      <td>Payment</td>
+    </tr>
+    <tr>
+      <td>Pre-Auth Completion</td>
+      <td>preAuthCompletion</td>
+      <td>Payment</td>
+    </tr>
+    <tr>
+      <td>Reversal/Void</td>
+      <td>reversal</td>
+      <td>Payment</td>
+    </tr>
+    <tr>
+      <td>Tokenisation</td>
+      <td>tokenisation</td>
+      <td>Request</td>
+    </tr>
+    <tr>
+      <td>Batch closure</td>
+      <td>batchClosure</td>
+      <td>Request</td>
+    </tr>
+    <tr>
+      <td>Get previous transaction response</td>
+      <td>responseRedelivery</td>
+      <td>Request</td>
+    </tr>
+    <tr>
+      <td>Cash receipt delivery</td>
+      <td>cashReceiptDelivery</td>
+      <td>Request</td>
+    </tr>
+    <tr>
+      <td>Receipt redelivery</td>
+      <td>receiptRedelivery</td>
+      <td>Request</td>
+    </tr>
+    <tr>
+      <td>etc</td>
+      <td>etc</td>
+      <td>etc</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="code-examples">Code examples</h1>
+<p><code class="highlighter-rouge">chooseFlow()</code> would be a bespoke implementation for your application where you select the appropriate flow.</p>
+
+<p>Note that for the majority of cases, there will only be one flow per type defined.</p>
+<h2 id="payment">Payment</h2>
+<p>Example for transaction type “sale”.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>if (paymentSettings.isFlowTypeSupported("sale")) {
+    String flow = chooseFlow(paymentSettings.getFlowNamesForType("sale"));
+    Payment payment = new PaymentBuilder()
+            .withPaymentFlow(flow)
+            .withAmounts(new Amounts(1000, "EUR"))
+            .build();
+    paymentClient.initiatePayment(payment)
+            .subscribe(new Consumer&lt;PaymentResponse&gt;() {
+                @Override
+                public void accept(PaymentResponse paymentResponse) throws Exception {
+                    // Implement
+                }
+            });
+}
+</code></pre>
+</div>
+
+<h2 id="generic-request">Generic request</h2>
+<p>The way to check for supported types and retrieving the flow name is the same regardless of type. See below for generic code, and the following subsections for data input/output for each specific type.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>if (paymentSettings.isFlowTypeSupported("tokenisation")) {
+    String flow = chooseFlow(paymentSettings.getFlowNamesForType("tokenisation"));
+    Request request = new Request(flow, data);
+    paymentClient.processRequest(request)
+            .subscribe(new Consumer&lt;Response&gt;() {
+                @Override
+                public void accept(Response response) throws Exception {
+                    // Implement     
+                }
+            });
+}
+</code></pre>
+</div>
+
+<h3 id="tokenisation">Tokenisation</h3>
+<p>To retrieve the token from the response,
+`</p>
+
+<h3 id="bl">bl</h3>
+
+<h1 id="paymentsettings-transformations">PaymentSettings transformations</h1>
+
+<h2 id="get-flow-types">Get flow types</h2>
+
+<h2 id="get-flow-names">Get flow names</h2>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

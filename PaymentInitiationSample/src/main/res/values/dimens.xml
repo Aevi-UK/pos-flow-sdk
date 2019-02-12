@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="default_vertical_margin">8dp</dimen>
-    <dimen name="default_horizontal_margin">8dp</dimen>
-    <dimen name="initiate_payment_padding">20dp</dimen>
-</resources>

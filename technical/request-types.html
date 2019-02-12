@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Request types | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="Flow request types">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-5">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Request types</h2>
+					
+					
+						<div class="u-h6">
+							<p>How to create requests for the various standard flow types that AEVI has defined for AppFlow</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-9@lg o-col-8@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>Acquirers and/or flow services may support additional types to these. Please see <a href="bespoke-data">Bespoke Data</a> for information about this. In addition, AppFlow supports status updates via a separate set of flows defined in <a href="/pos-android-sdk/guides/pos/status-update-flows">Status Update Flows</a>.</p>
+
+<p>Please note that the types that are available in any given acquirer environment / device are down to the flows that are defined and configured. The flows can be queried for programmatically - see <a href="/pos-android-sdk/guides/pos/querying-for-information">Querying for Information</a> for more information. Do <em>not</em> take for granted that all types are always available on all devices using AppFlow.</p>
+
+<p>There are two different models that can be used for initiating a flow - please see the summary table at the bottom of the page to see what model (and hence API method) to use for what type.</p>
+
+<p>If you can’t find a request type you are after, or require additional data to be part of a particular scenario. please contact AEVI to discuss. The following is not an exhaustive list, rather it is what has been defined by AEVI so far.</p>
+
+<p>Click relevant links in the sidebar for detailed information on how to initiate that particular type of request.</p>
+
+<h2 id="summary-of-all-defined-types">Summary of all defined types</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flow type</th>
+      <th>Request class</th>
+      <th>Description</th>
+      <th>Relevant stages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sale</td>
+      <td>Payment</td>
+      <td>Sale/purchase/payment - charge the customer</td>
+      <td>All payment stages</td>
+    </tr>
+    <tr>
+      <td>refund</td>
+      <td>Payment</td>
+      <td>Refund the customer</td>
+      <td>PRE_FLOW, TRANSACTION_PROCESSING, POST_FLOW</td>
+    </tr>
+    <tr>
+      <td>preAuthorisation</td>
+      <td>Payment</td>
+      <td>Pre-authorise some amount</td>
+      <td>All payment stages</td>
+    </tr>
+    <tr>
+      <td>preAuthCompletion</td>
+      <td>Payment</td>
+      <td>Complete a previous pre-authorisation</td>
+      <td>All payment stages</td>
+    </tr>
+    <tr>
+      <td>motoSale</td>
+      <td>Payment</td>
+      <td>MOTO (customer not present) sale flow</td>
+      <td>All payment stages</td>
+    </tr>
+    <tr>
+      <td>motoRefund</td>
+      <td>Payment</td>
+      <td>MOTO (customer not present) refund flow</td>
+      <td>PRE_FLOW, TRANSACTION_PROCESSING, POST_FLOW</td>
+    </tr>
+    <tr>
+      <td>deposit</td>
+      <td>Payment</td>
+      <td>Customer deposit</td>
+      <td>PRE_FLOW, TRANSACTION_PROCESSING, POST_FLOW</td>
+    </tr>
+    <tr>
+      <td>tokenisation</td>
+      <td>Request</td>
+      <td>Retrieve a token to identify the customer (typically from card)</td>
+      <td>GENERIC</td>
+    </tr>
+    <tr>
+      <td>reversal</td>
+      <td>Request</td>
+      <td>Reversal / Void of previous transaction</td>
+      <td>GENERIC</td>
+    </tr>
+    <tr>
+      <td>batchClosure</td>
+      <td>Request</td>
+      <td>Close a batch</td>
+      <td>GENERIC</td>
+    </tr>
+    <tr>
+      <td>receiptDelivery</td>
+      <td>Request</td>
+      <td>Deliver a receipt for cash/cheque/etc payment to customer or re-deliver a receipt obtained from a previous transaction</td>
+      <td>GENERIC</td>
+    </tr>
+  </tbody>
+</table>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+									<li>
+										
+										<a href="/pos-android-sdk/technical/sale">
+											<p class="c-page-nav__heading">Sale</p>
+										</a>
+										
+									</li>
+							
+									<li>
+										
+										<a href="/pos-android-sdk/technical/refund">
+											<p class="c-page-nav__heading">Refund</p>
+										</a>
+										
+									</li>
+							
+									<li>
+										
+										<a href="/pos-android-sdk/technical/preauthorisation-and-completion">
+											<p class="c-page-nav__heading">Pre-authorisation</p>
+										</a>
+										
+									</li>
+							
+									<li>
+										
+										<a href="/pos-android-sdk/technical/tokenisation">
+											<p class="c-page-nav__heading">Tokenisation</p>
+										</a>
+										
+									</li>
+							
+									<li>
+										
+										<a href="/pos-android-sdk/technical/reversal">
+											<p class="c-page-nav__heading">Reversal/Void</p>
+										</a>
+										
+									</li>
+							
+									<li>
+										
+										<a href="/pos-android-sdk/technical/batch-close">
+											<p class="c-page-nav__heading">Batch Close</p>
+										</a>
+										
+									</li>
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+

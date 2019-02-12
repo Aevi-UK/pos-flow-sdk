@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>AppFlow Overview | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">AppFlow Overview</h2>
+					
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>The purpose of the AppFlow solution is to provide acquirers and merchants with flexible and powerful options for shaping their point of sale offering. This includes choices of standalone or integrated environments, a choice of numerous value added services that integrate seamlessly into the point of sale experience and a dynamic offering of payment solutions.</p>
+
+<p>AppFlow enables applications to be called at different stages of the point of sale journey or <em>flow</em>. What these points are and what applications are called is down to the <em>flow</em> applied to that particular request. The flow applied is determined by the type of the request, such as <em>sale</em> or <em>reversal</em>, which is one of the parameters an initiating application will set when creating a request.</p>
+
+<p>Below is a <em>simplified</em> view of this solution.</p>
+
+<p align="center">
+<img src="/pos-android-sdk/images/fps-overview.png" alt="overview" />
+</p>
+
+<p>As you can see from this diagram, the Flow Processing Service (FPS) is the core component that handles all requests and moves them through a flow. FPS is developed and maintained by AEVI; it can be installed onto any Android (API level 21+) device to facilitate this functionality. Once installed onto a device, developers will be able to use the AppFlow APIs defined here to initiate requests and implement value added services and payment  applications. Whereas FPS in this context relates to financial functions, it is in fact agnostic of any particular domain and can be used for any purpose that requires calling a set of applications at different stages of a flow.</p>
+
+<p>Most flows will be customised for the particular function they provide. For instance, a <code class="highlighter-rouge">sale</code> flow may be sent through a split stage (to split the bill) but that would not make sense for a <code class="highlighter-rouge">refund</code> flow. Flows are fully customisable. The production flows will usually be defined by the bank, acquirer or payment processor distributing AEVI enabled devices.</p>
+
+<h3 id="summary">Summary</h3>
+
+<ul>
+  <li>Requests from a client app are processed through a <em>flow</em></li>
+  <li>Each flow consists of a number of <em>stages</em>.</li>
+  <li>Acquirers, banks and payment processors can define any number of flows. These may be generic, or specific to an acquirer and/or a particular AEVI enabled device.</li>
+  <li>Each stage in the flow can optionally execute a number of <em>flow services</em>. These are either statically defined in the flow or dynamically chosen at runtime based on their eligibility for that flow.</li>
+  <li>Each flow service will process the data that has been sent to it and pass back a response. The type of data sent between FPS and the flow service for any given stage is determined by the data models for that stage.</li>
+</ul>
+
+<p>If you are developing a client application (POS app), you don’t necessarily need to worry about these details, but if you are developing a flow service then these stages indicate the times at which your flow service may be called.</p>
+
+<p>This is explained in more detail in the <a href="flow-stages">Flow Stages</a> and <a href="flow-configurations">Flow Configurations</a> sections.</p>
+
+<h2 id="applications">Applications</h2>
+<p>There are two main groups of applications in AppFlow</p>
+
+<ul>
+  <li>Client (POS) applications - the application used by the merchant to take orders, initiate and manage payments</li>
+  <li>Flow services - these application can be called throughout the flow to provide services this can include payment applications</li>
+</ul>
+
+<h3 id="client-applications">Client applications</h3>
+
+<p>Client applications are what the merchant/operator uses to input the details of a transaction, such as choosing items for a customer order or scanning item barcodes. Often this type of application is referred to as a POS app. In AppFlow, these applications make use the <code class="highlighter-rouge">Payment Initiation API</code> to create payment requests for processing and receiving the result of that processing.</p>
+
+<p>Client applications have some limited influence over the flow itself. For example they can choose to enable or disable split, pass token details, etc.</p>
+
+<h3 id="flow-services">Flow services</h3>
+
+<p>Flow services are applications that adhere to the <code class="highlighter-rouge">Payment Flow Service API</code> and get called throughout a flow to perform desired functions. FPS will know when to call any given flow service based on the information exposed by the flow service and the flow configuration.</p>
+
+<p>These services can be divided into two main groups;</p>
+
+<ul>
+  <li>Value added services, such as loyalty or split bill</li>
+  <li>Payment applications, which processes the actual payments</li>
+</ul>
+
+<p>The latter, payment applications, are in this context defined as flow services that execute in the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage. They may optionally also support the <code class="highlighter-rouge">PAYMENT_CARD_READING</code> stage where a card may be presented separately to the processing of the payment, to allow for other flow services to react on the given card data, such as token or scheme. These form of applications are typically developed by or on behalf of the acquirer/bank.</p>
+
+<p>The value added services can perform many different tasks that will benefit the merchant and/or customer. Typically these services will augment a request in some way by applying a discount, adding costs such as tax or fees, or in some cases perform operations such as cancelling the transaction. Some examples of value added services are</p>
+
+<ul>
+  <li>loyalty programs</li>
+  <li>charity donations</li>
+  <li>split bill</li>
+  <li>ratings</li>
+  <li>advertising and promos</li>
+  <li>currency conversion</li>
+  <li>receipt printing/emailing</li>
+</ul>
+
+<p>There is no limit on the number of flow services that can be called for any given flow or stage, but in practise it is rarely more than a few to a handful of applications.</p>
+
+<p>If more than one flow service is eligible for a particular stage and a choice is required, FPS will present a selection dialog to the user/merchant allowing them to specify which flow service to use.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/appflow-overview">
+												<p class="c-page-nav__heading">AppFlow Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/flow-stages">
+												<p class="c-page-nav__heading">Flow Stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/flow-configurations">
+												<p class="c-page-nav__heading">Flow Configurations</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/apis">
+												<p class="c-page-nav__heading">AppFlow APIs</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/payment-applications">
+												<p class="c-page-nav__heading">Payment Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/design-philosophy">
+												<p class="c-page-nav__heading">Design Philosophy</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+								  
+									
+									
+									
+									
+									
+										<a href="/pos-android-sdk/flow-stages" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow Stages</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Application Guidelines | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="Best practices for building your applications">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+					
+					
+						<div class="u-h6">
+							<p>Best practices for building your applications</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							
+<h1 id="application-guidelines">Application guidelines</h1>
+
+<p>The following guidelines should be followed when you implement your application to work well with AppFlow and to provide a seamless and consistent experience for the merchant.</p>
+
+<h2 id="proguard">ProGuard</h2>
+<p>If you are using proguard to obfuscate your application you will need to ensure that the AEVI classes are not processed as AppFlow makes use of JSON serialisation and deserialisation for API models.</p>
+
+<p>This can be done simply by including the following in your ProGuard file</p>
+
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>
+-dontwarn com.aevi.payment**
+-keep class com.aevi.payment** { *; }
+
+-dontwarn com.aevi.printing**
+-keep class com.aevi.printing** { *; }
+
+-dontwarn com.aevi.print**
+-keep class com.aevi.print** { *; }
+
+-dontwarn com.aevi.sdk**
+-keep class com.aevi.sdk** { *; }
+
+-dontwarn com.aevi.util.json**
+-keep class com.aevi.util.json** { *; }
+
+-dontwarn com.aevi.android.rxmessenger**
+-keep class com.aevi.android.rxmessenger** { *; }
+
+</code></pre>
+</div>
+
+<h2 id="permissions">Permissions</h2>
+<p>All communication between applications in a flow is sent as JSON which means the data between applications can be sent over any channel. By default the Android implementation of AppFlow will use the <code class="highlighter-rouge">Android Messenger</code> to send and receive messages. This means message sizes are limited to the size set by the Android Binder limit (usually max 1 MB). To avoid this issue AppFlow can be configured (via a configuration provider) to send messages over a <code class="highlighter-rouge">Websockets</code> instead.</p>
+
+<p>Whether AppFlow uses Android Messenger or Websockets is down to the runtime configuration of FPS.</p>
+
+<p>As Websockets are network based, all applications developed for AppFlow must request these permissions in the manifest.</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_NETWORK_STATE"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_WIFI_STATE"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="application-lifecycle">Application lifecycle</h2>
+<p>Due to the service-based architecture, any activities called throughout the flow are all created in separate <em>tasks</em>. See <a href="https://developer.android.com/guide/components/activities/tasks-and-back-stack.html">https://developer.android.com/guide/components/activities/tasks-and-back-stack.html</a> for more info on tasks. All your activities will be started with the <code class="highlighter-rouge">Intent.FLAG_ACTIVITY_NEW_TASK</code> flag set.</p>
+
+<p>This means there is no way of leaving a flow “stack” and coming back to it later in a traditional Android sense.</p>
+
+<p>FPS does provide certain controls to the merchant to resume/skip/cancel applications and it is important that you implement your applications in a way that plays well with these controls.</p>
+
+<p>It is up to you how to manage user interactions (back / home) and lifecycle events like <code class="highlighter-rouge">onStop()</code> and <code class="highlighter-rouge">onDestroy()</code> based on what suits your application use case best. There are however a few things to consider.</p>
+
+<p>As mentioned above, FPS does give merchants the option to resume or skip an application via notification controls. This means that if the user presses back or home from your application, and you don’t send back an API response due to this, your app may be restarted with the same request again if the merchant chooses to do so.</p>
+
+<p>If your application is performing sensitive and crucial processing of some form, it is recommended that you take the following approach;</p>
+<ul>
+  <li>Override <code class="highlighter-rouge">onBackPressed()</code> in the activity and show a message if merchant tries to press it during this processing</li>
+  <li>Ensure the processing itself is carried out <em>independent of the activity</em> - i.e in a service separate from the API service (which may be created for each request), or in a separate thread in the API service. Use the activity only as a way to interact with the merchant, not to process anything important.</li>
+  <li>For any incoming request, ensure that you sync with any ongoing processing and return the final response to the latest service request only!</li>
+  <li>Persist relevant state associated with the <a href="/pos-android-sdk/technical/transactions">transaction id</a>, and check if you have saved state from the activity when it is started</li>
+</ul>
+
+<p>If your application does not perform any form of processing and doesn’t keep state, the simplest approach is to not do anything as part of being stopped or destroyed, and let your app be restarted if merchant chooses to and start over.</p>
+
+<h3 id="manifest-flags">Manifest flags</h3>
+
+<p>All activities that are launched inside the payment flow must define these flags inside the <code class="highlighter-rouge">activity</code> tag.</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;activity</span>
+  <span class="err">...</span>
+  <span class="na">android:excludeFromRecents=</span><span class="s">"true"</span>
+  <span class="na">android:resizeableActivity=</span><span class="s">"false"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<p>This will ensure the activities leave no trace once they are finished, which is important for the flow. In addition, it stops merchants from accidentally splitting the screen into multiple activities when using the application.</p>
+
+<h3 id="animations--transitions">Animations / Transitions</h3>
+<p>In order to make AppFlow as smooth as possible, it is recommended that any flow service activities disable enter/exit animations/transitions. Any activity started via the stage models will already have the <code class="highlighter-rouge">Intent.FLAG_ACTIVITY_NO_ANIMATION</code> flag set, but for exit animations the activities need to call <code class="highlighter-rouge">overridePendingTransaction(0, 0)</code> after calling <code class="highlighter-rouge">finish()</code> (or ideally, overriding <code class="highlighter-rouge">finish()</code> and doing it there).</p>
+
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing Flow Services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/integration">
+												<p class="c-page-nav__heading">Integration</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/use-cases">
+												<p class="c-page-nav__heading">Use cases</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
+												<p class="c-page-nav__heading">Receipt Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/split-considerations">
+												<p class="c-page-nav__heading">Split Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
+												<p class="c-page-nav__heading">Dealing with Amounts</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/references">
+												<p class="c-page-nav__heading">References</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/integration" class="c-arrow-link c-arrow-link--prev u-mr-auto">Integration</a>
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/use-cases" class="c-arrow-link c-arrow-link--next u-ml-auto">Use cases</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Use cases | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="Specific value added applications">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+							
+								<li><a href="/pos-android-sdk/guides">Guides</a></li>
+							
+								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+					
+					
+						<div class="u-h6">
+							<p>Specific types of value added application</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<h1 id="specific-use-cases">Specific use cases</h1>
+<p>In order to assist common types of applications, the information below covers what stages are typically relevant for these scenarios and what augmentation methods may be useful.</p>
+
+<h2 id="loyalty">Loyalty</h2>
+<p>A loyalty application typically provides three main functions:</p>
+
+<ul>
+  <li>Applying discounts from customer use of earned loyalty points or rewards</li>
+  <li>Assigning newly earned points/rewards to a customer</li>
+  <li>Allowing new customers to sign up to the loyalty scheme</li>
+</ul>
+
+<p>Applying discounts, has to be done prior to the payment app performing its processing of the payment. Therefore, your application should support the <code class="highlighter-rouge">POST_CARD_READING</code> stage, as at that time all the data to help identify the customer will be available. This can be customer data from the POS app, card token from the card reading stage, or the loyalty app may provide its own mechanism to identify a customer. If card tokens are not relevant, <code class="highlighter-rouge">PRE_TRANSACTION</code> is an equally good candidate.</p>
+
+<p>For assigning points and/or signing up new customers, <code class="highlighter-rouge">POST_TRANSACTION</code> should be used. At this stage, the outcome of the transaction is known and the payment app may have provided a card token as well as part of the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code>.</p>
+
+<p>To apply discounts, you should make use of the <code class="highlighter-rouge">PreTransactionModel</code> where you have two options depending on how your loyalty scheme works.</p>
+
+<ul>
+  <li>Pay off all or a portion of the requested amounts</li>
+  <li>Apply discount to basket items</li>
+</ul>
+
+<p>In the first case, you should use the <code class="highlighter-rouge">setAmountsPaid()</code> method, and in the latter case make use of the <code class="highlighter-rouge">addItemsToExistingBasket()</code> where you would add a discount line item with a negative amount to the main basket.</p>
+
+<h2 id="splitting-bills">Splitting Bills</h2>
+<p>A split bill application allows customers, typically in a restaurant/cafe setting, to split a table bill amongst them. A <code class="highlighter-rouge">Payment</code> will be broken down into a <code class="highlighter-rouge">Transaction</code> per customer, where the split application dictates the amounts / basket items for each transaction. The <code class="highlighter-rouge">Payment</code> will be completed once the total requested amounts have been met, or if it is cancelled.</p>
+
+<p>There is a specific designed stage for split applications - <code class="highlighter-rouge">SPLIT</code>, which is called repeatedly until the <code class="highlighter-rouge">Payment</code> is completed. Please see <a href="split-considerations">Considerations for split applications</a> for more information how to write a best practice split application.</p>
+
+<h2 id="tipping">Tipping</h2>
+<p>If a POS application does not provide tipping as a function, a flow service may choose to offer this separately. The <code class="highlighter-rouge">PRE_TRANSACTION</code> stage is the most appropriate choice for general flows, but where it is not available, <code class="highlighter-rouge">PRE_FLOW</code> is also an option.</p>
+
+<p>To apply a tip, see the <code class="highlighter-rouge">setAdditionalAmount()</code> or <code class="highlighter-rouge">setAdditionalAmountAsBaseFraction()</code> methods in the stage models.</p>
+
+<h2 id="receipts">Receipts</h2>
+<p>AppFlow enables handling of receipts to be managed by a flow service rather than the payment application or POS application. This is useful for receipt services that allow customers to gather all their receipts in a single location. It is also encouraged for more traditional receipt handling (like printing), as it means integration with printers / printing APIs can be done in a single application as opposed to embedding this functionality in  the POS/payment application.</p>
+
+<p>Receipt handling flow services should be called in the <code class="highlighter-rouge">POST_TRANSACTION</code> stage, when the transaction outcome is known.</p>
+
+<p>There are quite a few considerations to be made for receipt handling in AppFlow - please see <a href="receipt-considerations">Considerations for receipt applications</a> for in-depth info.</p>
+
+<h2 id="feedback--ratings">Feedback / Ratings</h2>
+<p>Various services can be made available allowing acquirers/merchants to get customer feedback at the end of a transaction, typically via some rating system.</p>
+
+<p>If feedback is desired <em>per customer</em>, then <code class="highlighter-rouge">POST_TRANSACTION</code> is the relevant stage, or if feedback is desired for the overall payment, then <code class="highlighter-rouge">POST_FLOW</code> is more appropriate.</p>
+
+<h2 id="ads--promotions">Ads / Promotions</h2>
+<p>A flow service can provide ads and promotions that can be read and shown by other services in the flow. As an example, a receipt application might add it to the receipt.</p>
+
+<h2 id="analytics--reporting">Analytics / Reporting</h2>
+<p>It is possible for a flow service to gather and report information and statistics around transactions. As this would deal with potentially sensitive customer data, this would for the most case require a special acquirer application(s).</p>
+
+<p>These applications can run asynchronously in the <code class="highlighter-rouge">POST_FLOW</code> stage, meaning that they can accept the <code class="highlighter-rouge">PaymentResponse</code> data, and let the flow finish whilst the service processes the data in the background. This is to ensure that such activities do not delay the flow, which would have a negative impact on the sale experience.</p>
+
+<p>In addition, these types of applications would also be suitable for the <code class="highlighter-rouge">POST_GENERIC</code> stage for the generic flows.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing Flow Services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/integration">
+												<p class="c-page-nav__heading">Integration</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/use-cases">
+												<p class="c-page-nav__heading">Use cases</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
+												<p class="c-page-nav__heading">Receipt Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/split-considerations">
+												<p class="c-page-nav__heading">Split Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
+												<p class="c-page-nav__heading">Dealing with Amounts</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/references">
+												<p class="c-page-nav__heading">References</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/application-guidelines" class="c-arrow-link c-arrow-link--prev u-mr-auto">Application Guidelines</a>
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/receipt-considerations" class="c-arrow-link c-arrow-link--next u-ml-auto">Receipt Applications</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

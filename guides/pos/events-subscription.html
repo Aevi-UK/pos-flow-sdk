@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Flow response listener | AEVI AppFlow</title>
+			<title>Event subscription | AEVI AppFlow</title>
 		
 		
-			<meta name="description" content="Listening for a response using a flow response listener">
+			<meta name="description" content="Subscribe to events for changes">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -123,7 +123,7 @@
 					
 					
 						<div class="u-h6">
-							<p>Listening for a response using a flow response listener</p>
+							<p>How to subscribe to events to listen for system changes</p>
 						</div>
 					
 					
@@ -144,88 +144,47 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="flow-response-listeners">Flow Response Listeners</h1>
+							<h1 id="event-subscription">Event Subscription</h1>
 
-<p>Client (POS) applications must define a response entry point that is called when the final flow responses are available.</p>
-
-<p>This can be done by extending and implementing one of the response listener services. Currently two base listener services are defined:</p>
-
+<p>Any application can via the <code class="highlighter-rouge">PaymentClient.subscribeToSystemEvents()</code> subscribe to events from FPS. This method will return a stream of <code class="highlighter-rouge">FlowEvent</code> objects, each defined by a <em>type</em>. There are currently two main types of events defined;</p>
 <ul>
-  <li><code class="highlighter-rouge">BaseResponseListenerService</code> - to listen for <code class="highlighter-rouge">Response</code> objects resulting from a initial <code class="highlighter-rouge">Request</code></li>
-  <li><code class="highlighter-rouge">BasePaymentResponseListenerService</code> - to listen for <code class="highlighter-rouge">PaymentResponse</code> objects resulting from a <code class="highlighter-rouge">Payment</code> request</li>
+  <li>FPS configuration state changes</li>
+  <li>External state changes</li>
 </ul>
 
-<h2 id="response-service">Response service</h2>
+<p>The main purpose of providing these events is to allow clients to re-query for relevant data when it has changed. Most of this data is wrapped in the <code class="highlighter-rouge">PaymentSettings</code> object, meaning a call to <code class="highlighter-rouge">paymentClient.getPaymentSettings()</code> to update any such cached data would be required to ensure up-to-date information.</p>
 
-<p>Response services have two callback methods for responses - one for generic responses, such as for any of the defined <a href="/pos-android-sdk/technical/request-types">request types</a> or custom request types, and one for responses from a <a href="status-update-flows">status update flow</a>. These are delivered separately as many clients may not be interested in responses from status updates.</p>
-
-<p>There is also a callback method for errors that may have occurred during a flow.</p>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResponseListenerService</span> <span class="kd">extends</span> <span class="n">BaseResponseListenerService</span> <span class="o">{</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyGenericResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
-     <span class="c1">// Handle generic response</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyStatusUpdateResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
-     <span class="c1">// Handle (if required) status update response</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
-      <span class="c1">// Map error code against one of `ErrorConstants`</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre>
-</div>
-
-<h2 id="payment-response-service">Payment response service</h2>
-<p>Your application should implement the <code class="highlighter-rouge">notifyResponse</code> and <code class="highlighter-rouge">notifyError</code> methods as shown in the example for payment responses below.</p>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentResponseListenerService</span> <span class="kd">extends</span> <span class="n">BasePaymentResponseListenerService</span> <span class="o">{</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyResponse</span><span class="o">(</span><span class="n">PaymentResponse</span> <span class="n">paymentResponse</span><span class="o">)</span> <span class="o">{</span>
-     <span class="c1">// Handle response</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
-     <span class="c1">// Map error code against one of `ErrorConstants`</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre>
-</div>
-
-<h2 id="exposing-services">Exposing services</h2>
-<p>The service(s) should be registered in your manifest as normal and should include the correct intent filter as shown below.</p>
-
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
-  <span class="na">android:name=</span><span class="s">".PaymentResponseListenerService"</span>
-  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;intent-filter&gt;</span>
-      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_PAYMENT_RESPONSE"</span><span class="nt">/&gt;</span>
-  <span class="nt">&lt;/intent-filter&gt;</span>
-<span class="nt">&lt;/service&gt;</span>
-
-<span class="nt">&lt;service</span>
-  <span class="na">android:name=</span><span class="s">".ResponseListenerService"</span>
-  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;intent-filter&gt;</span>
-      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_RESPONSE"</span><span class="nt">/&gt;</span>
-  <span class="nt">&lt;/intent-filter&gt;</span>
-<span class="nt">&lt;/service&gt;</span>
-</code></pre>
-</div>
-
-<p><strong>Note</strong> - A client will only be notified of responses that it itself initiated and flow services will only be notified of responses for <em>payment</em> flows in which it was called.</p>
-
+<h2 id="fps-configuration-changes">FPS configuration changes</h2>
+<p>Whenever there is a change to the flow configurations or the <code class="highlighter-rouge">FpsSettings</code>, an event with type <code class="highlighter-rouge">flowStateChanged</code> will be published. This event type has two associated data keys;</p>
 <ul>
-  <li>See <a href="handling-responses">Handling Responses</a> for more information on how to parse the response data</li>
-  <li>See <a href="handling-errors">Handling Errors</a> for details how to map the error codes.</li>
+  <li><code class="highlighter-rouge">eventKeySettingsChanged</code> - When the <em>FpsSettings</em> have changed</li>
+  <li><code class="highlighter-rouge">eventKeyFlowConfigsChanged</code> - When the flow configurations have changed</li>
 </ul>
+
+<h2 id="external-state-changes">External state changes</h2>
+<p>When something external to FPS has changed, such as a flow service being installed, un-installed or updated, or an additional device is connected or disconnected, an event with type <code class="highlighter-rouge">externalStateChanged</code> will be published.
+This event has two associated data keys;</p>
+<ul>
+  <li><code class="highlighter-rouge">eventKeyFlowServicesChanged</code> - When flow services have changed</li>
+  <li><code class="highlighter-rouge">eventKeyDevicesChanged</code> - When additional devices state has changed</li>
+</ul>
+
+<h2 id="example">Example</h2>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">subscribeToSystemEvents</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="n">flowEvent</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">flowEvent</span><span class="o">.</span><span class="na">getType</span><span class="o">();</span>
+  <span class="n">AdditionalData</span> <span class="n">data</span> <span class="o">=</span> <span class="n">flowEvent</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+  <span class="k">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="s">"flowStateChanged"</span><span class="o">:</span>
+      <span class="kt">boolean</span> <span class="n">flowConfigsChanged</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getBooleanValue</span><span class="o">(</span><span class="s">"eventKeyFlowConfigsChanged"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+      <span class="kt">boolean</span> <span class="n">fpsSettingsChanged</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getBooleanValue</span><span class="o">(</span><span class="s">"eventKeySettingsChanged"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+      <span class="k">break</span><span class="o">;</span>
+    <span class="k">case</span> <span class="s">"externalStateChanged"</span><span class="o">:</span>
+      <span class="kt">boolean</span> <span class="n">flowServicesChanged</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getBooleanValue</span><span class="o">(</span><span class="s">"eventKeyFlowServicesChanged"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+      <span class="kt">boolean</span> <span class="n">devicesChanged</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getBooleanValue</span><span class="o">(</span><span class="s">"eventKeyDevicesChanged"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+      <span class="k">break</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
 
 							
 
@@ -277,7 +236,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/handling-responses">
 												<p class="c-page-nav__heading">Handling responses</p>
 											</a>
@@ -289,7 +248,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
@@ -301,7 +260,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/status-update-flows">
 												<p class="c-page-nav__heading">Status update flows</p>
 											</a>
@@ -313,7 +272,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
 												<p class="c-page-nav__heading">Querying for responses</p>
 											</a>
@@ -325,7 +284,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -337,7 +296,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
 												<p class="c-page-nav__heading">Event subscription</p>
 											</a>
@@ -381,29 +340,29 @@
 							 	
 							
 							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/flow-initiation" class="c-arrow-link c-arrow-link--prev u-mr-auto">Flow initiation</a>
+										<a href="/pos-android-sdk/guides/pos/querying-for-information" class="c-arrow-link c-arrow-link--prev u-mr-auto">Querying for information</a>
 									
 									
-										<a href="/pos-android-sdk/guides/pos/handling-responses" class="c-arrow-link c-arrow-link--next u-ml-auto">Handling responses</a>
+										<a href="/pos-android-sdk/guides/pos/query-for-devices" class="c-arrow-link c-arrow-link--next u-ml-auto">Query for devices</a>
 									
 								
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
 							
 							 	
 							

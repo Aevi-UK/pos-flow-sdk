@@ -209,6 +209,30 @@ of these data structures are, in order to keep them as flexible and configurable
 
 <p>If your application is currently integrated with the first version of AppFlow, please see <a href="/pos-android-sdk/technical/v1-to-v2-migration">migration from v1</a> for details on how to update to v2.</p>
 
+<h2 id="api-dependencies-1">API Dependencies</h2>
+
+<p>AppFlow also makes use of a few other AEVI open source libraries that can be used outside of AppFlow as well.</p>
+
+<h3 id="android-rxmessenger">Android RxMessenger</h3>
+
+<p><a href="https://github.com/Aevi-UK/android-rxmessenger">RxMessenger</a> is a library that provides an RxJava interface around communication between Android services and other components such as activities.</p>
+
+<p>This library is a core part of the AppFlow implementation and is used for all communications between the various applications that form the flow.</p>
+
+<p>Most of the use of this library is abstracted from the clients of the AppFlow APIs, but if you have advanced requirements for how to manage service and activity lifecycles in your application, this may be of help.</p>
+
+<p>There is some direct use in the AppFlow Samples, but for a more thorough illustration of its use, have a look at the RxMessenger sample.</p>
+<ul>
+  <li><a href="https://github.com/Aevi-UK/android-rxmessenger/tree/master/SampleServerApp">Service sample</a></li>
+  <li><a href="https://github.com/Aevi-UK/android-rxmessenger/tree/master/SampleClientApp">Client sample</a></li>
+</ul>
+
+<h3 id="json-utils">JSON Utils</h3>
+
+<p><a href="https://github.com/Aevi-UK/json-utils">JsonUtils</a> is a useful companion to RxMessenger and can be used to easily serialise and deserialise models to and from JSON. JSON is an excellent language and platform agnostic way to pass data between components. AppFlow uses JSON exclusively to represent data, configurations, etc.</p>
+
+<p>The main use case for AppFlow applications here is to use the <code class="highlighter-rouge">Jsonable</code> interface on any custom models, allowing them to easily be converted to and from JSON as part of <code class="highlighter-rouge">AdditionalData</code> values.</p>
+
 
 							
 

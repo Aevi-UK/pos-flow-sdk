@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Pre-requisites | AEVI AppFlow</title>
+			<title>Overview | AEVI AppFlow</title>
 		
 		
-			<meta name="description" content="Install the required applications and setup your project">
+			<meta name="description" content="How to integrate your payment application with AppFlow">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -70,7 +70,7 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class="is-current"><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
@@ -119,11 +119,11 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Integrating Payment Applications</h2>
 					
 					
 						<div class="u-h6">
-							<p>Installation of required applications and configuring your project</p>
+							<p>How to integrate your payment application with AppFlow</p>
 						</div>
 					
 					
@@ -144,71 +144,45 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="pre-requisites">Pre-requisites</h1>
+							<p>Payment applications are responsible for processing transactions and establising the outcomes. There are no restrictions as to what payment methods these applications choose to use for processing the payment - be it a traditional card payment, mobile, cryptocurrencies, etc.</p>
 
-<p>Before developing any applications you will need to obtain and install the AEVI AppFlow components.</p>
+<h2 id="multiple-payment-applications">Multiple payment applications</h2>
 
-<p>You will need to install these two applications, which are provided for you by AEVI;</p>
-<ul>
-  <li>Flow Processing Service (FPS) - implements the APIs and executes the flows</li>
-  <li>Developer Config Provider - provides the flow configurations and other settings for AppFlow</li>
-</ul>
+<p>There can be multiple payment applications available, offering different payment methods or simply connected to different acquirers / payment gateways.</p>
 
-<p>Please download the latest developer bundle from <a href="/pos-android-sdk/downloads">here</a>, which contains these applications as well as the latest samples.</p>
+<p>There are two ways in which a request is narrowed down to a single payment application for processing.</p>
 
-<div class="callout callout--danger">
-  <p>Please ensure you install the correct version of FPS to match the version of the API you are using in your application. i.e. for AppFlow v2 please install FPS v2.x.x</p>
-</div>
+<p>The first is the <em>flow configuration</em>, which will determine what applications are eligible to receive the request.</p>
 
-<h2 id="integrate">Integrate</h2>
+<p>Secondarily, there are matching algorithms that will match request data to payment application support info. As an example, if the request has specified <code class="highlighter-rouge">GBP</code> as the currency, and one of the payment applications only supports <code class="highlighter-rouge">EUR</code>, then that application is not a candidate to process this payment and will be filtered out.</p>
 
-<p>In your root project <code class="highlighter-rouge">build.gradle</code> file, you’ll need to include our public bintray repository in the repositories section.</p>
+<p>Once the filtering has completed, the system will automatically progress with any single application that remains eligible. If however there is still more than one option, the merchant and/or customer will be presented with a selection UI on the device to choose which application to use.</p>
 
-<div class="callout callout--success">
-  <p>We are in the process of linking all our archives with the `jcenter()` maven repo soon this additional maven repo will not be required.</p>
-</div>
+<h2 id="external-payment-system-support">External payment system support</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>repositories {
-    maven {
-        url "http://dl.bintray.com/aevi/aevi-uk"
-    }
-}
-</code></pre>
-</div>
+<p>This implementation supports the concept of <em>payment adapters</em>, which means that payment services developed against other APIs could be used to handle AppFlow requests.</p>
 
-<p>These APIs require that your application is compiled with Java 8. Ensure that your application build.gradle <code class="highlighter-rouge">android</code> DSL contains the following.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-</code></pre>
-</div>
+<p>As an example, AppFlow requests can be converted to <code class="highlighter-rouge">Square Register</code> requests via a <em>Square payment adapter</em>, which proxies the request onto the Square system for processing and then converts the result back to AppFlow at the end of it.</p>
 
-<h2 id="api-dependencies">API Dependencies</h2>
+<p>AppFlow comes with such an adapter pre-defined for communicating with the <code class="highlighter-rouge">AEVI Simple Payment API</code> (previous generation legacy SDK) payment apps.</p>
 
-<p>To include the <code class="highlighter-rouge">Payment Flow Service API</code> in your application the following dependencies should be added to your build.gradle file under the dependencies section.</p>
+<h2 id="payment-card-reading">Payment card reading</h2>
 
-<p>For value added services and payment applications to integrate into flows.</p>
+<p>AppFlow supports the concept of a payment card reading stage that is separate from the transaction processing step. This stage is called before the transaction processing stage and would allow flow applications to act based on card data and <em>potentially</em> augment the transaction before the processing step. The main use case for this is to provide flow services with a <em>card token</em> that can be used to identify the customer for purposes such as loyalty. However, other information such as card scheme (VISA, MASTERCARD, etc), BIN range, expiry date, could also be useful for flow services.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>implementation 'com.aevi.sdk.pos.flow:payment-flow-service-api:&lt;version&gt;'
-</code></pre>
-</div>
+<p>This stage is <strong>optional</strong> for payment applications to support. It is not necessarily even possible to achieve on all types of payment terminals.</p>
 
-<h2 id="api-constants">API Constants</h2>
+<h3 id="card-presentation-methods">Card presentation methods</h3>
 
-<p>The AppFlow APIs themselves are designed to facilitate communication between applications via a defined set of data structures. They are however decoupled from what the <em>values</em> or <em>content</em>
-of these data structures are, in order to keep them as flexible and configurable as possible. Instead, the data values are defined in this documentation and provided as constants via a separate library.</p>
+<p>Whether or not this stage can be separate from the processing also comes down to which of the three methods of presentation is used.</p>
 
-<p>The constants library is stored in a <a href="https://github.com/AEVI-AppFlow/api-constants">separate repo</a>. You can find the latest version details and view the defined data constants there.</p>
+<p>For <em>magstripe (swipe)</em>, this is normally trivial as once the tracks have been read, any interaction with the card is done. A card token can be generated and the scheme, etc is known. It may however require a double swipe in cases where the payment application is not allowed to store the track data between the stages due to PCI rules, etc.</p>
 
-<p>To include these in your project use</p>
+<p>For <em>contact (chip / insert)</em>, it is technically possible to stop after EMV application selection and then resume the session at the transaction processing stage, <em>provided</em> that the payment device (APIs, hardware, kernels, etc) allow for a long timeout for the session.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>implementation `com.aevi.sdk.flow:api-constants:&lt;version&gt;'
-</code></pre>
-</div>
+<p>For <em>contactless</em>, the session is generally over and the outcome from the kernel is delivered in one step. There are some exceptions where the session is stopped after PPSE (such as for Carte Bancaire in France), but for most cases, it is a one step process. It is therefore assumed that for this to work with contactless, it would have to be a double-tap process (one tap for this stage, another tap for processing stage).</p>
 
-<p>If your application is currently integrated with the first version of AppFlow, please see <a href="/pos-android-sdk/technical/v1-to-v2-migration">migration from v1</a> for details on how to update to v2.</p>
-
+<p>Whether or not the separate reading can be supported for any given payment service / acquirer is up to the developers of that payment application to determine. The flow configuration in use will also determine whether the stage is defined at all or not.</p>
 
 							
 
@@ -225,7 +199,19 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+											<a href="/pos-android-sdk/guides/pa/intro-to-payment-apps">
+												<p class="c-page-nav__heading">Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
 										</li>
@@ -237,19 +223,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
-												<p class="c-page-nav__heading">Implementing Flow Services</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/integration">
+											<a href="/pos-android-sdk/guides/pa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
 										</li>
@@ -261,8 +235,8 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
+											<a href="/pos-android-sdk/guides/pa/handling-card-tokens">
+												<p class="c-page-nav__heading">Handling card tokens</p>
 											</a>
 										</li>
 									
@@ -273,7 +247,31 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+											<a href="/pos-android-sdk/guides/pa/parsing-amounts">
+												<p class="c-page-nav__heading">Parsing amounts</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pa/receipts">
+												<p class="c-page-nav__heading">Receipts</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
 										</li>
@@ -285,67 +283,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/use-cases">
-												<p class="c-page-nav__heading">Use cases</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
-												<p class="c-page-nav__heading">Receipt Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/split-considerations">
-												<p class="c-page-nav__heading">Split Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
-												<p class="c-page-nav__heading">Dealing with Amounts</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
-												<p class="c-page-nav__heading">Initiating a flow</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/references">
+											<a href="/pos-android-sdk/guides/pa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>
 										</li>
@@ -378,15 +316,9 @@ of these data structures are, in order to keep them as flexible and configurable
 									
 									
 									
-										<a href="/pos-android-sdk/guides/vaa/implementing-flow-services" class="c-arrow-link c-arrow-link--next u-ml-auto">Implementing Flow Services</a>
+										<a href="/pos-android-sdk/guides/pa/pre-requisites" class="c-arrow-link c-arrow-link--next u-ml-auto">Pre-requisites</a>
 									
 								
-							
-							 	
-							
-							 	
-							
-							 	
 							
 							 	
 							

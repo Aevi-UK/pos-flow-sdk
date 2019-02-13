@@ -158,15 +158,15 @@
   <li>Assigning it to a <code class="highlighter-rouge">Customer</code> and pass that in the <code class="highlighter-rouge">Payment</code> model</li>
 </ul>
 
-<p>Generally speaking, the first approach here is intended for use by payment services for scenarios such as subscriptions that may be linked to a card token. It is however available for use by any flow service. The second approach is the preferred option for when there is a representation of customer data and is more useful for value added services.</p>
+<p>Generally speaking, the first approach here is intended for use by payment services for scenarios such as subscriptions that may be linked to a card token. It is however available for use by any flow service. The second approach is the preferred option when there is a representation of customer data and is more useful for value added services.</p>
 
 <h2 id="transaction-processing-response">Transaction processing response</h2>
 <p>The payment service (possibly via the acquirer host) can provide card details, including a token, in the <code class="highlighter-rouge">TransactionResponse</code> created during transaction processing.</p>
 
-<p>This provides any post-transaction flow services access to card details and the POS app can retrieve it from the response once the flow is completed.</p>
+<p>This provides any post-transaction flow services with access to card details and the POS app can retrieve it from the response once the flow is completed.</p>
 
 <h2 id="summary">Summary</h2>
-<p>The latter two approaches puts a lot more responsibility onto the POS application, as it has to store tokens and/or customer details in order to allow value added services to access the token before transaction processing.</p>
+<p>The latter two approaches put a lot more responsibility onto the POS application, as it has to store tokens and/or customer details in order to allow value added services to access the token before transaction processing.</p>
 
 							
 
@@ -178,6 +178,18 @@
 						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
 							
 							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pa/intro-to-payment-apps">
+												<p class="c-page-nav__heading">Overview</p>
+											</a>
+										</li>
+									
+									
+								
 							
 								
 								
@@ -280,6 +292,8 @@
 					<div class="o-col-12 u-text-center">
 						<div class="u-inline-block u-flex@sm">
 							
+							
+							 	
 							
 							 	
 							

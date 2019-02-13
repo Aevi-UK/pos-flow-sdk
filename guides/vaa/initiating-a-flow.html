@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Querying for information | AEVI AppFlow</title>
+			<title>Initiating a flow | AEVI AppFlow</title>
 		
 		
-			<meta name="description" content="Getting information about FPS and the flows">
+			<meta name="description" content="How to initiate a flow from a flow service">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -119,11 +119,11 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Flow Initiation</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
 					
 					
 						<div class="u-h6">
-							<p>How to find out information about FPS and the flows configured</p>
+							<p>How to initiate a flow from a flow service</p>
 						</div>
 					
 					
@@ -144,72 +144,17 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="querying-for-information">Querying for information</h1>
+							<p>In general, POS applications are responsible for initiating flows and requests. There are however certain scenarios where a value added service may be required to do this in order to meet certain requirements. The most common example is where a loyalty app might be the first point of interaction with a customer where they identify themselves. In order to pass this information onto a payment flow (without using bespoke integrations), the loyalty app can initiate a zero based amounts payment with associated customer data. The POS application will then be called in the <code class="highlighter-rouge">PRE_FLOW</code> stage where it can perform its normal function and update the <code class="highlighter-rouge">Payment</code> model with relevant data before the flow continues.</p>
 
-<p>Your application can query the API for information that will help you to decide what kind of flows can be initiated and what data can be defined in the request.</p>
+<p>Ensure that you have communicated with AEVI before attempting to support this use case, as it requires specific flows and a POS app that supports this scenario.</p>
 
-<p>This information is contained with a <code class="highlighter-rouge">PaymentSettings</code> model object which exposes useful information such as;</p>
-
+<p>The advice and rules outlined in the <a href="/pos-android-sdk/guides/pos/flow-initiation">flow initiation guide</a> apply here as well, with a few limitations;</p>
 <ul>
-  <li>Installed flow services</li>
-  <li>Flow configurations</li>
-  <li>FPS settings</li>
+  <li>Only the following fields may be set: <code class="highlighter-rouge">Customer</code>, <code class="highlighter-rouge">cardToken</code>, <code class="highlighter-rouge">additionalData</code> and the mandatory <code class="highlighter-rouge">flowType</code> / <code class="highlighter-rouge">flowName</code></li>
+  <li>The <code class="highlighter-rouge">Amounts</code> <em>must</em> be set to 0 (<code class="highlighter-rouge">new Amounts(0, "XXX")</code>)</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">getPaymentSettings</span><span class="o">()</span>
-  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">paymentSettings</span> <span class="o">-&gt;</span> <span class="o">{</span>
-         <span class="c1">// Do something with the `PaymentSettings` object here</span>
-   <span class="o">});</span>
-</code></pre>
-</div>
-
-<h2 id="payment-flow-services">Payment flow services</h2>
-<p>A <code class="highlighter-rouge">PaymentFlowServices</code> object can be obtained via <code class="highlighter-rouge">paymentSettings.getPaymentFlowServices()</code>, which can be used to query for collated information across all flow services, or from a specific flow service.</p>
-
-<ul>
-  <li>Supported currencies</li>
-  <li>Supported payment methods</li>
-  <li>Custom request types</li>
-  <li>The functions of a flow service
-    <ul>
-      <li>What stages it supports</li>
-      <li>Whether it can update amounts</li>
-      <li>Whether it can pay amounts</li>
-      <li>And much more…</li>
-    </ul>
-  </li>
-</ul>
-
-<p>This, in combination with the information from the next section, will help you determine what is possible on any given device.</p>
-
-<h2 id="flow-configurations">Flow configurations</h2>
-<p>The <code class="highlighter-rouge">FlowConfigurations</code> model returned via <code class="highlighter-rouge">paymentSettings.getFlowConfigurations()</code> exposes information about all the active flows in FPS.</p>
-
-<p>The flow configurations <strong>alone</strong> determine what functions are available for a client application, such as whether refund is supported or whether a sale can be split or not. These flow configurations are generally defined by AEVI and/or the acquirer/bank to match the requirements for the environment and/or enabled device in which they will be used.</p>
-
-<p>It is assumed that most client applications will have a particular range of functions they support. This API is designed for this, allowing the client to:</p>
-
-<ul>
-  <li>Check whether a given flow type (such as “sale”) is supported</li>
-  <li>Get the defined flows for that flow type (can be zero to many)</li>
-  <li>Check what stages are defined for a given flow</li>
-  <li>And more…</li>
-</ul>
-
-<p>It is also possible to get all or stream all the available flow configs and apply Rx filtering on these to get the results required.</p>
-
-<h2 id="fps-settings">FPS Settings</h2>
-<p>The Flow Processing Service (FPS), can to some extent be configured by acquirers and/or merchants.</p>
-
-<p>Examples of such settings are</p>
-
-<ul>
-  <li>Various timeouts relating to flow execution</li>
-  <li>Feature toggles (such as currency conversion, multi-device, etc)</li>
-  <li>UI theming, show/hide controls, etc</li>
-</ul>
-
-<p>These settings can be retrieved via <code class="highlighter-rouge">paymentSettings.getFpsSettings()</code>.</p>
+<p>Contact AEVI for more details for this use case.</p>
 
 							
 
@@ -226,7 +171,7 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/pre-requisites">
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
 										</li>
@@ -238,8 +183,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/flow-initiation">
-												<p class="c-page-nav__heading">Flow initiation</p>
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
 										</li>
 									
@@ -250,7 +195,19 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
+											<a href="/pos-android-sdk/guides/vaa/integration">
+												<p class="c-page-nav__heading">Integration</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
 										</li>
@@ -262,8 +219,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/handling-responses">
-												<p class="c-page-nav__heading">Handling responses</p>
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
 										</li>
 									
@@ -274,8 +231,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/handling-errors">
-												<p class="c-page-nav__heading">Handling errors</p>
+											<a href="/pos-android-sdk/guides/vaa/use-cases">
+												<p class="c-page-nav__heading">Use cases</p>
 											</a>
 										</li>
 									
@@ -286,8 +243,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/status-update-flows">
-												<p class="c-page-nav__heading">Status update flows</p>
+											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
+												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
 										</li>
 									
@@ -298,8 +255,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
-												<p class="c-page-nav__heading">Querying for responses</p>
+											<a href="/pos-android-sdk/guides/vaa/split-considerations">
+												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
 										</li>
 									
@@ -310,8 +267,20 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/querying-for-information">
-												<p class="c-page-nav__heading">Querying for information</p>
+											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
+												<p class="c-page-nav__heading">Dealing with Amounts</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
+												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
 										</li>
 									
@@ -322,8 +291,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/pos/query-for-devices">
-												<p class="c-page-nav__heading">Query for devices</p>
+											<a href="/pos-android-sdk/guides/vaa/references">
+												<p class="c-page-nav__heading">References</p>
 											</a>
 										</li>
 									
@@ -363,15 +332,19 @@
 							 	
 							
 							 	
+							
+							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/querying-for-responses" class="c-arrow-link c-arrow-link--prev u-mr-auto">Querying for responses</a>
+										<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts" class="c-arrow-link c-arrow-link--prev u-mr-auto">Dealing with Amounts</a>
 									
 									
-										<a href="/pos-android-sdk/guides/pos/query-for-devices" class="c-arrow-link c-arrow-link--next u-ml-auto">Query for devices</a>
+										<a href="/pos-android-sdk/guides/vaa/references" class="c-arrow-link c-arrow-link--next u-ml-auto">References</a>
 									
 								
 							

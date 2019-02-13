@@ -155,17 +155,17 @@
 <h2 id="initiation-errors">Initiation errors</h2>
 <p>When FPS receives a request, it will perform a range of validation on it and any associated flow, as well as ensure that it is currently able to process the request. Any subscriber to the initiate methods must ensure to add a consumer for any <code class="highlighter-rouge">Throwable</code>, as per below. All exceptions thrown by AppFlow will be of type <code class="highlighter-rouge">FlowException</code>, but it is of course possible that unexpected exceptions can occur as well.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiatePayment</span><span class="o">(</span><span class="n">payment</span><span class="o">).</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-            <span class="c1">// Request accepted</span>
-        <span class="o">},</span> <span class="n">throwable</span> <span class="o">-&gt;</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">FlowException</span> <span class="n">flowException</span> <span class="o">=</span> <span class="o">(</span><span class="n">FlowException</span><span class="o">)</span> <span class="n">throwable</span><span class="o">;</span>
-                <span class="n">handleFlowError</span><span class="o">(</span><span class="n">flowException</span><span class="o">.</span><span class="na">getErrorCode</span><span class="o">());</span>
-                <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Flow error: "</span> <span class="o">+</span> <span class="n">flowException</span><span class="o">.</span><span class="na">getErrorMessage</span><span class="o">());</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="c1">// Handle unexpected exception</span>
-            <span class="o">}</span>
-        <span class="o">});</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiatePayment</span><span class="o">(</span><span class="n">payment</span><span class="o">).</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="c1">// Request accepted</span>
+  <span class="o">},</span> <span class="n">throwable</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">FlowException</span> <span class="n">flowException</span> <span class="o">=</span> <span class="o">(</span><span class="n">FlowException</span><span class="o">)</span> <span class="n">throwable</span><span class="o">;</span>
+          <span class="n">handleFlowError</span><span class="o">(</span><span class="n">flowException</span><span class="o">.</span><span class="na">getErrorCode</span><span class="o">());</span>
+          <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Flow error: "</span> <span class="o">+</span> <span class="n">flowException</span><span class="o">.</span><span class="na">getErrorMessage</span><span class="o">());</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="c1">// Handle unexpected exception</span>
+      <span class="o">}</span>
+  <span class="o">});</span>
 </code></pre>
 </div>
 <p>The <code class="highlighter-rouge">flowException.getErrorCode()</code> returns a code that can be mapped against the constants in <code class="highlighter-rouge">ErrorConstants</code>, part of the API. See the table below for possible error codes for the initiation stage.</p>
@@ -216,7 +216,7 @@
     </tr>
     <tr>
       <td>cancelFailed</td>
-      <td>Sent in the (rare case) where the processing service failed to cancel a flow as requested by merchant</td>
+      <td>Sent if the (rare case) where processing service fails to cancel a flow as requested</td>
     </tr>
     <tr>
       <td>resumeFailed</td>
@@ -348,6 +348,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -406,6 +418,8 @@
 										<a href="/pos-android-sdk/guides/pos/status-update-flows" class="c-arrow-link c-arrow-link--next u-ml-auto">Status update flows</a>
 									
 								
+							
+							 	
 							
 							 	
 							

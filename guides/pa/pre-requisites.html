@@ -156,11 +156,15 @@
 
 <p>Please download the latest developer bundle from <a href="/pos-android-sdk/downloads">here</a>, which contains these applications as well as the latest samples.</p>
 
+<div class="callout callout--danger">
+  <p>Please ensure you install the correct version of FPS to match the version of the API you are using in your application. i.e. for AppFlow v2 please install FPS v2.x.x</p>
+</div>
+
 <h2 id="integrate">Integrate</h2>
 
 <p>In your root project <code class="highlighter-rouge">build.gradle</code> file, you’ll need to include our public bintray repository in the repositories section.</p>
 
-<div class="callout callout--info">
+<div class="callout callout--success">
   <p>We are in the process of linking all our archives with the `jcenter()` maven repo soon this additional maven repo will not be required.</p>
 </div>
 
@@ -193,16 +197,17 @@
 <h2 id="api-constants">API Constants</h2>
 
 <p>The AppFlow APIs themselves are designed to facilitate communication between applications via a defined set of data structures. They are however decoupled from what the <em>values</em> or <em>content</em>
-of these data structures are, in order to keep them as flexible and configurable as possible. Instead, the data values are defined on the wiki and provided as constants via a separate library.</p>
+of these data structures are, in order to keep them as flexible and configurable as possible. Instead, the data values are defined in this documentation and provided as constants via a separate library.</p>
 
-<p>This library is stored in a separate repo <a href="https://github.com/AEVI-AppFlow/api-constants">here</a>. You can find the latest version details and view the defined data constants there.</p>
+<p>The constants library is stored in a <a href="https://github.com/AEVI-AppFlow/api-constants">separate repo</a>. You can find the latest version details and view the defined data constants there.</p>
 
 <p>To include these in your project use</p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>implementation `com.aevi.sdk.flow:api-constants:&lt;version&gt;'
 </code></pre>
 </div>
 
-<p>If your application is currently integrated with the first version of AppFlow, please see <a href="/pos-android-sdk/technical/v1-to-v2-migration">Migration From V1</a> for details on how to update to v2.</p>
+<p>If your application is currently integrated with the first version of AppFlow, please see <a href="/pos-android-sdk/technical/v1-to-v2-migration">migration from v1</a> for details on how to update to v2.</p>
 
 
 							
@@ -215,6 +220,18 @@ of these data structures are, in order to keep them as flexible and configurable
 						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
 							
 							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pa/intro-to-payment-apps">
+												<p class="c-page-nav__heading">Overview</p>
+											</a>
+										</li>
+									
+									
+								
 							
 								
 								
@@ -319,10 +336,14 @@ of these data structures are, in order to keep them as flexible and configurable
 							
 							
 							 	
+							
+							 	
 								  
 									
 									
 									
+									
+										<a href="/pos-android-sdk/guides/pa/intro-to-payment-apps" class="c-arrow-link c-arrow-link--prev u-mr-auto">Overview</a>
 									
 									
 										<a href="/pos-android-sdk/guides/pa/integration" class="c-arrow-link c-arrow-link--next u-ml-auto">Integration</a>

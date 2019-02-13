@@ -155,18 +155,17 @@
 <p>This is done by extending <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider</code>, as the sample code from the <code class="highlighter-rouge">Flow Service Sample</code> below shows</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentFlowServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
-
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="n">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"AEVI"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Flow Service Sample"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withCanAdjustAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">LOYALTY_POINTS</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">GIFT_CARD</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">CASH</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="n">FlowTypes</span><span class="o">.</span><span class="na">SALE</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withCustomRequestTypes</span><span class="o">(</span><span class="n">ShowLoyaltyPointsBalanceService</span><span class="o">.</span><span class="na">SHOW_LOYALTY_POINTS_REQUEST</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="n">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"AEVI"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Flow Service Sample"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCanAdjustAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">LOYALTY_POINTS</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">GIFT_CARD</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">CASH</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="n">FlowTypes</span><span class="o">.</span><span class="na">SALE</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCustomRequestTypes</span><span class="o">(</span><span class="n">ShowLoyaltyPointsBalanceService</span><span class="o">.</span><span class="na">SHOW_LOYALTY_POINTS_REQUEST</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 
 </code></pre>
@@ -185,20 +184,21 @@
 
 <p><code class="highlighter-rouge">withSupportedFlowTypes()</code> is optional - if left empty, it means FPS will call your flow service for any type and its up to your flow service to handle unsupported types. If types are specified, FPS will ensure your service only gets called for flows with types that your service supports. See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for defined types.</p>
 
-<p>In addition, <code class="highlighter-rouge">withCustomRequestTypes()</code> can be used to define custom types that is specific to your flow service. This may be a function to return some particular data like loyalty balance, or to display such data. It is entirely up to your application what data is required and returned and whether your service shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
+<p>In addition, <code class="highlighter-rouge">withCustomRequestTypes()</code> can be used to define custom types that are specific to your flow service. This may be a function to return some particular data like loyalty balance, or to display such data. It is entirely up to your application what data is required and returned and whether your service shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
 
 <p>The provider then needs to be exposed in the application manifest.</p>
 
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;provider</span>
-    <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
-    <span class="na">android:authorities=</span><span class="s">"&lt;your authority&gt;"</span>
-    <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;intent-filter&gt;</span>
-        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO"</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/intent-filter&gt;</span>
+  <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
+  <span class="na">android:authorities=</span><span class="s">"&lt;your authority&gt;"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/provider&gt;</span>
 </code></pre>
 </div>
+
 <h2 id="relevant-flow-stages">Relevant flow stages</h2>
 <p>The following payment stages, as described in the general API intro, are relevant for value added services</p>
 
@@ -220,7 +220,11 @@
 <p>Depending on what function your application is offering and for what stages it will be called, there are different augmentation options. This section will break down all the augmentation options (for payment flows specifically) and for what stages and functions they may be useful. The next section will look at specific use cases and advise on how to model your service for that use case.</p>
 
 <h3 id="pre-transaction-processing-augmentations">Pre transaction-processing augmentations</h3>
-<p>The majority of the relevant augmentations happen before the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage where a payment service determines the outcome of the transaction. After that point, all flow services can do is add references. This section will cover the augmentation options for the <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code> stages. For both these stages, any augmentations are done via the <code class="highlighter-rouge">PreTransactionModel</code>. Note that <code class="highlighter-rouge">PRE_FLOW</code> is not covered here as it’s intended for quite specific use cases.</p>
+<p>The majority of the relevant augmentations happen before the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage where a payment service determines the outcome of the transaction. After that point, all flow services can do is add references. This section will cover the augmentation options for the <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code> stages. For both these stages, any augmentations are done via the <code class="highlighter-rouge">PreTransactionModel</code>.</p>
+
+<div class="callout callout--warning">
+  <p>Note that `PRE_FLOW` is not covered here as it's intended for quite specific use cases.</p>
+</div>
 
 <h4 id="adding-additional-amounts">Adding additional amounts</h4>
 <p>There are various scenarios for which adding additional amounts is relevant, be it for tipping, fees, donations, etc. The <code class="highlighter-rouge">PreTransactionModel</code> contains two methods for doing this;</p>
@@ -236,7 +240,11 @@
 <h4 id="adding-a-basket">Adding a basket</h4>
 <p>The client/POS application may have provided a basket in the initial request. To provide sensible separation between what app/service added what items, flow services can add <em>new</em> baskets, but not add more items to the existing baskets (discounts excepted). This can be done with the <code class="highlighter-rouge">PreTransactionModel.addNewBasket(Basket basket)</code> method.</p>
 
-<p>This is the recommended approach to add any form of “upsells” or extras, as it adds visibility of what specifically has been added, allowing receipts apps to show it clearly on the receipts. Note that the request amounts will be automatically updated to reflect this new basket.</p>
+<p>This is the recommended approach to add any form of “upsells” or extras, as it adds visibility of what specifically has been added, allowing receipts apps to show it clearly on the receipts.</p>
+
+<div class="callout callout--warning">
+  <p>Note that the request amounts will be automatically updated to reflect this new basket.</p>
+</div>
 
 <h4 id="addingupdating-customer-details">Adding/updating customer details</h4>
 <p>A flow service can either add or update customer details. If the initial <code class="highlighter-rouge">Payment</code> does not contain any customer data, the flow service can create a new <code class="highlighter-rouge">Customer</code> model and add to the transaction. If however a <code class="highlighter-rouge">Customer</code> model already exists, a flow service can add</p>
@@ -266,9 +274,9 @@
 <h2 id="sending-response">Sending response</h2>
 <p>Once your service has completed all its augmentation of the flow it should respond to FPS. Responses can be sent once you have finished augmenting data in the stage model via the <code class="highlighter-rouge">sendResponse()</code> method.</p>
 
-<blockquote>
-  <p>NOTE: Even if you DO NOT augment the data in any way then your service must still call one of the <code class="highlighter-rouge">sendResponse()</code> / <code class="highlighter-rouge">skip()</code> / <code class="highlighter-rouge">finish()</code> methods to tell FPS that your service is done.</p>
-</blockquote>
+<div class="callout callout--warning">
+  <p>Even if you DO NOT augment the data in any way then your service must still call one of the <code>sendResponse()</code> / <code>skip()</code> / <code>finish()</code> methods to tell FPS that your service is done.</p>
+</div>
 
 							
 
@@ -311,6 +319,18 @@
 										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
+												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
 										</li>
 									
@@ -381,6 +401,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
+												<p class="c-page-nav__heading">Initiating a flow</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>
@@ -420,9 +452,13 @@
 										<a href="/pos-android-sdk/guides/vaa/implementing-flow-services" class="c-arrow-link c-arrow-link--prev u-mr-auto">Implementing Flow Services</a>
 									
 									
-										<a href="/pos-android-sdk/guides/vaa/application-guidelines" class="c-arrow-link c-arrow-link--next u-ml-auto">Application Guidelines</a>
+										<a href="/pos-android-sdk/guides/vaa/flow-response-listeners" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow response listener</a>
 									
 								
+							
+							 	
+							
+							 	
 							
 							 	
 							

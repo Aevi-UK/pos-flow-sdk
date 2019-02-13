@@ -146,9 +146,7 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="flow-response-listeners">Flow Response Listeners</h1>
 
-<p>It is possible for both client (POS) applications and flow services to define response entry points that gets called when the final flow responses are available, in a similar way to how flow services are called in the flow itself.</p>
-
-<p>This is how client applications receives responses for the flows they initiate and for flow services it may be useful to review the outcome for some reason or have an opportunity to undo changes made in the flow upon errors, cancellations, etc. As an example, if loyalty points were used and the transaction is later declined or cancelled, it would allow a loyalty app to refund those points back to the customer. Note that only the <code class="highlighter-rouge">BasePaymentResponseListenerService</code> is relevant for flow services.</p>
+<p>Client (POS) applications must define a response entry point that is called when the final flow responses are available.</p>
 
 <p>This can be done by extending and implementing one of the response listener services. Currently two base listener services are defined:</p>
 
@@ -159,24 +157,26 @@
 
 <h2 id="response-service">Response service</h2>
 
-<p>Response service have two callback methods for responses - one for generic responses, such as for any of the defined <a href="/pos-android-sdk/technical/request-types">request types</a> or custom request types, and one for responses from a <a href="status-update-flows">status update flow</a>. These are delivered separately as many clients may not be interested in responses from status updates.</p>
+<p>Response services have two callback methods for responses - one for generic responses, such as for any of the defined <a href="/pos-android-sdk/technical/request-types">request types</a> or custom request types, and one for responses from a <a href="status-update-flows">status update flow</a>. These are delivered separately as many clients may not be interested in responses from status updates.</p>
+
+<p>There is also a callback method for errors that may have occurred during a flow.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResponseListenerService</span> <span class="kd">extends</span> <span class="n">BaseResponseListenerService</span> <span class="o">{</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyGenericResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
-       <span class="c1">// Handle generic response</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyGenericResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">// Handle generic response</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyStatusUpdateResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
-       <span class="c1">// Handle (if required) status update response</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyStatusUpdateResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">// Handle (if required) status update response</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// Map error code against one of `ErrorConstants`</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Map error code against one of `ErrorConstants`</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -186,15 +186,15 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentResponseListenerService</span> <span class="kd">extends</span> <span class="n">BasePaymentResponseListenerService</span> <span class="o">{</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyResponse</span><span class="o">(</span><span class="n">PaymentResponse</span> <span class="n">paymentResponse</span><span class="o">)</span> <span class="o">{</span>
-       <span class="c1">// Handle response</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyResponse</span><span class="o">(</span><span class="n">PaymentResponse</span> <span class="n">paymentResponse</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">// Handle response</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
-       <span class="c1">// Map error code against one of `ErrorConstants`</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">// Map error code against one of `ErrorConstants`</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -203,19 +203,19 @@
 <p>The service(s) should be registered in your manifest as normal and should include the correct intent filter as shown below.</p>
 
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
-    <span class="na">android:name=</span><span class="s">".PaymentResponseListenerService"</span>
-    <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;intent-filter&gt;</span>
-        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_PAYMENT_RESPONSE"</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/intent-filter&gt;</span>
+  <span class="na">android:name=</span><span class="s">".PaymentResponseListenerService"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_PAYMENT_RESPONSE"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/service&gt;</span>
 
 <span class="nt">&lt;service</span>
-    <span class="na">android:name=</span><span class="s">".ResponseListenerService"</span>
-    <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;intent-filter&gt;</span>
-        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_RESPONSE"</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/intent-filter&gt;</span>
+  <span class="na">android:name=</span><span class="s">".ResponseListenerService"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_RESPONSE"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/service&gt;</span>
 </code></pre>
 </div>
@@ -314,6 +314,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -368,6 +380,8 @@
 										<a href="/pos-android-sdk/guides/pos/handling-responses" class="c-arrow-link c-arrow-link--next u-ml-auto">Handling responses</a>
 									
 								
+							
+							 	
 							
 							 	
 							

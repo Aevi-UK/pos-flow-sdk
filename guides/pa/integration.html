@@ -163,26 +163,23 @@
 
 <p>The <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/java/com/aevi/sdk/pos/flow/paymentservicesample/PaymentServiceInfoProvider.java#L29"><code class="highlighter-rouge">PaymentFlowServiceInfo</code></a> is constructed using a builder as outlined in the sample code.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
-
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="n">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"TheVendorName"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Name of your application for UI presentation"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">supportedPaymentMethods</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="n">FlowTypes</span><span class="o">.</span><span class="na">SALE</span><span class="o">,</span> <span class="n">FlowTypes</span><span class="o">.</span><span class="na">REFUND</span><span class="o">,</span> <span class="o">...)</span>
-                <span class="o">.</span><span class="na">withCustomRequestTypes</span><span class="o">(&lt;</span><span class="n">Any</span> <span class="n">custom</span> <span class="n">types</span> <span class="n">you</span> <span class="n">may</span> <span class="n">support</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">withSupportedCurrencies</span><span class="o">(&lt;</span><span class="n">list</span> <span class="n">of</span> <span class="n">supported</span> <span class="n">currencies</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">withDefaultCurrency</span><span class="o">(&lt;</span><span class="k">default</span> <span class="n">currency</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">withMerchants</span><span class="o">(&lt;</span><span class="n">List</span> <span class="n">of</span> <span class="n">Merchant</span> <span class="n">objects</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">withManualEntrySupport</span><span class="o">(&lt;</span><span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">MOTO</span> <span class="n">is</span> <span class="n">supported</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">withSupportsAccessibilityMode</span><span class="o">(&lt;</span><span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">you</span> <span class="n">support</span> <span class="n">visually</span> <span class="n">impaired</span><span class="o">&gt;)</span>
-                <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
-    <span class="o">}</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="n">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"TheVendorName"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Name of your application for UI presentation"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">supportedPaymentMethods</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="n">FlowTypes</span><span class="o">.</span><span class="na">SALE</span><span class="o">,</span> <span class="n">FlowTypes</span><span class="o">.</span><span class="na">REFUND</span><span class="o">,</span> <span class="o">...)</span>
+      <span class="o">.</span><span class="na">withCustomRequestTypes</span><span class="o">(&lt;</span><span class="n">Any</span> <span class="n">custom</span> <span class="n">types</span> <span class="n">you</span> <span class="n">may</span> <span class="n">support</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">withSupportedCurrencies</span><span class="o">(&lt;</span><span class="n">list</span> <span class="n">of</span> <span class="n">supported</span> <span class="n">currencies</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">withDefaultCurrency</span><span class="o">(&lt;</span><span class="n">optional</span> <span class="k">default</span> <span class="n">currency</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">withMerchants</span><span class="o">(&lt;</span><span class="n">Optional</span> <span class="n">list</span> <span class="n">of</span> <span class="n">Merchant</span> <span class="n">objects</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">withManualEntrySupport</span><span class="o">(&lt;</span><span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">MOTO</span> <span class="n">is</span> <span class="n">supported</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">withSupportsAccessibilityMode</span><span class="o">(&lt;</span><span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">you</span> <span class="n">support</span> <span class="n">visually</span> <span class="n">impaired</span><span class="o">&gt;)</span>
+      <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
+  <span class="o">}</span>
 <span class="o">}</span>
-
 </code></pre>
 </div>
 <p>The following fields are mandatory for payment applications</p>
@@ -199,7 +196,7 @@
   <li><code class="highlighter-rouge">withSupportedFlowTypes()</code> - this is optional, but strongly recommended for payment apps. If you do not set this, your service will be called for all possible types whether your app supports it or not. If you do specify supported types explicitly, FPS will make sure your service is only called for types you support.</li>
 </ul>
 
-<p>You then need to expose this provider in the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/AndroidManifest.xml">manifest</a>. The main service further down will define how to find this provider.</p>
+<p>You then need to expose this provider in the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/AndroidManifest.xml">manifest</a>. The main service detailed below will define how to find this provider.</p>
 
 <blockquote>
   <p>Expose the provider in the manifest</p>
@@ -207,12 +204,12 @@
 
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code>
 <span class="nt">&lt;provider</span>
-    <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
-    <span class="na">android:authorities=</span><span class="s">"&lt;your_custom_authority&gt;"</span>
-    <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;intent-filter&gt;</span>
-        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO"</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/intent-filter&gt;</span>
+  <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
+  <span class="na">android:authorities=</span><span class="s">"&lt;your_custom_authority&gt;"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/provider&gt;</span>
 
 </code></pre>
@@ -232,7 +229,7 @@
 
 <p><code class="highlighter-rouge">TRANSACTION_PROCESSING</code> is the only mandatory stage to implement as without it, a payment application would not be of any use. During this stage a payment application is typically interacting with card readers and a host or gateway, to determining the outcome of the transaction.</p>
 
-<p>The <code class="highlighter-rouge">PAYMENT_CARD_READING</code> stage (described in detail <a href="intro-to-payment-apps">here</a>) is optional, but recommended wherever it is technically possible to implement.</p>
+<p>The <code class="highlighter-rouge">PAYMENT_CARD_READING</code> stage (described in detail <a href="intro-to-payment-apps#payment-card-reading">here</a>) is optional, but recommended wherever it is technically possible to implement.</p>
 
 <p>If the card has been read in the payment card reading step, card reading should ideally not be performed again during transaction processing, but this is not always achievable for certain presentation methods such as contactless. It is up to the payment application to manage this internally.</p>
 
@@ -243,26 +240,23 @@
   <p><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/java/com/aevi/sdk/pos/flow/paymentservicesample/service/PaymentService.java#L29">PaymentService</a></p>
 </blockquote>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// TODO handle</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO handle</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// TODO handle</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO handle</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// TODO handle</span>
-    <span class="o">}</span>
-
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO handle</span>
+  <span class="o">}</span>
 <span class="o">}</span>
-
 </code></pre>
 </div>
 
@@ -270,17 +264,15 @@
   <p>And to expose this in the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/AndroidManifest.xml#L18">manifest</a></p>
 </blockquote>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>
-    <span class="nt">&lt;service</span>
-        <span class="na">android:name=</span><span class="s">".service.PaymentService"</span>
-        <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;intent-filter&gt;</span>
-            <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_GENERIC"</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.READ_PAYMENT_CARD"</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_TRANSACTION"</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;/intent-filter&gt;</span>
-    <span class="nt">&lt;/service&gt;</span>
-
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
+  <span class="na">android:name=</span><span class="s">".service.PaymentService"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_GENERIC"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.READ_PAYMENT_CARD"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_TRANSACTION"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
 </code></pre>
 </div>
 
@@ -288,11 +280,11 @@
 <p>Transaction processing is the most important stage of a flow where the payment application determines the outcome of the flow / transaction.</p>
 
 <h3 id="handle-the-request">Handle the request</h3>
-<p>The request comes in the form of a <code class="highlighter-rouge">TransactionRequest</code> object and can be fetched via <code class="highlighter-rouge">TransactionProcessingModel.getTransactionRequest()</code>. There are two different ids defined in this class - please see <a href="transactions">Transactions</a> for more information about what the ids are how they can be used.</p>
+<p>The request comes in the form of a <code class="highlighter-rouge">TransactionRequest</code> object and can be fetched via <code class="highlighter-rouge">TransactionProcessingModel.getTransactionRequest()</code>. There are two different ids defined in this class - please see <a href="/pos-android-sdk/technical/transactions">Transactions</a> for more information about what the ids are how they can be used.</p>
 
-<p>You can determine what type of transaction it is from <code class="highlighter-rouge">TransactionRequest.getFlowType()</code>. This will map to one of the types defined in <a href="request-types">Request Types</a> for where the request class if of type <code class="highlighter-rouge">Payment</code>.</p>
+<p>You can determine what type of transaction it is from <code class="highlighter-rouge">TransactionRequest.getFlowType()</code>. This will map to one of the types defined in <a href="/pos-android-sdk/technical/request-types">Request Types</a> for where the request class if of type <code class="highlighter-rouge">Payment</code>.</p>
 
-<p>The amounts relevant for the transaction are available via the <code class="highlighter-rouge">TransactionRequest.getAmounts()</code> method. Note that it is very important to understand the way AppFlow represents amounts and what the structure of it means for a payment application. See <a href="#parsing-amounts">parsing amounts</a> for details.</p>
+<p>The amounts relevant for the transaction are available via the <code class="highlighter-rouge">TransactionRequest.getAmounts()</code> method. Note that it is very important to understand the way AppFlow represents amounts and what the structure of it means for a payment application. See <a href="parsing-amounts">parsing amounts</a> for details.</p>
 
 <p>It is possible that <code class="highlighter-rouge">TransactionRequest.getCard()</code> contains some form of card data either if a card was read in the payment card reading stage <em>or</em> the POS app provided a <a href="handling-card-tokens">card token</a> to use for payment. You can check if the <code class="highlighter-rouge">Card</code> object contains any data via the <code class="highlighter-rouge">Card.isEmpty()</code> method, or check if a token is set via the <code class="highlighter-rouge">Card.getCardToken()</code> method.</p>
 
@@ -309,7 +301,11 @@
 
 <p>At a minimum, the outcome must be set via calling either one of the approve methods or the decline method on the builder. If a specific response code is supported via a defined protocol, such as <em>ISO-8583</em>, this should be set via the <code class="highlighter-rouge">withResponseCode()</code> method. In addition, free text information about the outcome can be provided via the <code class="highlighter-rouge">withOutcomeMessage()</code> method.</p>
 
-<p><strong>Important</strong> - the amounts structure in the response is very important. If the transaction was approved with the full amounts charged, you should use the <em>request</em> amounts (from <code class="highlighter-rouge">TransactionRequest</code>) to pass in via the <code class="highlighter-rouge">approve(Amounts processedAmounts, String... paymentMethod)</code> method in the builder. The reasons for this is to ensure integrity of the amounts structure. If the payment application response amounts use a different structure for the processed amounts (for example, sets the total approved as base and ignores the additional amounts), it will be difficult for other AppFlow applications to match additional amounts (such as a donation) and see whether they were processed correctly. It also creates issues for split flows (split bill).</p>
+<div class="callout callout--danger">
+  <p>The amounts structure in the response is very important. If the transaction was approved with the full amounts charged, you should use the <i>request</i> amounts (from <code>TransactionRequest</code>) to pass in via the <code>approve(Amounts processedAmounts, String... paymentMethod)</code> method in the builder. </p>
+
+  <p>This is to preserve the integrity of the amounts structure. If the payment application response amounts use a different structure for the processed amounts (for example, sets the total approved as base and ignores the additional amounts), it will be difficult for other AppFlow applications to match additional amounts (such as a donation) and see whether they were processed correctly. It also creates issues for split flows (split bill).</p>
+</div>
 
 <p>If your payment application (host/gateway) supports <em>partial auth</em> and such a scenario occurs, then you can of course not use the request amounts as they were. In this case, it is recommended that you first “fill up” the base amount with the amounts authorised, and then split any remaining amounts uniformly (as a fraction) of the requested additional amounts.</p>
 
@@ -364,6 +360,18 @@
 						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
 							
 							
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pa/intro-to-payment-apps">
+												<p class="c-page-nav__heading">Overview</p>
+											</a>
+										</li>
+									
+									
+								
 							
 								
 								
@@ -466,6 +474,8 @@
 					<div class="o-col-12 u-text-center">
 						<div class="u-inline-block u-flex@sm">
 							
+							
+							 	
 							
 							 	
 							

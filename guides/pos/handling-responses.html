@@ -146,7 +146,9 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="handling-responses">Handling Responses</h1>
 
-<p>The first version of AppFlow provided responses back via the initiation Rx stream, but due to the nature of Android component lifecycles (especially on <a href="https://developer.android.com/about/versions/oreo/background">Oreo and up</a>), there is never any guarantee that the activity / service that initiated a flow is still alive when it is time to send the response back. Activities in particular are almost guaranteed to be destroyed for any non-trivial flow, as most of the POS devices have very limited memory. To ensure that the client receives the response reliably, the response channel is separated from the initiation rx chain via calls to standard Android services defined in the client. See <a href="flow-response-listeners">Flow Response Listeners</a> for how to define and implement these entry points.</p>
+<p>The first version of AppFlow provided responses back via the initiation Rx stream, but due to the nature of Android component lifecycles (especially on <a href="https://developer.android.com/about/versions/oreo/background">Oreo and up</a>), there is never any guarantee that the activity / service that initiated a flow is still alive when it is time to send the response back. Activities in particular are almost guaranteed to be destroyed for any non-trivial flow, as most of the POS devices have very limited memory. To ensure that the client receives the response reliably, the response channel is separated from the initiation rx chain via calls to standard Android services defined in the client.</p>
+
+<p>See <a href="flow-response-listeners">Flow Response Listeners</a> for how to define and implement these entry points.</p>
 
 <h2 id="responses">Responses</h2>
 <p>As the <code class="highlighter-rouge">Request</code> and <code class="highlighter-rouge">Response</code> data is bespoke to each type of request, there is no general information on how to parse these responses. See <a href="/pos-android-sdk/technical/request-types">Request Types</a> to find detailed information on how to create requests and parse responses for each use case.</p>
@@ -173,11 +175,17 @@
   <li><code class="highlighter-rouge">ERROR</code> - Some unexpected error caused the payment to fail</li>
 </ul>
 
-<p>Due to the vast amount of possible failure reasons, not every reason can be represented. If you encounter failures during development, please check the FPS system audit log / request logs in the <code class="highlighter-rouge">AppFlow</code> app, or use Logcat.</p>
+<div class="callout callout--warning">
+  <p>Due to the vast amount of possible failure reasons, not every reason can be represented. If you encounter failures during development, please check the FPS system audit log / request logs in the `AppFlow` app, or use Logcat.</p>
+</div>
 
 <p>There is a convenience method, <code class="highlighter-rouge">response.isAllTransactionApproved()</code>, that will help you determine whether all transactions were approved or not. It is important to realise that it is possible for the outcome to be <em>FULFILLED</em> despite failed transactions. This is due to the way the payment flow operates, where a split app can split up the payment into multiple transactions, and it may choose to retry a transaction or move the balance forward, etc. The payment flow <em>only</em> cares about ensuring the amounts requested are processed - it does not care <em>how</em> that is done.</p>
 
-<p><em>Important!</em> You can check what the total amounts charged were by calling <code class="highlighter-rouge">response.getTotalAmountsProcessed()</code>. Due to the ability for flow services to add and pay amounts, it is possible that the amounts processed is more than what you initially requested. As an example, a flow service might add tip or some fee or a charity donation, meaning the overall amounts will be greater than what your application requested initially.</p>
+<div class="callout callout--success">
+<p>
+You can check what the total amounts charged were by calling `response.getTotalAmountsProcessed()`. Due to the ability for flow services to add and pay amounts, it is possible that the amounts processed is more than what you initially requested. As an example, a flow service might add a tip or some fee or a charity donation, meaning the overall amounts will be greater than what your application requested initially.
+</p>
+</div>
 
 <p>You can get the full list of transactions by calling <code class="highlighter-rouge">response.getTransactions()</code>. The <code class="highlighter-rouge">Transaction</code> contains all the relevant input data for that transaction. It also contains a list of <code class="highlighter-rouge">TransactionResponse</code> objects that were generated from flow services in the flow. This is often from payment applications, but may also be from value added services such as loyalty where rewards or points were used.</p>
 
@@ -195,6 +203,8 @@
   <li>Card - The details of the card used, if any, for the transaction</li>
   <li>References - A set of transaction references</li>
 </ul>
+
+<p>See here for more information about <a href="/pos-android-sdk/technical/transactions">Transaction objects</a>.</p>
 
 <h5 id="partially-fulfilled">Partially fulfilled</h5>
 <p>Partially fulfilled outcomes should generally be rare, but can happen as a result of</p>
@@ -306,6 +316,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -362,6 +384,8 @@
 										<a href="/pos-android-sdk/guides/pos/handling-errors" class="c-arrow-link c-arrow-link--next u-ml-auto">Handling errors</a>
 									
 								
+							
+							 	
 							
 							 	
 							

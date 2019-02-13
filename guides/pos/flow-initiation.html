@@ -163,7 +163,7 @@
 
 <h1 id="paymentclient-functions">PaymentClient functions</h1>
 
-<p>The <code class="highlighter-rouge">PaymentClient</code> object provided several standard blocks of functionality:</p>
+<p>The <code class="highlighter-rouge">PaymentClient</code> object provides several standard blocks of functionality:</p>
 
 <ul>
   <li><a href="#initiate-a-flow">Initiate a flow</a></li>
@@ -181,25 +181,9 @@
 
 <p>A <code class="highlighter-rouge">Payment</code> is used when some client-defined amount of money is being transferred as a result of it. Examples are sale (purchase / payment), refund, pre-authorisation, etc. These all involve money being moved from one entity to another - customer to merchant or vice versa, as defined by the client application. The <code class="highlighter-rouge">Payment</code> model has been defined to support these standard point of sale scenarios.</p>
 
-<p>A <code class="highlighter-rouge">Request</code> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we can also allow flow services to define their own custom request types, which they can advertise via the <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
+<p>A <code class="highlighter-rouge">Request</code> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow flow services to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
 
 <p>What data is relevant for any given request is defined by its <em>request type</em>. Please see the documentation in <a href="/pos-android-sdk/technical/request-types">Request Types</a> for a full list of types and associated data.</p>
-
-<h3 id="determine-which-flows-are-supported">Determine which flows are supported</h3>
-<p>The most common scenario of initiating flows is where the POS app supports a set of <a href="/pos-android-sdk/technical/request-types">defined types</a> up front and checks for availability of these before presenting options to merchant and/or initiating a flow.</p>
-
-<p>This is done via the <code class="highlighter-rouge">FlowConfigurations</code> model which was described earlier, via a call to the <code class="highlighter-rouge">isFlowTypeSupported(String flowType)</code> method.</p>
-
-<p>As an example, if you want to check that there is a flow for refunds, you can use,</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">flowConfigurations</span><span class="o">.</span><span class="na">isFlowTypeSupported</span><span class="o">(</span><span class="s">"refund"</span><span class="o">))</span> <span class="o">{</span>
-    <span class="c1">// Present or initiate refund</span>
-<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-    <span class="c1">// Handle refunds not supported</span>
-<span class="o">}</span>
-</code></pre>
-</div>
-
-<p>The second, generally less useful option, is to query programmatically for all the supported types. As most of the types require specific code for building the request and handling the response, this is only really useful for prototyping, testing, etc.</p>
 
 <h3 id="make-a-payment">Make a payment</h3>
 
@@ -256,29 +240,27 @@
 </code></pre>
 </div>
 
-<p>Once you have finished building your payment, you can send it to FPS using the <code class="highlighter-rouge">initiatePayment</code> method and subscribe to receive information whether the request was accepted or rejected by FPS. Responses are (no longer) returned via the initiation rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See <a href="handling-responses">Handling Responses</a> for more info.</p>
+<p>Once you have finished building your payment, you can send it to FPS using the <code class="highlighter-rouge">initiatePayment</code> method and subscribe to receive information whether the request was accepted or rejected by FPS.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// Assign the subscribe return value to a field and ensure to dispose in activity onDestroy()</span>
 <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiateRequest</span><span class="o">(</span><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
-  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action</span><span class="o">()</span> <span class="o">{</span>
-      <span class="nd">@Override</span>
-      <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-          <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
-          <span class="n">finish</span><span class="o">();</span> <span class="c1">// If in an activity, it should be finished at this stage</span>
-      <span class="o">}</span>
-  <span class="o">},</span> <span class="k">new</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Throwable</span><span class="o">&gt;()</span> <span class="o">{</span>
-      <span class="nd">@Override</span>
-      <span class="kd">public</span> <span class="kt">void</span> <span class="n">accept</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">throwable</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-          <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
-              <span class="n">FlowException</span> <span class="n">flowException</span> <span class="o">=</span> <span class="o">(</span><span class="n">FlowException</span><span class="o">)</span> <span class="n">throwable</span><span class="o">;</span>
-              <span class="c1">// Check flowException.getErrorCode() against ErrorConstants</span>
-              <span class="c1">// Log flowException.errorMessage() for further detail</span>
-          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-              <span class="c1">// Unexpected exception</span>
-          <span class="o">}</span>
+  <span class="o">.</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
+      <span class="n">finish</span><span class="o">();</span> <span class="c1">// If in an activity, it should be finished at this stage</span>
+  <span class="o">},</span> <span class="n">throwable</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">FlowException</span> <span class="n">flowException</span> <span class="o">=</span> <span class="o">(</span><span class="n">FlowException</span><span class="o">)</span> <span class="n">throwable</span><span class="o">;</span>
+          <span class="c1">// Check flowException.getErrorCode() against ErrorConstants</span>
+          <span class="c1">// Log flowException.errorMessage() for further detail</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="c1">// Unexpected exception</span>
       <span class="o">}</span>
   <span class="o">});</span>
 </code></pre>
+</div>
+
+<div class="callout callout--warn">
+  <p>As of AppFlow v2, Responses are (no longer) returned via the initiation rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See [Handling Responses](handling-responses) for more info.</p>
 </div>
 
 <h2 id="initiate-a-generic-request">Initiate a generic request</h2>
@@ -287,50 +269,32 @@
 
 <p>For these types of requests, all applications must know what data to expect for any given request type. Please see <a href="/pos-android-sdk/technical/request-types">Request Types</a> for common requests and code snippets for creating requests and responses.</p>
 
-<p>Once you have finished building your request, you can send it to FPS using the <code class="highlighter-rouge">initiateRequest</code> method and subscribe to receive information whether the request was accepted or rejected by FPS. Responses are (no longer) returned via the initiation Rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See <a href="handling-responses">Handling Responses</a> for more info.</p>
+<p>Once you have finished building your request, you can send it to FPS using the <code class="highlighter-rouge">initiateRequest</code> method and subscribe to receive information whether the request was accepted or rejected by FPS.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="n">flowType</span><span class="o">);</span>
 <span class="n">request</span><span class="o">.</span><span class="na">setFlowName</span><span class="o">(</span><span class="n">flowName</span><span class="o">);</span> <span class="c1">// If the flow name is known, it should be set for multi-flow scenarios</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"dataKey"</span><span class="o">,</span> <span class="s">"dataValue"</span><span class="o">);</span>
 <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiateRequest</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
-  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action</span><span class="o">()</span> <span class="o">{</span>
-      <span class="nd">@Override</span>
-      <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-          <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
-          <span class="n">finish</span><span class="o">();</span> <span class="c1">// If in an activity, it should be finished at this stage</span>
-      <span class="o">}</span>
-  <span class="o">},</span> <span class="k">new</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Throwable</span><span class="o">&gt;()</span> <span class="o">{</span>
-      <span class="nd">@Override</span>
-      <span class="kd">public</span> <span class="kt">void</span> <span class="n">accept</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">throwable</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-          <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
-              <span class="n">FlowException</span> <span class="n">flowException</span> <span class="o">=</span> <span class="o">(</span><span class="n">FlowException</span><span class="o">)</span> <span class="n">throwable</span><span class="o">;</span>
-              <span class="c1">// Check flowException.getErrorCode() against ErrorConstants</span>
-              <span class="c1">// Log flowException.errorMessage() for further detail</span>
-          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-              <span class="c1">// Unexpected exception</span>
-          <span class="o">}</span>
-      <span class="o">}</span>
+  <span class="o">.</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
+      <span class="n">finish</span><span class="o">();</span> <span class="c1">// If in an activity, it should be finished at this stage</span>
+  <span class="o">},</span> <span class="n">throwable</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">FlowException</span> <span class="n">flowException</span> <span class="o">=</span> <span class="o">(</span><span class="n">FlowException</span><span class="o">)</span> <span class="n">throwable</span><span class="o">;</span>
+          <span class="c1">// Check flowException.getErrorCode() against ErrorConstants</span>
+          <span class="c1">// Log flowException.errorMessage() for further detail</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+          <span class="c1">// Unexpected exception</span>
+      <span class="o">}</span>  
   <span class="o">});</span>
-
 </code></pre>
+</div>
+<div class="callout callout--warn">
+  <p>As of AppFlow v2, Responses are (no longer) returned via the initiation Rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See [Handling Responses](handling-responses) for more info.</p>
 </div>
 
 <h2 id="initiate-a-custom-request">Initiate a custom request</h2>
 <p>A flow service can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the flow service for a custom type. If however such data is required, see <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for more information.</p>
-
-<h2 id="initiating-a-flow-from-a-flow-service">Initiating a flow from a flow service</h2>
-
-<p>In general, POS applications are responsible for initiating flows and requests. There are however certain scenarios where a value added service may be required to do this in order to meet certain requirements. The most common example is where a loyalty app might be the first point of interaction with a customer where they identify themselves. In order to pass this information onto a payment flow (without using bespoke integrations), the loyalty app can initiate a zero based amounts payment with associated customer data. The POS application will then be called in the <code class="highlighter-rouge">PRE_FLOW</code> stage where it can perform its normal function and update the <code class="highlighter-rouge">Payment</code> model with relevant data before the flow continues.</p>
-
-<p>Ensure that you have communicated with AEVI before attempting to support this use case, as it requires specific flows and a POS app that supports this scenario.</p>
-
-<p>The advice and rules outlined in this document generally apply here as well, with a few limitations;</p>
-<ul>
-  <li>Only the following fields may be set: <code class="highlighter-rouge">Customer</code>, <code class="highlighter-rouge">cardToken</code>, <code class="highlighter-rouge">additionalData</code> and the mandatory <code class="highlighter-rouge">flowType</code> / <code class="highlighter-rouge">flowName</code></li>
-  <li>The <code class="highlighter-rouge">Amounts</code> <em>must</em> be set to 0 (<code class="highlighter-rouge">new Amounts(0, "XXX")</code>)</li>
-</ul>
-
-<p>Contact AEVI for more details for this use case.</p>
 
 <h2 id="recommended-application-architecture">Recommended application architecture</h2>
 <p>As previously explained, the way Android components work with lifecycles and that AppFlow is service driven, means that there is no guarantee an activity will still be alive to receive a response once the flow is completed.</p>
@@ -424,6 +388,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -476,6 +452,8 @@
 										<a href="/pos-android-sdk/guides/pos/flow-response-listeners" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow response listener</a>
 									
 								
+							
+							 	
 							
 							 	
 							

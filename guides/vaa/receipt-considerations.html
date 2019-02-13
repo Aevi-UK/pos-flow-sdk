@@ -146,7 +146,7 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="receipt-applications">Receipt Applications</h1>
 
-<p>Receipts should usually be printed by a flow service application that is executed in the POST_TRANSACTION or POST_GENERIC stage. Therefore, a receipt printing application implement a service extending <code class="highlighter-rouge">BasePaymentFlowService</code> and override the two methods <code class="highlighter-rouge">onPostTransaction</code> and <code class="highlighter-rouge">onGeneric</code>. Within <code class="highlighter-rouge">onPostTransaction</code> the service will retrieve the <code class="highlighter-rouge">TransactionSummary</code> and use this to construct a receipt. Within the <code class="highlighter-rouge">onGeneric</code> method the receipt app must obtain the correct data from the request data and use the information to print the receipt. See <a href="/pos-android-sdk/technical/receipts">receipts</a> for more details on the type of data you can expect.</p>
+<p>Receipts should usually be printed by a flow service application that is executed in the <code class="highlighter-rouge">POST_TRANSACTION</code> or <code class="highlighter-rouge">POST_GENERIC</code> stage. Therefore, a receipt printing application should implement a service extending <code class="highlighter-rouge">BasePaymentFlowService</code> and override the two methods <code class="highlighter-rouge">onPostTransaction</code> and <code class="highlighter-rouge">onGeneric</code>. Within <code class="highlighter-rouge">onPostTransaction</code> the service will retrieve the <code class="highlighter-rouge">TransactionSummary</code> and use this to construct a receipt. Within the <code class="highlighter-rouge">onGeneric</code> method the receipt app must obtain the correct data from the request data and use the information to print the receipt. See <a href="/pos-android-sdk/technical/receipts">receipts</a> for more details on the type of data you can expect.</p>
 
 <h2 id="receipts-for-payments">Receipts for payments</h2>
 
@@ -160,7 +160,7 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">String</span> <span class="n">currency</span> <span class="o">=</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getRequestedAmounts</span><span class="o">().</span><span class="na">getCurrency</span><span class="o">();</span>
 <span class="k">for</span> <span class="o">(</span><span class="n">Basket</span> <span class="n">basket</span> <span class="o">:</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getBaskets</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">addBasketDetails</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">basket</span><span class="o">,</span> <span class="n">currency</span><span class="o">);</span>
+  <span class="n">addBasketDetails</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">basket</span><span class="o">,</span> <span class="n">currency</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -175,14 +175,14 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code>
 <span class="k">for</span> <span class="o">(</span><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">:</span> <span class="n">transactions</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getAmountsProcessed</span><span class="o">();</span>
-    <span class="n">String</span> <span class="n">paymentMethod</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getPaymentMethod</span><span class="o">();</span>
-    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">addAmounts</span> <span class="o">=</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getAdditionalAmounts</span><span class="o">();</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">type</span> <span class="o">:</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;&gt;(</span><span class="n">addAmounts</span><span class="o">.</span><span class="na">keySet</span><span class="o">()))</span> <span class="o">{</span>
-        <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">type</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">(),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="k">new</span> <span class="n">Amount</span><span class="o">(</span><span class="n">addAmounts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">type</span><span class="o">),</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getCurrency</span><span class="o">())));</span>
-    <span class="o">}</span>
+  <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getAmountsProcessed</span><span class="o">();</span>
+  <span class="n">String</span> <span class="n">paymentMethod</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getPaymentMethod</span><span class="o">();</span>
+  <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">addAmounts</span> <span class="o">=</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getAdditionalAmounts</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">type</span> <span class="o">:</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;&gt;(</span><span class="n">addAmounts</span><span class="o">.</span><span class="na">keySet</span><span class="o">()))</span> <span class="o">{</span>
+      <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">type</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">(),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="k">new</span> <span class="n">Amount</span><span class="o">(</span><span class="n">addAmounts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">type</span><span class="o">),</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getCurrency</span><span class="o">())));</span>
+  <span class="o">}</span>
 
-    <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">getPaidByMessage</span><span class="o">(</span><span class="n">paymentMethod</span><span class="o">),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="n">amounts</span><span class="o">.</span><span class="na">getTotalAmount</span><span class="o">()));</span>
+  <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">getPaidByMessage</span><span class="o">(</span><span class="n">paymentMethod</span><span class="o">),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="n">amounts</span><span class="o">.</span><span class="na">getTotalAmount</span><span class="o">()));</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -193,7 +193,7 @@
 
 <h3 id="customer-details">Customer details</h3>
 
-<p>Depending on the use-case it may be a requirement to display customer data on a receipt. For <code class="highlighter-rouge">Payment</code> requests a specific <code class="highlighter-rouge">Customer</code> object is made available if it has been added during the flow. The <code class="highlighter-rouge">Customer</code> object contains some basic standard fields as well as a number of <a href="/pos-android-sdk/technical/customer-details">additional data fields described here</a>. Customer information can be added before the <code class="highlighter-rouge">Payment</code> is initiated or at any time in the flow by a flow service that is able to identify the customer in some way e.g. card token.</p>
+<p>Depending on the use-case it may be a requirement to display customer data on a receipt. For <code class="highlighter-rouge">Payment</code> requests a specific <code class="highlighter-rouge">Customer</code> object is made available if it has been added during the flow. The <code class="highlighter-rouge">Customer</code> object contains some basic standard fields as well as a number of <a href="/pos-android-sdk/technical/customer-details">additional data fields described here</a>. Customer information can be added before the <code class="highlighter-rouge">Payment</code> is initiated or at any time in the flow by a flow service that is able to identify the customer in some way e.g. card token, customer email, login.</p>
 
 <h3 id="adspromotions">Ads/promotions</h3>
 
@@ -205,19 +205,19 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Card</span> <span class="n">card</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getCard</span><span class="o">();</span>
 <span class="k">if</span> <span class="o">(</span><span class="n">card</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">());</span>
-    <span class="o">}</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getMaskedPan</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getMaskedPan</span><span class="o">());</span>
-    <span class="o">}</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getExpiryDate</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getExpiryDate</span><span class="o">());</span>
-    <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">());</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getMaskedPan</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getMaskedPan</span><span class="o">());</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getExpiryDate</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getExpiryDate</span><span class="o">());</span>
+  <span class="o">}</span>
 
-    <span class="n">AdditionalData</span> <span class="n">cardData</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="na">getAdditionalData</span><span class="o">();</span>
-    <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"network"</span><span class="o">);</span>
-    <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"entryMethod"</span><span class="o">);</span>
+  <span class="n">AdditionalData</span> <span class="n">cardData</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="na">getAdditionalData</span><span class="o">();</span>
+  <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"network"</span><span class="o">);</span>
+  <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"entryMethod"</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -291,6 +291,18 @@
 								
 									
 										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
+												<p class="c-page-nav__heading">Flow response listener</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -351,6 +363,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
+												<p class="c-page-nav__heading">Initiating a flow</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>
@@ -388,6 +412,8 @@
 							 	
 							
 							 	
+							
+							 	
 								  
 									
 									
@@ -399,6 +425,8 @@
 										<a href="/pos-android-sdk/guides/vaa/split-considerations" class="c-arrow-link c-arrow-link--next u-ml-auto">Split Applications</a>
 									
 								
+							
+							 	
 							
 							 	
 							

@@ -146,7 +146,9 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="implementing-flow-services">Implementing flow services</h1>
 
-<p>There are three types of flows; payment, generic and status updates. These flows may have one or multiple stages defined. Any given application with a particular purpose will fit into AppFlow via what stage it will be called in. <a href="/pos-android-sdk/flow-stages">More details of flow stages can be found here</a>.</p>
+<p>There are three types of flow; <em>payment</em>, <em>generic</em> and <em>status updates</em>. These flows may have one or multiple stages defined. Any given application with a particular purpose will fit into AppFlow via what stage it will be called in.</p>
+
+<p><a href="/pos-android-sdk/flow-stages">More details of flow stages can be found here</a>.</p>
 
 <h2 id="defining-the-stage-entry-points">Defining the stage entry points</h2>
 
@@ -159,7 +161,7 @@
 <p>Before we look at these two options, we need to cover <em>stage models</em>, which are the models your service will be working with to read and augment data for any given stage.</p>
 
 <h3 id="stage-models">Stage models</h3>
-<p>As each stage of the flow typically deals with different input and output data, there is generally one stage model defined per stage. The one exception is for <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code>, where they do in fact share the same data types and same rules, meaning they also share model.</p>
+<p>As each stage of the flow typically deals with different input and output data, there is generally one stage model defined per stage. The one exception is for <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code>, where they do in fact share the same data types and same rules, meaning they also share the model.</p>
 
 <p>All the stage models provide a similar set of functions,</p>
 
@@ -172,11 +174,11 @@
   <li>Start an activity to handle the request (from a service context)</li>
 </ul>
 
-<p>In addition, the stage models sets up some interaction points with the API behind the scenes to reduce the amount of boilerplate required for app developers.</p>
+<p>In addition, the stage models set up some interaction points with the API behind the scenes to reduce the amount of boilerplate required for app developers.</p>
 
 <p>See <a href="https://github.com/Aevi-UK/pos-flow-sdk/blob/master/payment-flow-service-api/src/main/java/com/aevi/sdk/pos/flow/stage/PreTransactionModel.java">PreTransactionModel</a> for an example of a stage model.</p>
 
-<p>Further down you can find a table which outlines what intent actions and stage models to use for each stage.</p>
+<p>Below you can find a table which outlines what intent actions and stage models to use for each stage.</p>
 
 <h3 id="extending-basepaymentflowservice">Extending BasePaymentFlowService</h3>
 <p>The <code class="highlighter-rouge">BasePaymentFlowService</code>, contains a method per stage that a subclass can override to handle that particular stage.</p>
@@ -191,28 +193,28 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">model</span><span class="o">.</span><span class="na">processInActivity</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">PaymentCardReadingActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">model</span><span class="o">.</span><span class="na">processInActivity</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">PaymentCardReadingActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">model</span><span class="o">.</span><span class="na">processInActivity</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">TransactionProcessingActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">model</span><span class="o">.</span><span class="na">processInActivity</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">TransactionProcessingActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">GenericStageHandler</span><span class="o">.</span><span class="na">handleGenericRequest</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
-    <span class="o">}</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">GenericStageHandler</span><span class="o">.</span><span class="na">handleGenericRequest</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
+  <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onForceFinish</span><span class="o">(</span><span class="n">ClientCommunicator</span> <span class="n">clientCommunicator</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">.</span><span class="na">onForceFinish</span><span class="o">(</span><span class="n">clientCommunicator</span><span class="o">);</span> <span class="c1">// be sure to call the super method here for auto finish</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onForceFinish</span><span class="o">(</span><span class="n">ClientCommunicator</span> <span class="n">clientCommunicator</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">super</span><span class="o">.</span><span class="na">onForceFinish</span><span class="o">(</span><span class="n">clientCommunicator</span><span class="o">);</span> <span class="c1">// be sure to call the super method here for auto finish</span>
 
-        <span class="c1">// Finish up anything you might have started in here. Activities started via `processInActivity` will</span>
-        <span class="c1">// be finished automatically and any response sent here will be ignored</span>
-    <span class="o">}</span>
+      <span class="c1">// Finish up anything you might have started in here. Activities started via `processInActivity` will</span>
+      <span class="c1">// be finished automatically and any response sent here will be ignored</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -230,6 +232,8 @@
 <span class="nt">&lt;/service&gt;</span>
 </code></pre>
 </div>
+
+<p>In order for your application to be called at a specific stage it must expose the appropriate action intent-filter as shown above. <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/release/2.1.0/flow-base-api/src/main/java/com/aevi/sdk/flow/constants/IntentActions.java">A full list of these can be found here</a></p>
 
 <h3 id="using-activityproxyservice">Using ActivityProxyService</h3>
 <p><code class="highlighter-rouge">ActivityProxyService</code> is a service defined in the API that can be used to proxy through any request to an activity. This is useful if all your requests handling requires user interaction, as you can avoid setting up pure boilerplate services just to start activities.</p>
@@ -274,7 +278,7 @@
 
 <h2 id="defining-the-generic-stage-entry-points">Defining the generic stage entry points</h2>
 
-<p>In addition to being called for payment flows, your application can also handle what we refer to as <em>generic</em> requests that applications can initiate via the client APIs. These generic requests may be of well-defined types like <em>tokenisation</em>, or be custom for a particular app or group of apps. There is one such example in the samples where the initiation sample calls into the flow service sample to show loyalty point balance.</p>
+<p>In addition to being called for payment flows, your application can also handle what we refer to as <em>generic</em> requests that applications can initiate via the client APIs. These generic requests may be of well-defined types like <em>tokenisation</em>, or be custom for a particular app or group of apps. There is an example in the <code class="highlighter-rouge">initiation sample application</code> that calls into the <code class="highlighter-rouge">flow service sample</code> to show loyalty point balance.</p>
 
 <p>There are only two possible stages for generic</p>
 
@@ -285,9 +289,9 @@
 
 <p>See <a href="/pos-android-sdk/flow-stages">Flow Stages</a> for details on the stages.</p>
 
-<p>As outlined earlier, the stages can be handled via the <code class="highlighter-rouge">BasePaymentFlowService</code> and <code class="highlighter-rouge">ActivityProxyService</code>.In addition, for generic stages, there are also specific base classes (due to the fact that generic requests are part of the AppFlow <em>base APIs</em> and not unique to the POS implementation of AppFlow).</p>
+<p>As outlined earlier, the stages can be handled via the <code class="highlighter-rouge">BasePaymentFlowService</code> and <code class="highlighter-rouge">ActivityProxyService</code>. In addition, for generic stages, there are also specific base classes (due to the fact that generic requests are part of the AppFlow <em>base APIs</em> and not unique to the POS implementation of AppFlow).</p>
 
-<p>See <code class="highlighter-rouge">BaseGenericService</code> and <code class="highlighter-rouge">BasePostGenericService</code> for base classes specifically for these stages. These are demonstrated via the samples as well. These may be preferred if your service is <em>only</em> interested in generic flows, as otherwise the other options are more suitable.</p>
+<p>See <code class="highlighter-rouge">BaseGenericService</code> and <code class="highlighter-rouge">BasePostGenericService</code> for base classes specifically for these stages. These are demonstrated via the samples as well. These may be preferred if your service is <em>only</em> interested in generic flows, otherwise the other options above are more suitable.</p>
 
 <h2 id="defining-status-update-entry-point">Defining status update entry point</h2>
 
@@ -357,13 +361,13 @@
 </table>
 
 <h2 id="asynchronous-request-handling">Asynchronous request handling</h2>
-<p>A flow service can handle a request asynchronously in a fire-and-forget fashion where FPS does not wait for any response. This is mainly useful for the “post” stages where there may be apps that are interested in the outcome of things (such as for analytics), but do not want to provide any input back and delay the processing completion.</p>
+<p>A flow service can handle a request asynchronously in a fire-and-forget fashion where FPS does not wait for any response. This is mainly useful for the “post” stages where there may be apps that are interested in the outcome of things (such as for analytics), but do not want to provide any input back or delay the processing completion.</p>
 
-<p>Any flow service can do this via simply returning back an empty response immediately from the model (finish(), skip(), etc) and then continuing to execute. It is up to each flow service if and when the service is stopped as described in a section further down on this page.</p>
+<p>Any flow service can do this via simply returning back an empty response immediately from the model (finish(), skip(), etc) and then continuing to execute. It is up to each flow service if and when the service is stopped as described in a section below.</p>
 
 <h2 id="undoing-your-augmentation">Undoing your augmentation</h2>
 
-<p>Due to the nature of services getting called in sequence, where an outcome is determined somewhere in the middle, it is possible that a flow will be cancelled, declined or otherwise aborted before it is successfully completed. This means that any action you performed at a stage early in the flow, like using a customers loyalty points for a purchase, is now invalid.</p>
+<p>Due to the nature of services getting called in sequence, where an outcome is determined somewhere in the middle, it is possible that a flow will be cancelled, declined or otherwise aborted before it is successfully completed. This means that any action you performed at a stage earlier in the flow, like using a customers loyalty points for a purchase, is now invalid.</p>
 
 <p>To mitigate this and allow a flow service to undo previously made changes, AppFlow supports <em>response listeners</em>, which is a separate entry point into your application to which a <code class="highlighter-rouge">PaymentResponse</code> or <code class="highlighter-rouge">Response</code> is passed so that your application can review the outcome.</p>
 
@@ -462,6 +466,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
+												<p class="c-page-nav__heading">Flow response listener</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -522,6 +538,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
+												<p class="c-page-nav__heading">Initiating a flow</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>
@@ -562,6 +590,10 @@
 										<a href="/pos-android-sdk/guides/vaa/integration" class="c-arrow-link c-arrow-link--next u-ml-auto">Integration</a>
 									
 								
+							
+							 	
+							
+							 	
 							
 							 	
 							

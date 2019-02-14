@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -155,7 +150,7 @@
 <h2 id="initiation-errors">Initiation errors</h2>
 <p>When FPS receives a request, it will perform a range of validation on it and any associated flow, as well as ensure that it is currently able to process the request. Any subscriber to the initiate methods must ensure to add a consumer for any <code class="highlighter-rouge">Throwable</code>, as per below. All exceptions thrown by AppFlow will be of type <code class="highlighter-rouge">FlowException</code>, but it is of course possible that unexpected exceptions can occur as well.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiatePayment</span><span class="o">(</span><span class="n">payment</span><span class="o">).</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiatePayment</span><span class="o">(</span><span class="n">payment</span><span class="o">).</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
       <span class="c1">// Request accepted</span>
   <span class="o">},</span> <span class="n">throwable</span> <span class="o">-&gt;</span> <span class="o">{</span>
       <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
@@ -166,8 +161,7 @@
           <span class="c1">// Handle unexpected exception</span>
       <span class="o">}</span>
   <span class="o">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>The <code class="highlighter-rouge">flowException.getErrorCode()</code> returns a code that can be mapped against the constants in <code class="highlighter-rouge">ErrorConstants</code>, part of the API. See the table below for possible error codes for the initiation stage.</p>
 
 <table>
@@ -227,10 +221,9 @@
 
 <h2 id="response-listener-errors">Response listener errors</h2>
 <p>Once FPS has accepted your request, it will complete the initiation stream and start processing the flow. After this point, if any errors occur, they will be sent back via the response listener <code class="highlighter-rouge">notifyError</code> method. Most outcomes at this point will lead to an actual <code class="highlighter-rouge">PaymentResponse</code> or <code class="highlighter-rouge">Response</code> being generated with relevant outcomes set, but in rare cases the flow can abruptly end due to misbehaving flow services, device problems, etc. The errors are sent back to the method signature as per below;</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
-<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyError</span><span class="p">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{}</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{}</span>
+</code></pre></div></div>
 
 <p>In this case, the error code and message have been extracted from the <code class="highlighter-rouge">FlowException</code> and passed directly to the listener. The following error codes are relevant for the response listener. See <code class="highlighter-rouge">ErrorConstants</code> in the API for defined values.</p>
 
@@ -275,7 +268,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -287,7 +280,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-initiation">
 												<p class="c-page-nav__heading">Flow initiation</p>
 											</a>
@@ -299,7 +292,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -311,7 +304,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-responses">
 												<p class="c-page-nav__heading">Handling responses</p>
 											</a>
@@ -323,7 +316,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
@@ -335,7 +328,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/status-update-flows">
 												<p class="c-page-nav__heading">Status update flows</p>
 											</a>
@@ -347,7 +340,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
 												<p class="c-page-nav__heading">Querying for responses</p>
 											</a>
@@ -359,7 +352,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -371,7 +364,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
 												<p class="c-page-nav__heading">Event subscription</p>
 											</a>
@@ -383,7 +376,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/query-for-devices">
 												<p class="c-page-nav__heading">Query for devices</p>
 											</a>

@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -163,14 +158,13 @@
 
 <p>It is up to each application to manage the currencies correctly, which is fairly easily done with the help of the Java <code class="highlighter-rouge">Currency</code> class with which you can query for the sub-unit fractions. The snippet below shows how you can find out what the fraction is, and via <code class="highlighter-rouge">BigDecimal</code> easily represent that for purposes such as retrieving a human readable representation, etc.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kt">long</span> <span class="n">amountValue</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">long</span> <span class="n">amountValue</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
 <span class="n">String</span> <span class="n">currencyCode</span> <span class="o">=</span> <span class="s">"USD"</span><span class="o">;</span>
 <span class="n">Currency</span> <span class="n">currency</span> <span class="o">=</span> <span class="n">Currency</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">currencyCode</span><span class="o">);</span>
 <span class="kt">int</span> <span class="n">subUnitFraction</span> <span class="o">=</span> <span class="n">currency</span><span class="o">.</span><span class="na">getDefaultFractionDigits</span><span class="o">();</span> <span class="c1">// This will return 2 for USD</span>
 <span class="n">BigDecimal</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">BigDecimal</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">amountValue</span><span class="o">).</span><span class="na">movePointLeft</span><span class="o">(</span><span class="n">subUnitFraction</span><span class="o">);</span>
 <span class="n">String</span> <span class="n">readableAmount</span> <span class="o">=</span> <span class="n">currency</span><span class="o">.</span><span class="na">getSymbol</span><span class="o">()</span> <span class="o">+</span> <span class="n">amount</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span> <span class="c1">// "$10.00</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="amounts-structure">Amounts structure</h2>
 <p>The <code class="highlighter-rouge">Amounts</code> class consists of three main entities</p>
@@ -200,7 +194,7 @@
 <p>The <em>total amount</em> (<code class="highlighter-rouge">Amounts.getTotalAmount()</code>) will reflect the base amount + all additional amounts.</p>
 
 <p>There may be scenarios (often in payment applications), where some additional amounts are supported natively in that environment, but not others. As an example, many payment hosts/gateways supports setting tip and cashback as individual fields in the host message, but would rarely support something like charity donation. For these cases, the <code class="highlighter-rouge">getTotalExcludingAmounts(String... amountsIdentifiers)</code> is a useful method to help calculate a base amount that includes some additional amounts. Below is an example that reflects the above scenario</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// Input amounts</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Input amounts</span>
 <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Amounts</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="s">"EUR"</span><span class="o">);</span>
 <span class="n">amounts</span><span class="o">.</span><span class="na">addAdditionalAmount</span><span class="o">(</span><span class="s">"tip"</span><span class="o">,</span> <span class="mi">200</span><span class="o">);</span>
 <span class="n">amounts</span><span class="o">.</span><span class="na">addAdditionalAmount</span><span class="o">(</span><span class="s">"cashback"</span><span class="o">,</span> <span class="mi">50</span><span class="o">);</span>
@@ -213,8 +207,7 @@
 <span class="kt">long</span> <span class="n">cashback</span> <span class="o">=</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getAdditionalAmountValue</span><span class="o">(</span><span class="s">"cashback"</span><span class="o">);</span>
 <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getTotalAmountValue</span><span class="o">();</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 
@@ -230,7 +223,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -242,7 +235,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
@@ -254,7 +247,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -266,7 +259,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -278,7 +271,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -290,7 +283,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/use-cases">
 												<p class="c-page-nav__heading">Use cases</p>
 											</a>
@@ -302,7 +295,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
 												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
@@ -314,7 +307,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/split-considerations">
 												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
@@ -326,7 +319,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
 												<p class="c-page-nav__heading">Dealing with Amounts</p>
 											</a>
@@ -338,7 +331,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
 												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
@@ -350,7 +343,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

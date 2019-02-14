@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -197,12 +192,11 @@
 </table>
 
 <h3 id="initialise-request">Initialise request</h3>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Request</span> <span class="n">basketUpdateRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"basketStatusUpdate"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">basketUpdateRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"basketStatusUpdate"</span><span class="o">);</span>
 
 <span class="c1">// Example of a single data key - see more examples in data keys section</span>
 <span class="n">basketUpdateRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"basketUpdated"</span><span class="o">,</span> <span class="n">myBasket</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="create-and-parse-response">Create and parse response</h3>
 <p>TODO - unclear what the responses would be here?</p>
@@ -233,10 +227,9 @@
 </table>
 
 <h3 id="initialise-request-1">Initialise request</h3>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Request</span> <span class="n">customerUpdateRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"customerStatusUpdate"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">customerUpdateRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"customerStatusUpdate"</span><span class="o">);</span>
 <span class="n">customerUpdateRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"customerUpdate"</span><span class="o">,</span> <span class="n">myCustomer</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="create-and-parse-response-1">Create and parse response</h3>
 <p>TODO - unclear what the responses would be here?</p>
@@ -256,7 +249,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -268,7 +261,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-initiation">
 												<p class="c-page-nav__heading">Flow initiation</p>
 											</a>
@@ -280,7 +273,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -292,7 +285,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-responses">
 												<p class="c-page-nav__heading">Handling responses</p>
 											</a>
@@ -304,7 +297,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
@@ -316,7 +309,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/status-update-flows">
 												<p class="c-page-nav__heading">Status update flows</p>
 											</a>
@@ -328,7 +321,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
 												<p class="c-page-nav__heading">Querying for responses</p>
 											</a>
@@ -340,7 +333,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -352,7 +345,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
 												<p class="c-page-nav__heading">Event subscription</p>
 											</a>
@@ -364,7 +357,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/query-for-devices">
 												<p class="c-page-nav__heading">Query for devices</p>
 											</a>

@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -170,7 +165,7 @@ This event has two associated data keys;</p>
 </ul>
 
 <h2 id="example">Example</h2>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">subscribeToSystemEvents</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="n">flowEvent</span> <span class="o">-&gt;</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">subscribeToSystemEvents</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="n">flowEvent</span> <span class="o">-&gt;</span> <span class="o">{</span>
   <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">flowEvent</span><span class="o">.</span><span class="na">getType</span><span class="o">();</span>
   <span class="n">AdditionalData</span> <span class="n">data</span> <span class="o">=</span> <span class="n">flowEvent</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
   <span class="k">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">)</span> <span class="o">{</span>
@@ -183,8 +178,7 @@ This event has two associated data keys;</p>
       <span class="kt">boolean</span> <span class="n">devicesChanged</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getBooleanValue</span><span class="o">(</span><span class="s">"eventKeyDevicesChanged"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
       <span class="k">break</span><span class="o">;</span>
   <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 
@@ -200,7 +194,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -212,7 +206,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-initiation">
 												<p class="c-page-nav__heading">Flow initiation</p>
 											</a>
@@ -224,7 +218,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -236,7 +230,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-responses">
 												<p class="c-page-nav__heading">Handling responses</p>
 											</a>
@@ -248,7 +242,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
@@ -260,7 +254,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/status-update-flows">
 												<p class="c-page-nav__heading">Status update flows</p>
 											</a>
@@ -272,7 +266,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
 												<p class="c-page-nav__heading">Querying for responses</p>
 											</a>
@@ -284,7 +278,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -296,7 +290,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
 												<p class="c-page-nav__heading">Event subscription</p>
 											</a>
@@ -308,7 +302,7 @@ This event has two associated data keys;</p>
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/query-for-devices">
 												<p class="c-page-nav__heading">Query for devices</p>
 											</a>

@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -185,43 +180,41 @@
 
 <p>An example of such a method is,</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPreFlow</span><span class="p">(</span><span class="n">PreFlowModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{}</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPreFlow</span><span class="o">(</span><span class="n">PreFlowModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{}</span>
+</code></pre></div></div>
 
 <p>Here is an example of an implementation of this from the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/java/com/aevi/sdk/pos/flow/paymentservicesample/service/PaymentService.java#L29"><code class="highlighter-rouge">Payment Service Sample</code></a>. It illustrates how some stages can be delegated to activities, and others to be handled from the service context itself.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">model</span><span class="o">.</span><span class="na">processInActivity</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">PaymentCardReadingActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">model</span><span class="o">.</span><span class="na">processInActivity</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">TransactionProcessingActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">GenericStageHandler</span><span class="o">.</span><span class="na">handleGenericRequest</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onForceFinish</span><span class="o">(</span><span class="n">ClientCommunicator</span> <span class="n">clientCommunicator</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onForceFinish</span><span class="o">(</span><span class="n">ClientCommunicator</span> <span class="n">clientCommunicator</span><span class="o">)</span> <span class="o">{</span>
       <span class="kd">super</span><span class="o">.</span><span class="na">onForceFinish</span><span class="o">(</span><span class="n">clientCommunicator</span><span class="o">);</span> <span class="c1">// be sure to call the super method here for auto finish</span>
 
       <span class="c1">// Finish up anything you might have started in here. Activities started via `processInActivity` will</span>
       <span class="c1">// be finished automatically and any response sent here will be ignored</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is defined in the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/AndroidManifest.xml#L18">manifest</a> as follow,</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;service</span>
     <span class="na">android:name=</span><span class="s">".service.PaymentService"</span>
     <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;intent-filter&gt;</span>
@@ -230,8 +223,7 @@
         <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_TRANSACTION"</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/service&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In order for your application to be called at a specific stage it must expose the appropriate action intent-filter as shown above. <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/release/2.1.0/flow-base-api/src/main/java/com/aevi/sdk/flow/constants/IntentActions.java">A full list of these can be found here</a></p>
 
@@ -240,39 +232,36 @@
 
 <p>The service is defined in the manifest as follows, where you choose which stages you want to handle via the intent actions. The example below is set up for <code class="highlighter-rouge">PRE_FLOW</code> only.</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;service</span>
     <span class="na">android:name=</span><span class="s">"com.aevi.sdk.pos.flow.service.ActivityProxyService"</span>
     <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;intent-filter&gt;</span>
         <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_PRE_FLOW"</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/service&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You then need to define an activity for each stage you want the requests proxied to, as per below for PRE_FLOW. Pay attention to the intent action.</p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;activity</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;activity</span>
     <span class="na">android:name=</span><span class="s">".ui.PreFlowActivity"</span>
     <span class="na">android:excludeFromRecents=</span><span class="s">"true"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;intent-filter&gt;</span>
         <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_PRE_FLOW_IN_ACTIVITY"</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/activity&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The way the <code class="highlighter-rouge">ActivityProxyService</code> looks up what activity to delegate to is via the stage name. It will build the intent action as follows,
 <code class="highlighter-rouge">intentAction = "com.aevi.sdk.flow.action.PROCESS_" + stageName + "_IN_ACTIVITY"</code>.</p>
 
 <p>Once your activity is created (via <code class="highlighter-rouge">onCreate()</code>, you can then initialise the stage model from the static <code class="highlighter-rouge">fromActivity()</code> method, as per below for <code class="highlighter-rouge">PRE_FLOW</code>;</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
-<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
     <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
     <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_pre_flow</span><span class="o">);</span>
     <span class="n">PreFlowModel</span> <span class="n">preFlowModel</span> <span class="o">=</span> <span class="n">PreFlowModel</span><span class="o">.</span><span class="na">fromActivity</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The models only keep a weak reference to your activities, so there are no risks of activity memory leaks via the models even if your code passes these onto other classes in your application.</p>
 
@@ -429,7 +418,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -441,7 +430,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
@@ -453,7 +442,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -465,7 +454,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -477,7 +466,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -489,7 +478,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/use-cases">
 												<p class="c-page-nav__heading">Use cases</p>
 											</a>
@@ -501,7 +490,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
 												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
@@ -513,7 +502,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/split-considerations">
 												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
@@ -525,7 +514,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
 												<p class="c-page-nav__heading">Dealing with Amounts</p>
 											</a>
@@ -537,7 +526,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
 												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
@@ -549,7 +538,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

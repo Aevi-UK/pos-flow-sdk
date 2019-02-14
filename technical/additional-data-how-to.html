@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -131,24 +126,21 @@
 
 <p>Data is added using the <code class="highlighter-rouge">addData</code> method along with a key that they should be stored against.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myExtra"</span><span class="o">,</span> <span class="s">"ext"</span><span class="o">);</span> <span class="c1">// store a String</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myExtra"</span><span class="o">,</span> <span class="s">"ext"</span><span class="o">);</span> <span class="c1">// store a String</span>
 <span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myBoolean"</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span> <span class="c1">// store a boolean</span>
 <span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myInt"</span><span class="o">,</span> <span class="mi">42322</span><span class="o">);</span> <span class="c1">// store an int</span>
 <span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myLong"</span><span class="o">,</span> <span class="mi">7736663L</span><span class="o">);</span> <span class="c1">// store a long</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>To get the data stored back at a later point the <code class="highlighter-rouge">getValue</code> method will return it automatically converted back to the original type. e.g.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kt">long</span> <span class="n">myLong</span> <span class="o">=</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"myLong"</span><span class="o">);</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">long</span> <span class="n">myLong</span> <span class="o">=</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"myLong"</span><span class="o">);</span>
+</code></pre></div></div>
 
 <p>If an attempt is made to get the data back as a different type then a null/empty value will be returned e.g.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"myLong"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"myLong"</span><span class="o">);</span>
 <span class="c1">// str above will be null</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Helper methods are available to return primitive String, int and boolean <code class="highlighter-rouge">getStringValue</code>, <code class="highlighter-rouge">getIntegerValue</code> and <code class="highlighter-rouge">getBooleanValue</code>. Each of these can also optionally include the passing of a default if the key (of the correct type) is not found.</p>
 
@@ -158,29 +150,26 @@
 
 <p>Complex objects are stored in the same way a primitive types and retrieved by adding the class to the <code class="highlighter-rouge">getValue</code> method e.g.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="o">(</span><span class="s">"123"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="o">(</span><span class="s">"123"</span><span class="o">);</span>
 <span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"customer"</span><span class="o">,</span> <span class="n">customer</span><span class="o">);</span>
 
 <span class="c1">// reading the customer object back</span>
 <span class="n">Customer</span> <span class="n">customerRet</span> <span class="o">=</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"customer"</span><span class="o">,</span> <span class="n">Customer</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you need to store your object as it own super type and not the actual subclass you can specify the type it is stored as using the <code class="highlighter-rouge">addDataWithType</code> method.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Dog</span> <span class="n">dog</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="o">(</span><span class="s">"rover"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Dog</span> <span class="n">dog</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="o">(</span><span class="s">"rover"</span><span class="o">);</span>
 <span class="n">additionalData</span><span class="o">.</span><span class="na">addDataWithType</span><span class="o">(</span><span class="s">"myPet"</span><span class="o">,</span> <span class="n">dog</span><span class="o">,</span> <span class="n">Animal</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="arrays">Arrays</h2>
 
 <p>Arrays can be simply stored and retrieved as above.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myArray"</span><span class="o">,</span> <span class="s">"hello"</span><span class="o">,</span> <span class="s">"bye"</span><span class="o">,</span> <span class="s">"hi"</span><span class="o">,</span> <span class="s">"goodbye"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="s">"myArray"</span><span class="o">,</span> <span class="s">"hello"</span><span class="o">,</span> <span class="s">"bye"</span><span class="o">,</span> <span class="s">"hi"</span><span class="o">,</span> <span class="s">"goodbye"</span><span class="o">);</span>
 <span class="n">String</span><span class="o">[]</span> <span class="n">myArrayVals</span> <span class="o">=</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"myArray"</span><span class="o">,</span> <span class="n">String</span><span class="o">[].</span><span class="na">class</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="extra-finders-and-utilities">Extra finders and utilities</h2>
 
@@ -188,13 +177,12 @@
 
 <p>The <code class="highlighter-rouge">getDataOfType</code> method will scan an entire <code class="highlighter-rouge">AdditionalData</code> object for all instances stored of the type given.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>additionalData.addData("one", 1);
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>additionalData.addData("one", 1);
 additionalData.addData("two", 2);
 additionalData.addData("three", "hello");
 
 Map&lt;String, Integer&gt; dataOfType = additionalData.getDataOfType(Integer.class);
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The code above will return a <code class="highlighter-rouge">Map</code> containing two integers</p>
 

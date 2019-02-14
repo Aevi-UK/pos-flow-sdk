@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -167,48 +162,46 @@
 
 <p>There is also a callback method for errors that may have occurred during a flow.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResponseListenerService</span> <span class="kd">extends</span> <span class="n">BaseResponseListenerService</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResponseListenerService</span> <span class="kd">extends</span> <span class="n">BaseResponseListenerService</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyGenericResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyGenericResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
      <span class="c1">// Handle generic response</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyStatusUpdateResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyStatusUpdateResponse</span><span class="o">(</span><span class="n">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
      <span class="c1">// Handle (if required) status update response</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// Map error code against one of `ErrorConstants`</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="payment-response-service">Payment response service</h2>
 <p>Your application should implement the <code class="highlighter-rouge">notifyResponse</code> and <code class="highlighter-rouge">notifyError</code> methods as shown in the example for payment responses below.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentResponseListenerService</span> <span class="kd">extends</span> <span class="n">BasePaymentResponseListenerService</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentResponseListenerService</span> <span class="kd">extends</span> <span class="n">BasePaymentResponseListenerService</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyResponse</span><span class="o">(</span><span class="n">PaymentResponse</span> <span class="n">paymentResponse</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyResponse</span><span class="o">(</span><span class="n">PaymentResponse</span> <span class="n">paymentResponse</span><span class="o">)</span> <span class="o">{</span>
      <span class="c1">// Handle response</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">notifyError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
      <span class="c1">// Map error code against one of `ErrorConstants`</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="exposing-services">Exposing services</h2>
 <p>The service(s) should be registered in your manifest as normal and should include the correct intent filter as shown below.</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;service</span>
   <span class="na">android:name=</span><span class="s">".PaymentResponseListenerService"</span>
   <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;intent-filter&gt;</span>
@@ -223,8 +216,7 @@
       <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_RESPONSE"</span><span class="nt">/&gt;</span>
   <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/service&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Note</strong> - A client will only be notified of responses that it itself initiated and flow services will only be notified of responses for <em>payment</em> flows in which it was called.</p>
 
@@ -243,7 +235,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -255,7 +247,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
@@ -267,7 +259,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -279,7 +271,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -291,7 +283,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -303,7 +295,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/use-cases">
 												<p class="c-page-nav__heading">Use cases</p>
 											</a>
@@ -315,7 +307,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
 												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
@@ -327,7 +319,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/split-considerations">
 												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
@@ -339,7 +331,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
 												<p class="c-page-nav__heading">Dealing with Amounts</p>
 											</a>
@@ -351,7 +343,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
 												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
@@ -363,7 +355,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

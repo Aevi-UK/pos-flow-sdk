@@ -27,11 +27,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -68,13 +66,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -127,7 +122,7 @@
 <p>If the merchant and/or customer needs a receipt to get redelivered (via whatever delivery mechanism the receipt app on that device uses, such as printing), the client application can initiate a <code class="highlighter-rouge">receiptDelivery</code> request. For this type of request. The request will contain information from the previous transaction which will be sent along with the request as additional data.</p>
 
 <h3 id="create-request-from-a-previous-transaction">Create Request from a Previous Transaction</h3>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// First, retrieve the previous transaction to use for the request</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// First, retrieve the previous transaction to use for the request</span>
 <span class="n">Transaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">paymentResponse</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">desiredTxnIndex</span><span class="o">);</span>
 
 <span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"receiptDelivery"</span><span class="o">);</span>
@@ -135,35 +130,32 @@
 
 <span class="c1">// If the receipt handling application supports more than one delivery mechanism</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"deliveryMechanism"</span><span class="o">,</span> <span class="s">"printing"</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="create-request-for-a-generic-receipt">Create Request for a Generic Receipt</h3>
 <p>If the merchant and/or customer needs a receipt for a non-card based payment e.g. cash. Then a request can be made with different additional data that can fulfil this type of request.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"receiptDelivery"</span><span class="o">);</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"receiptAmounts"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Amounts</span><span class="o">(</span><span class="mi">15000</span><span class="o">,</span> <span class="s">"EUR"</span><span class="o">));</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"receiptPaymentMethod"</span><span class="o">,</span> <span class="s">"cash"</span><span class="o">);</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"receiptOutcome"</span><span class="o">,</span> <span class="s">"APPROVED"</span><span class="o">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Optionally a basket can also be added to the request using the key “receiptBasket” e.g.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Basket</span> <span class="n">basket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basket</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Basket</span> <span class="n">basket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basket</span><span class="o">();</span>
 
 <span class="c1">// populate basket</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"receiptBasket"</span><span class="o">,</span> <span class="n">basket</span><span class="o">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="create-response">Create Response</h2>
 <p>Receipt delivery flow services should ensure that they handle both types of request described above for re-delivery of a receipt as well as receipts for non-card based payments.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">AdditionalData</span> <span class="n">requestData</span> <span class="o">=</span> <span class="n">genericStageModel</span><span class="o">.</span><span class="na">getRequest</span><span class="o">().</span><span class="na">getRequestData</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">AdditionalData</span> <span class="n">requestData</span> <span class="o">=</span> <span class="n">genericStageModel</span><span class="o">.</span><span class="na">getRequest</span><span class="o">().</span><span class="na">getRequestData</span><span class="o">();</span>
 <span class="k">if</span> <span class="o">(</span><span class="n">requestData</span><span class="o">.</span><span class="na">hasData</span><span class="o">(</span><span class="s">"transaction"</span><span class="o">))</span> <span class="o">{</span>
     <span class="n">Transaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">requestData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"transaction"</span><span class="o">,</span> <span class="n">Transaction</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
@@ -174,7 +166,7 @@
 
     <span class="c1">// handle printing of transactionSummary here</span>
 
-<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">requestData</span><span class="o">.</span><span class="na">hasData</span><span class="o">(</span><span class="s">"receiptPaymentMethod"</span><span class="o">))</span> <span class="o">{</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">requestData</span><span class="o">.</span><span class="na">hasData</span><span class="o">(</span><span class="s">"receiptPaymentMethod"</span><span class="o">))</span> <span class="o">{</span>
     <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">requestData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="s">"receiptAmounts"</span><span class="o">,</span> <span class="n">Amounts</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="n">String</span> <span class="n">paymentMethod</span> <span class="o">=</span> <span class="n">requestData</span><span class="o">.</span><span class="na">getStringValue</span><span class="o">(</span><span class="s">"receiptPaymentMethod"</span><span class="o">);</span>
     <span class="n">String</span> <span class="n">outcome</span> <span class="o">=</span> <span class="n">requestData</span><span class="o">.</span><span class="na">getStringValue</span><span class="o">(</span><span class="s">"receiptOutcome"</span><span class="o">);</span>
@@ -188,16 +180,14 @@
 <span class="c1">// Setting the delivery mechanism is optional but may be useful for the client application</span>
 <span class="n">response</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"deliveryMechanism"</span><span class="o">,</span> <span class="s">"printing"</span><span class="o">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <h2 id="parse-response">Parse Response</h2>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">())</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">())</span> <span class="o">{</span>
     <span class="c1">// Handle success</span>
 <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
     <span class="c1">// Handle failure</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 

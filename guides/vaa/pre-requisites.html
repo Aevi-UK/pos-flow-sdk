@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -168,21 +163,19 @@
   <p>We are in the process of linking all our archives with the `jcenter()` maven repo soon this additional maven repo will not be required.</p>
 </div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>repositories {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>repositories {
     maven {
         url "http://dl.bintray.com/aevi/aevi-uk"
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>These APIs require that your application is compiled with Java 8. Ensure that your application build.gradle <code class="highlighter-rouge">android</code> DSL contains the following.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>    compileOptions {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="api-dependencies">API Dependencies</h2>
 
@@ -190,9 +183,8 @@
 
 <p>For value added services and payment applications to integrate into flows.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>implementation 'com.aevi.sdk.pos.flow:payment-flow-service-api:&lt;version&gt;'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'com.aevi.sdk.pos.flow:payment-flow-service-api:&lt;version&gt;'
+</code></pre></div></div>
 
 <h2 id="api-constants">API Constants</h2>
 
@@ -203,9 +195,8 @@ of these data structures are, in order to keep them as flexible and configurable
 
 <p>To include these in your project use</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>implementation `com.aevi.sdk.flow:api-constants:&lt;version&gt;'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation `com.aevi.sdk.flow:api-constants:&lt;version&gt;'
+</code></pre></div></div>
 
 <p>If your application is currently integrated with the first version of AppFlow, please see <a href="/pos-android-sdk/technical/v1-to-v2-migration">migration from v1</a> for details on how to update to v2.</p>
 
@@ -248,7 +239,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -260,7 +251,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
@@ -272,7 +263,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -284,7 +275,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -296,7 +287,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -308,7 +299,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/use-cases">
 												<p class="c-page-nav__heading">Use cases</p>
 											</a>
@@ -320,7 +311,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
 												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
@@ -332,7 +323,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/split-considerations">
 												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
@@ -344,7 +335,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
 												<p class="c-page-nav__heading">Dealing with Amounts</p>
 											</a>
@@ -356,7 +347,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
 												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
@@ -368,7 +359,7 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

@@ -27,11 +27,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -68,13 +66,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -144,7 +139,7 @@ For information about how to handle responses (regardless of type), see <a href=
 <h2 id="create-sale-request">Create sale request</h2>
 <p><code class="highlighter-rouge">Payment</code> requests are built via the <code class="highlighter-rouge">PaymentBuilder</code>. Below are the relevant parameters for a sale.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">String</span> <span class="n">flowName</span> <span class="o">=</span> <span class="n">getSaleFlow</span><span class="o">();</span> <span class="c1">// Optional, if the flow name is known and required</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">flowName</span> <span class="o">=</span> <span class="n">getSaleFlow</span><span class="o">();</span> <span class="c1">// Optional, if the flow name is known and required</span>
 <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Amounts</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="s">"USD"</span><span class="o">);</span> <span class="c1">// $10.00</span>
 <span class="n">PaymentBuilder</span> <span class="n">paymentBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PaymentBuilder</span><span class="o">()</span>
         <span class="o">.</span><span class="na">withPaymentFlow</span><span class="o">(</span><span class="s">"sale"</span><span class="o">,</span> <span class="n">flowName</span><span class="o">)</span>
@@ -167,8 +162,7 @@ For information about how to handle responses (regardless of type), see <a href=
 
 <span class="c1">// When done, build the payment</span>
 <span class="n">Payment</span> <span class="n">payment</span> <span class="o">=</span> <span class="n">paymentBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 

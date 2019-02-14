@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title> | AEVI AppFlow</title>
+			<title>Tokenisation | AEVI AppFlow</title>
 		
 		
 		
@@ -27,11 +27,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -68,13 +66,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -143,31 +138,28 @@
 <p>See <a href="/pos-android-sdk/guides/pa/handling-card-tokens">Handling Card Tokens</a> for general information about tokens.</p>
 
 <h2 id="create-request">Create Request</h2>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Request</span> <span class="n">tokenisationRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"tokenisation"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">tokenisationRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"tokenisation"</span><span class="o">);</span>
 
 <span class="c1">// If the request has an amount associated with it</span>
 <span class="n">tokenisationRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"amount"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Amount</span><span class="o">(</span><span class="n">amountValue</span><span class="o">,</span> <span class="n">currency</span><span class="o">));</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="create-response">Create Response</h2>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// If your app requires an amount to process the request,</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// If your app requires an amount to process the request,</span>
 <span class="n">Amount</span> <span class="n">tokenisationAmount</span> <span class="o">=</span> <span class="n">tokenisationRequest</span><span class="o">.</span><span class="na">getRequestData</span><span class="o">().</span><span class="na">getValue</span><span class="o">(</span><span class="s">"amount"</span><span class="o">,</span> <span class="n">Amount</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
 <span class="o">...</span>
 <span class="n">Response</span> <span class="n">tokenisationResponse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Response</span><span class="o">(</span><span class="n">tokenisationRequest</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">outcome</span><span class="o">&gt;,</span> <span class="s">"Outcome message"</span><span class="o">);</span>
 <span class="c1">// If a token was successfully generated</span>
 <span class="n">Token</span> <span class="n">token</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Token</span><span class="o">(</span><span class="n">tokenValue</span><span class="o">,</span> <span class="n">tokenSource</span><span class="o">);</span>
 <span class="n">tokenisationResponse</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="n">token</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <h2 id="parse-response">Parse Response</h2>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">tokenisationResponse</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">())</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">tokenisationResponse</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">Token</span> <span class="n">token</span> <span class="o">=</span> <span class="n">tokenisationResponse</span><span class="o">.</span><span class="na">getResponseData</span><span class="o">().</span><span class="na">getValue</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="n">Token</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="n">String</span> <span class="n">tokenValue</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 

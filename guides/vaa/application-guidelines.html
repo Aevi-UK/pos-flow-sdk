@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -154,7 +149,7 @@
 
 <p>This can be done simply by including the following in your ProGuard file</p>
 
-<div class="language-text highlighter-rouge"><pre class="highlight"><code>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 -dontwarn com.aevi.payment**
 -keep class com.aevi.payment** { *; }
 
@@ -173,8 +168,7 @@
 -dontwarn com.aevi.android.rxmessenger**
 -keep class com.aevi.android.rxmessenger** { *; }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="permissions">Permissions</h2>
 <p>All communication between applications in a flow is sent as JSON which means the data between applications can be sent over any channel. By default the Android implementation of AppFlow will use the <code class="highlighter-rouge">Android Messenger</code> to send and receive messages. This means message sizes are limited to the size set by the Android Binder limit (usually max 1 MB). To avoid this issue AppFlow can be configured (via a configuration provider) to send messages over a <code class="highlighter-rouge">Websockets</code> instead.</p>
@@ -183,11 +177,10 @@
 
 <p>As Websockets are network based, all applications developed for AppFlow must request these permissions in the manifest.</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span><span class="nt">/&gt;</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_NETWORK_STATE"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_WIFI_STATE"</span><span class="nt">/&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="application-lifecycle">Application lifecycle</h2>
 <p>Due to the service-based architecture, any activities called throughout the flow are all created in separate <em>tasks</em>. See <a href="https://developer.android.com/guide/components/activities/tasks-and-back-stack.html">https://developer.android.com/guide/components/activities/tasks-and-back-stack.html</a> for more info on tasks. All your activities will be started with the <code class="highlighter-rouge">Intent.FLAG_ACTIVITY_NEW_TASK</code> flag set.</p>
@@ -213,12 +206,11 @@
 <h3 id="manifest-flags">Manifest flags</h3>
 
 <p>All activities that are launched inside the payment flow must define these flags inside the <code class="highlighter-rouge">activity</code> tag.</p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;activity</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;activity</span>
   <span class="err">...</span>
   <span class="na">android:excludeFromRecents=</span><span class="s">"true"</span>
   <span class="na">android:resizeableActivity=</span><span class="s">"false"</span><span class="nt">/&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will ensure the activities leave no trace once they are finished, which is important for the flow. In addition, it stops merchants from accidentally splitting the screen into multiple activities when using the application.</p>
 
@@ -240,7 +232,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -252,7 +244,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
@@ -264,7 +256,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -276,7 +268,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -288,7 +280,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -300,7 +292,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/use-cases">
 												<p class="c-page-nav__heading">Use cases</p>
 											</a>
@@ -312,7 +304,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
 												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
@@ -324,7 +316,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/split-considerations">
 												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
@@ -336,7 +328,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
 												<p class="c-page-nav__heading">Dealing with Amounts</p>
 											</a>
@@ -348,7 +340,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
 												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
@@ -360,7 +352,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -152,15 +147,14 @@
 
 <p>In a multi-device (sometimes referred to as integrated) scenario, it is possible for the client to specify which device it wants to target for the request. This is useful when there are multiple customer facing devices and you want the request directed to the device the customer is closest to. You can get the id from the <code class="highlighter-rouge">Device</code> object and then set that in the <code class="highlighter-rouge">Request</code> model, presumably from the merchant making a choice via device name.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">getDevices</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Device</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">getDevices</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Device</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
      <span class="nd">@Override</span>
-     <span class="kd">public</span> <span class="kt">void</span> <span class="n">accept</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Device</span><span class="o">&gt;</span> <span class="n">devices</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Device</span><span class="o">&gt;</span> <span class="n">devices</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
          <span class="c1">// Parse list     </span>
      <span class="o">}</span>
 <span class="o">});</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 
@@ -176,7 +170,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -188,7 +182,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-initiation">
 												<p class="c-page-nav__heading">Flow initiation</p>
 											</a>
@@ -200,7 +194,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -212,7 +206,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-responses">
 												<p class="c-page-nav__heading">Handling responses</p>
 											</a>
@@ -224,7 +218,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
@@ -236,7 +230,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/status-update-flows">
 												<p class="c-page-nav__heading">Status update flows</p>
 											</a>
@@ -248,7 +242,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
 												<p class="c-page-nav__heading">Querying for responses</p>
 											</a>
@@ -260,7 +254,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -272,7 +266,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
 												<p class="c-page-nav__heading">Event subscription</p>
 											</a>
@@ -284,7 +278,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/query-for-devices">
 												<p class="c-page-nav__heading">Query for devices</p>
 											</a>
@@ -337,6 +331,8 @@
 									
 										<a href="/pos-android-sdk/guides/pos/events-subscription" class="c-arrow-link c-arrow-link--prev u-mr-auto">Event subscription</a>
 									
+									
+										<a href="/pos-android-sdk/guides/pos/events-subscription" class="c-arrow-link c-arrow-link--next u-ml-auto">Event subscription</a>
 									
 								
 							

@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -158,12 +153,11 @@
 
 <p>Both POS applications and flow services can add baskets to the transaction. It is most likely that these all simply need to be printed onto the receipt. This can be done by simply finding all the baskets in the <code class="highlighter-rouge">TransactionSummary</code> and adding to the receipt e.g.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">String</span> <span class="n">currency</span> <span class="o">=</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getRequestedAmounts</span><span class="o">().</span><span class="na">getCurrency</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">currency</span> <span class="o">=</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getRequestedAmounts</span><span class="o">().</span><span class="na">getCurrency</span><span class="o">();</span>
 <span class="k">for</span> <span class="o">(</span><span class="n">Basket</span> <span class="n">basket</span> <span class="o">:</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getBaskets</span><span class="o">())</span> <span class="o">{</span>
   <span class="n">addBasketDetails</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">basket</span><span class="o">,</span> <span class="n">currency</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where the <code class="highlighter-rouge">addBasketDetails</code> method above does the work of adding all the basket lines items to the receipt.</p>
 
@@ -173,7 +167,7 @@
 
 <p>The <code class="highlighter-rouge">TransactionSummary</code> object also contains all <code class="highlighter-rouge">TransactionResponses</code> that may have occurred during a flow. Each <code class="highlighter-rouge">TransactionResponse</code> contains information about an amount that has been paid. The <code class="highlighter-rouge">TransactionResponse</code> contains at least a amount processed, which should always be added to the receipt, and can optionally include any number of additional amounts. Usually these amounts indicate sub totals such as tax, cashback, tip etc. These additional amounts can simply be iterated and added to the receipt.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="k">for</span> <span class="o">(</span><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">:</span> <span class="n">transactions</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getAmountsProcessed</span><span class="o">();</span>
   <span class="n">String</span> <span class="n">paymentMethod</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getPaymentMethod</span><span class="o">();</span>
@@ -184,8 +178,7 @@
 
   <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">getPaidByMessage</span><span class="o">(</span><span class="n">paymentMethod</span><span class="o">),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="n">amounts</span><span class="o">.</span><span class="na">getTotalAmount</span><span class="o">()));</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that of course amounts in the API are always longs and should be converted sensibly to the correct currency and unit display, shown above as <code class="highlighter-rouge">formatAmount</code> method. Care should be taken to ensure the <a href="dealing-with-amounts">units are displayed correctly</a>.</p>
 
@@ -203,7 +196,7 @@
 
 <p>If a response was paid for by card then the <code class="highlighter-rouge">TransactionResponse</code> object will contain a <code class="highlighter-rouge">Card</code> object containing the details. This can be extracted and added to a receipt like so.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Card</span> <span class="n">card</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getCard</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Card</span> <span class="n">card</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getCard</span><span class="o">();</span>
 <span class="k">if</span> <span class="o">(</span><span class="n">card</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">());</span>
@@ -219,8 +212,7 @@
   <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"network"</span><span class="o">);</span>
   <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"entryMethod"</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As well as the standard card fields other data may also be available in the additionalData stored with the <code class="highlighter-rouge">Card</code>. As above you can see the code is extracting the “network” and “entryMethod”. The <a href="/pos-android-sdk/technical/card-details">complete list of additional data for card can be found here</a></p>
 
@@ -230,13 +222,12 @@
 
 <p>The references may also contain other bespoke data that does not fit into any of the objects above e.g loyalty data. This may also need to be printed on the receipt. For example these references may contain loyalty data which can be extracted as below.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">AdditionalData</span> <span class="n">references</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getReferences</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">AdditionalData</span> <span class="n">references</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getReferences</span><span class="o">();</span>
 <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">references</span><span class="o">,</span> <span class="s">"earnPoints"</span><span class="o">);</span>
 <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">references</span><span class="o">,</span> <span class="s">"redeemPoints"</span><span class="o">);</span>
 <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">references</span><span class="o">,</span> <span class="s">"totalPoints"</span><span class="o">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="/pos-android-sdk/technical/use-case-driven-data#loyalty">For more information about specific loyalty data attributes</a></p>
 
@@ -254,7 +245,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -266,7 +257,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing Flow Services</p>
 											</a>
@@ -278,7 +269,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -290,7 +281,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -302,7 +293,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -314,7 +305,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/use-cases">
 												<p class="c-page-nav__heading">Use cases</p>
 											</a>
@@ -326,7 +317,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
 												<p class="c-page-nav__heading">Receipt Applications</p>
 											</a>
@@ -338,7 +329,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/split-considerations">
 												<p class="c-page-nav__heading">Split Applications</p>
 											</a>
@@ -350,7 +341,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
 												<p class="c-page-nav__heading">Dealing with Amounts</p>
 											</a>
@@ -362,7 +353,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
 												<p class="c-page-nav__heading">Initiating a flow</p>
 											</a>
@@ -374,7 +365,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

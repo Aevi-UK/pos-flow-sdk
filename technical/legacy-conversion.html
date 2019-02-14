@@ -27,11 +27,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -68,13 +66,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -127,9 +122,9 @@
 
 <p>For completion requests or other two stage financial transactions the transaction references of the previous request (pre-authorisation) that initiated the payment must be returned along with the request. For conversion between a previous v2 <code class="highlighter-rouge">TransactionResult</code> references and the new API you can make use of the following example.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Converter</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Converter</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="n">AdditionalData</span> <span class="n">getAdditionalDataFromResultReferences</span><span class="o">(</span><span class="n">TransactionReferences</span> <span class="n">transactionReferences</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">AdditionalData</span> <span class="nf">getAdditionalDataFromResultReferences</span><span class="o">(</span><span class="n">TransactionReferences</span> <span class="n">transactionReferences</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">AdditionalData</span> <span class="n">additionalData</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AdditionalData</span><span class="o">();</span>
         <span class="k">for</span> <span class="o">(</span><span class="n">TransactionReferenceCode</span> <span class="n">code</span> <span class="o">:</span> <span class="n">transactionReferences</span><span class="o">.</span><span class="na">getTransactionCodes</span><span class="o">())</span> <span class="o">{</span>
             <span class="n">additionalData</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span><span class="n">code</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">code</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
@@ -137,12 +132,11 @@
         <span class="k">return</span> <span class="n">additionalData</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>POS Flow <code class="highlighter-rouge">preAuthCompletions</code> also require the amount to be specifically set. If you would like to obtain the amount directly from a previous<code class="highlighter-rouge">TransactionResult</code> the following code can be used to obtain it.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">static</span> <span class="n">Amounts</span> <span class="nf">getCompletionAmounts</span><span class="p">(</span><span class="n">TransactionResult</span> <span class="n">result</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">LegacyConversionException</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">static</span> <span class="n">Amounts</span> <span class="nf">getCompletionAmounts</span><span class="o">(</span><span class="n">TransactionResult</span> <span class="n">result</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">LegacyConversionException</span> <span class="o">{</span>
     <span class="n">TransactionReferences</span> <span class="n">references</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">getTransactionReferences</span><span class="o">();</span>
     <span class="n">String</span> <span class="n">currency</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">references</span><span class="o">.</span><span class="na">getTransactionReferenceCode</span><span class="o">(</span><span class="n">TransactionReferences</span><span class="o">.</span><span class="na">CURRENCY</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
@@ -150,7 +144,7 @@
     <span class="o">}</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">currency</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"No currency reference available for completion request - erroring out"</span><span class="o">);</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">LegacyConversionException</span><span class="o">(</span><span class="n">CURRENCY_NOT_SUPPORTED</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">LegacyConversionException</span><span class="o">(</span><span class="n">CURRENCY_NOT_SUPPORTED</span><span class="o">);</span>
     <span class="o">}</span>
     <span class="n">BigDecimal</span> <span class="n">amount</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">references</span><span class="o">.</span><span class="na">getTransactionReferenceCode</span><span class="o">(</span><span class="n">TransactionReferences</span><span class="o">.</span><span class="na">AMOUNT</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
@@ -164,21 +158,20 @@
 
     <span class="k">if</span> <span class="o">(</span><span class="n">amount</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"No amount available for completion request - erroring out"</span><span class="o">);</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">LegacyConversionException</span><span class="o">(</span><span class="n">MALFORMED_REQUEST</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">LegacyConversionException</span><span class="o">(</span><span class="n">MALFORMED_REQUEST</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="k">return</span> <span class="k">new</span> <span class="n">Amounts</span><span class="o">(</span><span class="n">convertBigDecimalToLong</span><span class="o">(</span><span class="n">amount</span><span class="o">),</span> <span class="n">currency</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Amounts</span><span class="o">(</span><span class="n">convertBigDecimalToLong</span><span class="o">(</span><span class="n">amount</span><span class="o">),</span> <span class="n">currency</span><span class="o">);</span>
 <span class="o">}</span>
 
-<span class="kd">private</span> <span class="kd">static</span> <span class="n">BigDecimal</span> <span class="nf">longToBigDecimal</span><span class="p">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="n">BigDecimal</span> <span class="nf">longToBigDecimal</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">BigDecimal</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">l</span><span class="o">).</span><span class="na">movePointLeft</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
 <span class="o">}</span>
 
-<span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">convertBigDecimalToLong</span><span class="p">(</span><span class="n">BigDecimal</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">convertBigDecimalToLong</span><span class="o">(</span><span class="n">BigDecimal</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">round</span><span class="o">(</span><span class="n">amount</span><span class="o">.</span><span class="na">doubleValue</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="conversion-of-references-from-appflow-requests">Conversion of references from AppFlow requests</h2>
 
@@ -186,7 +179,7 @@
 
 <p>A <code class="highlighter-rouge">TransactionReferences</code> object can be obtained as below.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="n">TransactionReferences</span> <span class="nf">getReferencesFromAdditionalData</span><span class="p">(</span><span class="n">AdditionalData</span> <span class="n">additionalData</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="n">TransactionReferences</span> <span class="nf">getReferencesFromAdditionalData</span><span class="o">(</span><span class="n">AdditionalData</span> <span class="n">additionalData</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">LegacyTransactionResult</span> <span class="n">legacyTransactionResult</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LegacyTransactionResult</span><span class="o">();</span>
     <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">key</span> <span class="o">:</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getKeys</span><span class="o">())</span> <span class="o">{</span>
         <span class="n">legacyTransactionResult</span><span class="o">.</span><span class="na">addTransactionReference</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">additionalData</span><span class="o">.</span><span class="na">getValue</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
@@ -203,22 +196,20 @@
         <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">Bundle</span><span class="o">());</span>
     <span class="o">}</span>
 
-    <span class="kt">void</span> <span class="n">addTransactionReference</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">addTransactionReference</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">transactionReferences</span><span class="o">.</span><span class="na">putString</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
         <span class="n">getBundle</span><span class="o">().</span><span class="na">putBundle</span><span class="o">(</span><span class="n">ResultOption</span><span class="o">.</span><span class="na">TRANSACTION_REFERENCES</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="n">transactionReferences</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="additional-data">Additional data</h3>
 
 <p>The <code class="highlighter-rouge">AdditionalData</code> parameter passed to the method above should be obtained from a valid <code class="highlighter-rouge">TransactionResponse</code> object returned via this API. The API is designed to support multiple transactions and multiple responses per transaction. In most instances however there will only ever be one transaction and one response. Therefore, the previous transaction references can be obtained using.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getTransactionResponses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getTransactionResponses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
 <span class="n">AdditionalData</span> <span class="n">previousTransactionRefs</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getReferences</span><span class="o">();</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">response</code> above is the <code class="highlighter-rouge">PaymentResponse</code> object obtained in the <code class="highlighter-rouge">initiatePayment</code> example above. The above is for example only and obviously production code should ideally check the <code class="highlighter-rouge">Transaction</code> list and <code class="highlighter-rouge">TransactionResponse</code> list sizes before attempting to extract the data.</p>
 
@@ -226,10 +217,9 @@
 
 <p>Error messages are associated with each <code class="highlighter-rouge">TransactionResponse</code> that they were generated for. Therefore, in order to identify an error message the list of <code class="highlighter-rouge">TransactionResponse</code> objects should be iterated. Again in most situations there will be only a single <code class="highlighter-rouge">TransactionResponse</code>, therefore, as above you can obtain this simply by using the following.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getTransactionResponses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getTransactionResponses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
 <span class="n">String</span> <span class="n">failureMessage</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getOutcomeMessage</span><span class="o">();</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 							
 

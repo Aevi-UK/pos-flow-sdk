@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -163,10 +158,10 @@
 
 <p>The <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/java/com/aevi/sdk/pos/flow/paymentservicesample/PaymentServiceInfoProvider.java#L29"><code class="highlighter-rouge">PaymentFlowServiceInfo</code></a> is constructed using a builder as outlined in the sample code.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="n">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
+  <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="nf">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
       <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"TheVendorName"</span><span class="o">)</span>
       <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Name of your application for UI presentation"</span><span class="o">)</span>
       <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">supportedPaymentMethods</span><span class="o">&gt;)</span>
@@ -180,8 +175,7 @@
       <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>The following fields are mandatory for payment applications</p>
 
 <ul>
@@ -202,7 +196,7 @@
   <p>Expose the provider in the manifest</p>
 </blockquote>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="nt">&lt;provider</span>
   <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
   <span class="na">android:authorities=</span><span class="s">"&lt;your_custom_authority&gt;"</span>
@@ -212,8 +206,7 @@
   <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/provider&gt;</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In order to allow your service to invalidate outdated information, you can call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your service and call your provider to get the new information.</p>
 
@@ -240,31 +233,30 @@
   <p><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/java/com/aevi/sdk/pos/flow/paymentservicesample/service/PaymentService.java#L29">PaymentService</a></p>
 </blockquote>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPaymentCardReading</span><span class="o">(</span><span class="n">CardReadingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// TODO handle</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onTransactionProcessing</span><span class="o">(</span><span class="n">TransactionProcessingModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// TODO handle</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="n">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// TODO handle</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <blockquote>
   <p>And to expose this in the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/AndroidManifest.xml#L18">manifest</a></p>
 </blockquote>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;service</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;service</span>
   <span class="na">android:name=</span><span class="s">".service.PaymentService"</span>
   <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;intent-filter&gt;</span>
@@ -273,8 +265,7 @@
     <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_TRANSACTION"</span><span class="nt">/&gt;</span>
   <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/service&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="transaction-processing">Transaction processing</h2>
 <p>Transaction processing is the most important stage of a flow where the payment application determines the outcome of the flow / transaction.</p>
@@ -364,7 +355,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pa/intro-to-payment-apps">
 												<p class="c-page-nav__heading">Overview</p>
 											</a>
@@ -376,7 +367,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pa/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -388,7 +379,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pa/integration">
 												<p class="c-page-nav__heading">Integration</p>
 											</a>
@@ -400,7 +391,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pa/handling-card-tokens">
 												<p class="c-page-nav__heading">Handling card tokens</p>
 											</a>
@@ -412,7 +403,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pa/parsing-amounts">
 												<p class="c-page-nav__heading">Parsing amounts</p>
 											</a>
@@ -424,7 +415,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pa/receipts">
 												<p class="c-page-nav__heading">Receipts</p>
 											</a>
@@ -436,7 +427,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -448,7 +439,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pa/references">
 												<p class="c-page-nav__heading">References</p>
 											</a>

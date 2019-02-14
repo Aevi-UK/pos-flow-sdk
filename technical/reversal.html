@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title> | AEVI AppFlow</title>
+			<title>Reversal | AEVI AppFlow</title>
 		
 		
 		
@@ -27,11 +27,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -68,13 +66,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -140,37 +135,33 @@
 
 <p>A transaction is reversed via specifying the id of the transaction, which assumes you have access to the <code class="highlighter-rouge">TransactionResponse</code> for that transaction from the <code class="highlighter-rouge">PaymentResponse</code>. Even if the payment app malfunctioned and did not produce a response, FPS will have created a default declined response with the id that was received by the payment app.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">responseToReverse</span> <span class="o">=</span> <span class="n">paymentResponse</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">desiredTxnIndex</span><span class="o">).</span><span class="na">getPaymentAppResponse</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">responseToReverse</span> <span class="o">=</span> <span class="n">paymentResponse</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">desiredTxnIndex</span><span class="o">).</span><span class="na">getPaymentAppResponse</span><span class="o">();</span>
 <span class="k">if</span> <span class="o">(</span><span class="n">responseToReverse</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">String</span> <span class="n">reversalId</span> <span class="o">=</span> <span class="n">responseToReverse</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
 <span class="o">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>Note the <code class="highlighter-rouge">getPaymentAppResponse()</code> call, which will always return a response from the payment application, if one was generated. A payment application is not necessarily called for a transaction. There may be responses that would have come from value added flow services paying off a portion (or all) of the amounts, such as loyalty points / rewards.</p>
 
 <p>If you require additional data for your use case / scenario, please contact AEVI to discuss.</p>
 
 <h2 id="create-request">Create Request</h2>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Request</span> <span class="n">reversalRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"reversal"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">reversalRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"reversal"</span><span class="o">);</span>
 <span class="n">reversalRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">,</span> <span class="n">reversalId</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="create-response">Create Response</h2>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">String</span> <span class="n">transactionId</span> <span class="o">=</span> <span class="n">reversalRequest</span><span class="o">.</span><span class="na">getRequestData</span><span class="o">().</span><span class="na">getStringValue</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">transactionId</span> <span class="o">=</span> <span class="n">reversalRequest</span><span class="o">.</span><span class="na">getRequestData</span><span class="o">().</span><span class="na">getStringValue</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">);</span>
 <span class="o">...</span>
 <span class="n">Response</span> <span class="n">reversalResponse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Response</span><span class="o">(</span><span class="n">reversalRequest</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">outcome</span><span class="o">&gt;,</span> <span class="s">"Outcome message"</span><span class="o">);</span>
 <span class="c1">// original transaction ID should be returned</span>
 <span class="n">reversalResponse</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">,</span> <span class="n">transactionId</span><span class="o">);</span>
 <span class="c1">// add other payment app specific transaction reference data  here</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <h2 id="parse-response">Parse Response</h2>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">String</span> <span class="n">reversedSuccessfully</span> <span class="o">=</span> <span class="n">reversalResponse</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">();</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">reversedSuccessfully</span> <span class="o">=</span> <span class="n">reversalResponse</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">();</span>
+</code></pre></div></div>
 
 							
 

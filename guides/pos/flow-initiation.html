@@ -29,11 +29,9 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 							
-								<li><a href="/pos-android-sdk/guides">Guides</a></li>
-							
-								<li><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
@@ -70,13 +68,10 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Overview</a></li>
+													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
 												
 													
-													<li class=""><a href="/pos-android-sdk/guides">Guides</a></li>
-												
-													
-													<li class=""><a href="/pos-android-sdk/technical">Technical Docs</a></li>
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
@@ -150,7 +145,7 @@
 
 <p>The main entry point to the API is via the <code class="highlighter-rouge">PaymentApi</code> class. From here you can retrieve the client object that allows you to interact with different parts of the API.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
   <span class="c1">// You must check that the processing service is installed, and if not,</span>
   <span class="c1">// show message to merchant to contact support</span>
   <span class="k">if</span> <span class="o">(!</span><span class="n">PaymentApi</span><span class="o">.</span><span class="na">isProcessingServiceInstalled</span><span class="o">(</span><span class="n">context</span><span class="o">))</span> <span class="o">{</span>
@@ -158,8 +153,7 @@
   <span class="o">}</span>
   <span class="n">PaymentClient</span> <span class="n">paymentClient</span> <span class="o">=</span> <span class="n">PaymentApi</span><span class="o">.</span><span class="na">getPaymentClient</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="paymentclient-functions">PaymentClient functions</h1>
 
@@ -191,15 +185,14 @@
 
 <p>Please note that the base amount set in <code class="highlighter-rouge">Amounts</code> should always be <strong>inclusive</strong> of tax (GST, VAT, etc).</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Amounts</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="s">"GBP"</span><span class="o">);</span>
 
 <span class="n">PaymentBuilder</span> <span class="n">paymentBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PaymentBuilder</span><span class="o">()</span>
         <span class="o">.</span><span class="na">withPaymentFlow</span><span class="o">(</span><span class="s">"sale"</span><span class="o">)</span>
         <span class="o">.</span><span class="na">withAmounts</span><span class="o">(</span><span class="n">amounts</span><span class="o">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If the flow name is known (in scenarios where there are multiple flows per type), it is recommended that the flow name is specifically given by using the following method to specify the exact flow required
 <code class="highlighter-rouge">withPaymentFlow(type, name)</code>.</p>
@@ -208,41 +201,37 @@
 
 <p>As per the <code class="highlighter-rouge">Amounts</code> base amount, note that the basket item amount must be <strong>inclusive</strong> of tax.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Basket</span> <span class="n">basket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basket</span><span class="o">(</span><span class="s">"myBasket"</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Basket</span> <span class="n">basket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basket</span><span class="o">(</span><span class="s">"myBasket"</span><span class="o">);</span>
 <span class="n">basket</span><span class="o">.</span><span class="na">addItems</span><span class="o">(</span><span class="k">new</span> <span class="n">BasketItemBuilder</span><span class="o">()</span>
       <span class="o">.</span><span class="na">withLabel</span><span class="o">(</span><span class="s">"myBasketItem"</span><span class="o">)</span>
       <span class="o">.</span><span class="na">withCategory</span><span class="o">(</span><span class="s">"itemCategory"</span><span class="o">)</span>
       <span class="o">.</span><span class="na">withAmount</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
       <span class="o">.</span><span class="na">build</span><span class="o">());</span>
 <span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withBasket</span><span class="o">(</span><span class="n">basket</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can ask for the payment to be split across multiple transactions. This is typically used to split a bill across multiple customers in a restaurant for example.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withSplitEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withSplitEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</code></pre></div></div>
 
 <p>If you have access to a card token for the payment application to use, you can provide it via</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withCardToken</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withCardToken</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+</code></pre></div></div>
 
 <p>In general for payment requests, you can also specify customer details, and set any custom data you like.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="n">getCustomerDetails</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="n">getCustomerDetails</span><span class="o">();</span>
 <span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withCustomer</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
 
 <span class="c1">// Add some bespoke data (value can be of any type)</span>
 <span class="n">paymentBuilder</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"myDataKey"</span><span class="o">,</span> <span class="s">"myDataValue"</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Once you have finished building your payment, you can send it to FPS using the <code class="highlighter-rouge">initiatePayment</code> method and subscribe to receive information whether the request was accepted or rejected by FPS.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// Assign the subscribe return value to a field and ensure to dispose in activity onDestroy()</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Assign the subscribe return value to a field and ensure to dispose in activity onDestroy()</span>
 <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiateRequest</span><span class="o">(</span><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
   <span class="o">.</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
       <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
@@ -256,8 +245,7 @@
           <span class="c1">// Unexpected exception</span>
       <span class="o">}</span>
   <span class="o">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <div class="callout callout--warn">
   <p>As of AppFlow v2, Responses are (no longer) returned via the initiation rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See [Handling Responses](handling-responses) for more info.</p>
@@ -271,7 +259,7 @@
 
 <p>Once you have finished building your request, you can send it to FPS using the <code class="highlighter-rouge">initiateRequest</code> method and subscribe to receive information whether the request was accepted or rejected by FPS.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="n">flowType</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="n">flowType</span><span class="o">);</span>
 <span class="n">request</span><span class="o">.</span><span class="na">setFlowName</span><span class="o">(</span><span class="n">flowName</span><span class="o">);</span> <span class="c1">// If the flow name is known, it should be set for multi-flow scenarios</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"dataKey"</span><span class="o">,</span> <span class="s">"dataValue"</span><span class="o">);</span>
 <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiateRequest</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
@@ -287,8 +275,7 @@
           <span class="c1">// Unexpected exception</span>
       <span class="o">}</span>  
   <span class="o">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <div class="callout callout--warn">
   <p>As of AppFlow v2, Responses are (no longer) returned via the initiation Rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See [Handling Responses](handling-responses) for more info.</p>
 </div>
@@ -315,7 +302,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
 												<p class="c-page-nav__heading">Pre-requisites</p>
 											</a>
@@ -327,7 +314,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/pos/flow-initiation">
 												<p class="c-page-nav__heading">Flow initiation</p>
 											</a>
@@ -339,7 +326,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
 												<p class="c-page-nav__heading">Flow response listener</p>
 											</a>
@@ -351,7 +338,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/handling-responses">
 												<p class="c-page-nav__heading">Handling responses</p>
 											</a>
@@ -363,7 +350,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
@@ -375,7 +362,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/status-update-flows">
 												<p class="c-page-nav__heading">Status update flows</p>
 											</a>
@@ -387,7 +374,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
 												<p class="c-page-nav__heading">Querying for responses</p>
 											</a>
@@ -399,7 +386,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -411,7 +398,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
 												<p class="c-page-nav__heading">Event subscription</p>
 											</a>
@@ -423,7 +410,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/query-for-devices">
 												<p class="c-page-nav__heading">Query for devices</p>
 											</a>

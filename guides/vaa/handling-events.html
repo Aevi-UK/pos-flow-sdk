@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Handling events | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="Handle flow service events">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
+					
+					
+						<div class="u-h6">
+							<p>Handle flow service events</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<h1 id="handling-events">Handling events</h1>
+
+<p>As of v2.1.0, the stage models allow flow services to subscribe to events.</p>
+
+<p>FPS will send events to your flow service under various circumstances, such as</p>
+<ul>
+  <li>Acceptance or rejection of a response your flow service sent</li>
+  <li>To indicate that your flow service must finish processing</li>
+  <li>To indicate that you should resume/restart your user interface</li>
+</ul>
+
+<p>All defined events and associated documentation can be found <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/flow/constants/FlowServiceEventTypes.html">here</a>.
+In addition, any data keys to read out data from the <code class="highlighter-rouge">FlowEvent</code> can be found <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/flow/constants/FlowServiceEventDataKeys.html">here</a>.</p>
+
+<h2 id="subscribe-to-events">Subscribe to events</h2>
+
+<p>The base class for all stage models provides a <code class="highlighter-rouge">getEvents()</code> method that clients can use to subscribe to events as per below.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="o">.</span><span class="na">getEvents</span><span class="o">().</span><span class="na">subscribe</span><span class="o">(</span><span class="n">event</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">switch</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getType</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="nl">FINISH_IMMEDIATELY:</span>
+                    <span class="c1">// Stop all processing - FPS is no longer accepting a response</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="nl">RESUME_USER_INTERFACE:</span>
+                    <span class="c1">// Resume or restart any UI you may have launched previously</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="nl">RESPONSE_ACCEPTED:</span>
+                    <span class="c1">// Response was accepted, hooray!</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="nl">RESPONSE_REJECTED:</span>
+                    <span class="n">String</span> <span class="n">rejectReason</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getData</span><span class="o">().</span><span class="na">getStringValue</span><span class="o">(</span><span class="n">REJECTED_REASON</span><span class="o">);</span>
+                    <span class="c1">// Response was rejected with reason above, :(</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">default</span><span class="o">:</span>
+                    <span class="c1">// Unknown event</span>
+                    <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+</code></pre></div></div>
+
+<h3 id="handling-finish_immediately">Handling FINISH_IMMEDIATELY</h3>
+
+<p>Under certain scenarios, FPS will ask your flow service to finish up immediately. At this stage, it is too late to send a response.</p>
+
+<p>This would happen if your flow service times out, or if the merchant chooses to skip your application or cancels the whole flow.</p>
+
+<p>As this is driven by the merchant either being inactive for a long period or explicitly choosing to progress the flow, it is assumed that any existing interactions that has been done
+up to this point can be discarded.</p>
+
+<h3 id="handling-resume_user_interface">Handling RESUME_USER_INTERFACE</h3>
+
+<p>If you have chosen to not send back a response and finish up if your activity is stopped/destroyed, it is possible you will receive this event if the merchant is trying to resume the flow.</p>
+
+<p>How this event is handled is very much up to the implementation of your flow service. For simple cases (like the samples) where no state is kept in the activities themselves, the activity can simply be restarted.</p>
+
+<p>For more complex scenarios where there are multiple views/pages/steps in the activity, we would recommend that you instead send back a response when your activity is stopped/destroyed.
+If that is not feasible, then you must ensure that you store state outside of the activity context so that the activity can resume from where it left off when restarted. This can add a fair amount of complexity, which is why we are generally advising against it.</p>
+
+<h3 id="handling-response-outcome">Handling response outcome</h3>
+
+<p>Your response will either be accepted or rejected by FPS. If you have augmented the flow data in some way and the response is rejected, it indicates that your application have violated some of the augmentation rules.</p>
+
+<p>As per the code samples above, you can retrieve the reason for the rejection from the event data. This will be a human readable message outlining the reason for the rejection. It is recommended you log/capture/upload this information for troubleshooting and analysis purposes.</p>
+
+<p>Some examples of why a response may be rejected are;</p>
+<ul>
+  <li>Action performed has not been marked in <code class="highlighter-rouge">PaymentFlowServiceInfo</code> - such as updating amounts without calling <code class="highlighter-rouge">withCanUpdateAmounts(true)</code></li>
+  <li>Amounts are invalid - such as paid amounts being zero, or exceeding the requested amounts</li>
+  <li>Trying to apply discounts to a non-existing basket</li>
+</ul>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/api-overview">
+												<p class="c-page-nav__heading">API Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/determine-stages">
+												<p class="c-page-nav__heading">Determine flow stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/expose-app-info">
+												<p class="c-page-nav__heading">Expose app info</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing the services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
+												<p class="c-page-nav__heading">Interacting with stage models</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/handling-events">
+												<p class="c-page-nav__heading">Handling events</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
+												<p class="c-page-nav__heading">Adding response listeners</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/interacting-stage-models" class="c-arrow-link c-arrow-link--prev u-mr-auto">Interacting with stage models</a>
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/flow-response-listeners" class="c-arrow-link c-arrow-link--next u-ml-auto">Adding response listeners</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

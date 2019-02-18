@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Reversal / Void | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-gray-30 u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">Reversal / Void</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>Request that a previously initiated transaction is reversed. Commonly referred to as reversal or void.</p>
+
+<p>A transaction is reversed via specifying the id of the transaction, which assumes you have access to the <code class="highlighter-rouge">TransactionResponse</code> for that transaction from the <code class="highlighter-rouge">PaymentResponse</code>. Even if the payment app malfunctioned and did not produce a response, FPS will have created a default declined response with the id that was received by the payment app.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TransactionResponse</span> <span class="n">responseToReverse</span> <span class="o">=</span> <span class="n">paymentResponse</span><span class="o">.</span><span class="na">getTransactions</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">desiredTxnIndex</span><span class="o">).</span><span class="na">getPaymentAppResponse</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">responseToReverse</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">reversalId</span> <span class="o">=</span> <span class="n">responseToReverse</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+<p>Note the <code class="highlighter-rouge">getPaymentAppResponse()</code> call, which will always return a response from the payment application, if one was generated. A payment application is not necessarily called for a transaction. There may be responses that would have come from value added flow services paying off a portion (or all) of the amounts, such as loyalty points / rewards.</p>
+
+<p>If you require additional data for your use case / scenario, please contact AEVI to discuss.</p>
+
+<h2 id="create-request">Create Request</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">reversalRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"reversal"</span><span class="o">);</span>
+<span class="n">reversalRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">,</span> <span class="n">reversalId</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="create-response">Create Response</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">transactionId</span> <span class="o">=</span> <span class="n">reversalRequest</span><span class="o">.</span><span class="na">getRequestData</span><span class="o">().</span><span class="na">getStringValue</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">);</span>
+<span class="o">...</span>
+<span class="n">Response</span> <span class="n">reversalResponse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Response</span><span class="o">(</span><span class="n">reversalRequest</span><span class="o">,</span> <span class="o">&lt;</span><span class="n">outcome</span><span class="o">&gt;,</span> <span class="s">"Outcome message"</span><span class="o">);</span>
+<span class="c1">// original transaction ID should be returned</span>
+<span class="n">reversalResponse</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"transactionId"</span><span class="o">,</span> <span class="n">transactionId</span><span class="o">);</span>
+<span class="c1">// add other payment app specific transaction reference data  here</span>
+</code></pre></div></div>
+<h2 id="parse-response">Parse Response</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">reversedSuccessfully</span> <span class="o">=</span> <span class="n">reversalResponse</span><span class="o">.</span><span class="na">wasSuccessful</span><span class="o">();</span>
+</code></pre></div></div>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

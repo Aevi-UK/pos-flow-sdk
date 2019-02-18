@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Expose app info | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="How to integrate any application with AppFlow to add data or augment the flow">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
+					
+					
+						<div class="u-h6">
+							<p>Expose info about your application</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<h1 id="exposing-application-info">Exposing application info</h1>
+
+<p>In order for your application to be AppFlow compliant, it must expose certain information. It does this via implementing a content provider and
+exposing it via the application manifest.</p>
+
+<h2 id="adding-the-service-info-provider">Adding the service info provider</h2>
+
+<p>FPS and other applications require certain information about every flow service.</p>
+
+<p>This is done by extending <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider</code>, as the sample code from the <code class="highlighter-rouge">Flow Service Sample</code> below shows</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentFlowServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="nf">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"AEVI"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Flow Service Sample"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCanAdjustAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">LOYALTY_POINTS</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">GIFT_CARD</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">CASH</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="n">FlowTypes</span><span class="o">.</span><span class="na">SALE</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withCustomRequestTypes</span><span class="o">(</span><span class="n">ShowLoyaltyPointsBalanceService</span><span class="o">.</span><span class="na">SHOW_LOYALTY_POINTS_REQUEST</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>See <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/pos/flow/model/PaymentFlowServiceInfoBuilder.html">PaymentFlowServiceInfoBuilder</a> for complete details of what can be set.</p>
+
+<p>The following data must be set for value added flow services;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">withVendor()</code> - The company providing the service</li>
+  <li><code class="highlighter-rouge">withDisplayName()</code> - The name of the application to show to merchants/customers</li>
+  <li><code class="highlighter-rouge">withCanPayAmounts()</code> - <strong>If</strong> you provide any form of payment method or apply discounts to baskets</li>
+  <li><code class="highlighter-rouge">withCanAdjustAmounts()</code> - <strong>If</strong> you add amounts, like tip, fees, charity, tax or add baskets</li>
+</ul>
+
+<div class="callout callout--warning">
+  <p>Note that if you fail to report that your service can pay or adjust amounts here, FPS will reject any attempts from your application to do so.</p>
+</div>
+
+<p>The following data is optional, but we recommend you understand and consider each item as they impact how your service is called;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">withSupportedFlowTypes()</code> - Define what flow types your app supports (such as <code class="highlighter-rouge">sale</code> or <code class="highlighter-rouge">refund</code>). (details further down)</li>
+  <li><code class="highlighter-rouge">withCustomRequestTypes()</code> - Define custom/bespoke types that your service can handle (details further down)</li>
+  <li><code class="highlighter-rouge">withSupportedCurrencies()</code> - Restrict what currencies your service can handle (default is all currencies)</li>
+  <li><code class="highlighter-rouge">withSupportedDataKeys()</code> - Define what data keys (for additional data) your service can read/write/update</li>
+</ul>
+
+<div class="callout callout--info">
+  <p>withSupportedFlowTypes() is optional, but if left empty, it means FPS will call your flow service for any flow and it is up to your flow service to handle unsupported types. If types are specified, FPS will ensure your service only gets called for flows with types that your service supports.</p>
+</div>
+<p>See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for a list of all defined flow types.</p>
+
+<div class="callout callout--info">
+  <p>withCustomRequestTypes() can be used to define custom types that are specific to your flow service. This may be a function to return some particular data like loyalty balance, or
+     to display such data. It is entirely up to your application what data is required and returned and
+      whether your service shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See ShowLoyaltyPointsBalance in the Flow Service Sample for illustration.</p>
+</div>
+<p>See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
+
+<h2 id="expose-via-manifest">Expose via manifest</h2>
+
+<p>The provider needs to be exposed in the application manifest as follows</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;provider</span>
+  <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
+  <span class="na">android:authorities=</span><span class="s">"&lt;your authority&gt;"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+      <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/provider&gt;</span>
+</code></pre></div></div>
+
+<p>The authority should be unique. We recommend you use your package name as a prefix.</p>
+
+<h2 id="notifying-data-changes">Notifying data changes</h2>
+
+<p>If the data reported via <code class="highlighter-rouge">PaymentFlowServiceInfo</code> has changed, you need notify FPS of this.</p>
+
+<p>Call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your service and call your provider again to get the new information.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/api-overview">
+												<p class="c-page-nav__heading">API Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/determine-stages">
+												<p class="c-page-nav__heading">Determine flow stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/expose-app-info">
+												<p class="c-page-nav__heading">Expose app info</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing the services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
+												<p class="c-page-nav__heading">Interacting with stage models</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/handling-events">
+												<p class="c-page-nav__heading">Handling events</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
+												<p class="c-page-nav__heading">Adding response listeners</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/determine-stages" class="c-arrow-link c-arrow-link--prev u-mr-auto">Determine flow stages</a>
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/implementing-flow-services" class="c-arrow-link c-arrow-link--next u-ml-auto">Implementing the services</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

@@ -29,15 +29,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -68,17 +72,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -114,7 +124,7 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
 					
 					
 						<div class="u-h6">
@@ -139,9 +149,7 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							
-<h1 id="application-guidelines">Application guidelines</h1>
-
+							<h1 id="application-guidelines">Application guidelines</h1>
 <p>The following guidelines should be followed when you implement your application to work well with AppFlow and to provide a seamless and consistent experience for the merchant.</p>
 
 <h2 id="proguard">ProGuard</h2>
@@ -150,23 +158,8 @@
 <p>This can be done simply by including the following in your ProGuard file</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
--dontwarn com.aevi.payment**
--keep class com.aevi.payment** { *; }
-
--dontwarn com.aevi.printing**
--keep class com.aevi.printing** { *; }
-
--dontwarn com.aevi.print**
--keep class com.aevi.print** { *; }
-
--dontwarn com.aevi.sdk**
--keep class com.aevi.sdk** { *; }
-
--dontwarn com.aevi.util.json**
--keep class com.aevi.util.json** { *; }
-
--dontwarn com.aevi.android.rxmessenger**
--keep class com.aevi.android.rxmessenger** { *; }
+-dontwarn com.aevi**
+-keep class com.aevi** { *; }
 
 </code></pre></div></div>
 
@@ -183,7 +176,7 @@
 </code></pre></div></div>
 
 <h2 id="application-lifecycle">Application lifecycle</h2>
-<p>Due to the service-based architecture, any activities called throughout the flow are all created in separate <em>tasks</em>. See <a href="https://developer.android.com/guide/components/activities/tasks-and-back-stack.html">https://developer.android.com/guide/components/activities/tasks-and-back-stack.html</a> for more info on tasks. All your activities will be started with the <code class="highlighter-rouge">Intent.FLAG_ACTIVITY_NEW_TASK</code> flag set.</p>
+<p>Due to the service-based architecture, any activities called throughout the flow are all created in separate <em>tasks</em>. See the <a href="https://developer.android.com/guide/components/activities/tasks-and-back-stack.html">Android docs</a> for more info on tasks. All your activities will be started with the <code class="highlighter-rouge">Intent.FLAG_ACTIVITY_NEW_TASK</code> flag set.</p>
 
 <p>This means there is no way of leaving a flow “stack” and coming back to it later in a traditional Android sense.</p>
 
@@ -193,17 +186,20 @@
 
 <p>As mentioned above, FPS does give merchants the option to resume or skip an application via notification controls. This means that if the user presses back or home from your application, and you don’t send back an API response due to this, your app may be restarted with the same request again if the merchant chooses to do so.</p>
 
+<div class="callout callout--warning">
+  <p>It is crucial that you make a decision whether to support the resume event (see Handling events page) or to send a response upon activity onStopped()/onDestroyed().</p>
+</div>
+
 <p>If your application is performing sensitive and crucial processing of some form, it is recommended that you take the following approach;</p>
 <ul>
   <li>Override <code class="highlighter-rouge">onBackPressed()</code> in the activity and show a message if merchant tries to press it during this processing</li>
-  <li>Ensure the processing itself is carried out <em>independent of the activity</em> - i.e in a service separate from the API service (which may be created for each request), or in a separate thread in the API service. Use the activity only as a way to interact with the merchant, not to process anything important.</li>
-  <li>For any incoming request, ensure that you sync with any ongoing processing and return the final response to the latest service request only!</li>
-  <li>Persist relevant state associated with the <a href="/pos-android-sdk/technical/transactions">transaction id</a>, and check if you have saved state from the activity when it is started</li>
+  <li>Ensure the processing itself is carried out <em>independent of the activity</em> - i.e in a service separate from the API service (which may be created for each request), or in a separate thread in the API service. Use the activity only as a way to interact with the merchant, not to process anything important or keep important state.</li>
+  <li>Send back a response and wrap up all processing upon an <code class="highlighter-rouge">onStopped()</code> callback</li>
 </ul>
 
-<p>If your application does not perform any form of processing and doesn’t keep state, the simplest approach is to not do anything as part of being stopped or destroyed, and let your app be restarted if merchant chooses to and start over.</p>
+<p>If your application does not perform any form of processing and doesn’t keep state, the simplest approach is to not do anything as part of being stopped or destroyed, and simply restart the activity upon resume events.</p>
 
-<h3 id="manifest-flags">Manifest flags</h3>
+<h2 id="manifest-flags">Manifest flags</h2>
 
 <p>All activities that are launched inside the payment flow must define these flags inside the <code class="highlighter-rouge">activity</code> tag.</p>
 <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;activity</span>
@@ -214,7 +210,7 @@
 
 <p>This will ensure the activities leave no trace once they are finished, which is important for the flow. In addition, it stops merchants from accidentally splitting the screen into multiple activities when using the application.</p>
 
-<h3 id="animations--transitions">Animations / Transitions</h3>
+<h2 id="animations--transitions">Animations / Transitions</h2>
 <p>In order to make AppFlow as smooth as possible, it is recommended that any flow service activities disable enter/exit animations/transitions. Any activity started via the stage models will already have the <code class="highlighter-rouge">Intent.FLAG_ACTIVITY_NO_ANIMATION</code> flag set, but for exit animations the activities need to call <code class="highlighter-rouge">overridePendingTransaction(0, 0)</code> after calling <code class="highlighter-rouge">finish()</code> (or ideally, overriding <code class="highlighter-rouge">finish()</code> and doing it there).</p>
 
 
@@ -245,8 +241,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
-												<p class="c-page-nav__heading">Implementing Flow Services</p>
+											<a href="/pos-android-sdk/guides/vaa/api-overview">
+												<p class="c-page-nav__heading">API Overview</p>
 											</a>
 										</li>
 									
@@ -257,8 +253,56 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/integration">
-												<p class="c-page-nav__heading">Integration</p>
+											<a href="/pos-android-sdk/guides/vaa/determine-stages">
+												<p class="c-page-nav__heading">Determine flow stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/expose-app-info">
+												<p class="c-page-nav__heading">Expose app info</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing the services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
+												<p class="c-page-nav__heading">Interacting with stage models</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/handling-events">
+												<p class="c-page-nav__heading">Handling events</p>
 											</a>
 										</li>
 									
@@ -270,7 +314,7 @@
 									
 										<li>
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
+												<p class="c-page-nav__heading">Adding response listeners</p>
 											</a>
 										</li>
 									
@@ -293,68 +337,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/use-cases">
-												<p class="c-page-nav__heading">Use cases</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
-												<p class="c-page-nav__heading">Receipt Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/split-considerations">
-												<p class="c-page-nav__heading">Split Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
-												<p class="c-page-nav__heading">Dealing with Amounts</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
-												<p class="c-page-nav__heading">Initiating a flow</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/references">
-												<p class="c-page-nav__heading">References</p>
+											<a href="/pos-android-sdk/guides/vaa/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
 											</a>
 										</li>
 									
@@ -388,27 +372,25 @@
 							 	
 							
 							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/vaa/flow-response-listeners" class="c-arrow-link c-arrow-link--prev u-mr-auto">Flow response listener</a>
+										<a href="/pos-android-sdk/guides/vaa/flow-response-listeners" class="c-arrow-link c-arrow-link--prev u-mr-auto">Adding response listeners</a>
 									
 									
-										<a href="/pos-android-sdk/guides/vaa/use-cases" class="c-arrow-link c-arrow-link--next u-ml-auto">Use cases</a>
+										<a href="/pos-android-sdk/guides/vaa/next-steps" class="c-arrow-link c-arrow-link--next u-ml-auto">Next steps</a>
 									
 								
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
 							
 							 	
 							

@@ -29,15 +29,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -68,17 +72,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>How to send status updates</p>
+							<p>How to notify other apps of relevant state changes</p>
 						</div>
 					
 					
@@ -147,92 +157,7 @@
 
 <p>These flows are processed via a request queue in the background, separately from the standard flows. Applications in these flows may not launch any user interface - they must handle the update in the service only. Responses to status updates come in via the <code class="highlighter-rouge">BaseResponseListenerService.notifyStatusUpdateResponse()</code> callback method. If the client application is not interested in the responses, this method can be left empty.</p>
 
-<p>Two common kinds of status update include updates to Baskets and updates to Customer details. The data that can be sent for these type of flow is defined in the sections below.</p>
-
-<h2 id="basket-status-updates">Basket Status Updates</h2>
-
-<p>Most POS applications deal with a basket to represent the goods or services for a customer. Usually a basket is passed to a payment flow where flow services can read and augment it. There are also scenarios where applications need to react to basket updates in real time e.g. before the payment flow is initiated.</p>
-
-<p>To support this scenario, a <code class="highlighter-rouge">basketStatusUpdate</code> flow can be used.</p>
-
-<h3 id="data-keys">Data keys</h3>
-
-<p>See <a href="https://github.com/AEVI-AppFlow/api-constants/blob/master/api-constants/src/main/java/com/aevi/sdk/flow/constants/StatusUpdateKeys.java">StatusUpdateKeys</a> for defined constants.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Data key</th>
-      <th>Value</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>“basketUpdated”</td>
-      <td>Basket</td>
-      <td>Send the entire basket in the update</td>
-    </tr>
-    <tr>
-      <td>“basketItemsAdded”</td>
-      <td>BasketItem[]</td>
-      <td>Send newly added basket items</td>
-    </tr>
-    <tr>
-      <td>“basketItemsRemoved”</td>
-      <td>BasketItem[]</td>
-      <td>Send newly removed basket items</td>
-    </tr>
-    <tr>
-      <td>“basketItemUpdated”</td>
-      <td>BasketItem</td>
-      <td>Send a single updated basket item</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="initialise-request">Initialise request</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">basketUpdateRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"basketStatusUpdate"</span><span class="o">);</span>
-
-<span class="c1">// Example of a single data key - see more examples in data keys section</span>
-<span class="n">basketUpdateRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"basketUpdated"</span><span class="o">,</span> <span class="n">myBasket</span><span class="o">);</span>
-</code></pre></div></div>
-
-<h3 id="create-and-parse-response">Create and parse response</h3>
-<p>TODO - unclear what the responses would be here?</p>
-
-<h2 id="customer-status-updates">Customer Status Updates</h2>
-
-<p>Flow initiation applications may support identifying customers and keep associated customer details, such as name, tokens, etc. For these purposes, AppFlow has the <code class="highlighter-rouge">Customer</code> model. If a customer has been identified and/or updated, the initiation application can notify interested parties of this via the use of a <code class="highlighter-rouge">customerStatusUpdate</code> flow.</p>
-
-<h3 id="data-keys-1">Data keys</h3>
-
-<p>See <a href="https://github.com/AEVI-AppFlow/api-constants/blob/master/api-constants/src/main/java/com/aevi/sdk/flow/constants/StatusUpdateKeys.java">StatusUpdateKeys</a> for defined constants.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Data key</th>
-      <th>Value</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>“customerUpdate”</td>
-      <td>Customer</td>
-      <td>Send customer details</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="initialise-request-1">Initialise request</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">customerUpdateRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"customerStatusUpdate"</span><span class="o">);</span>
-<span class="n">customerUpdateRequest</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"customerUpdate"</span><span class="o">,</span> <span class="n">myCustomer</span><span class="o">);</span>
-</code></pre></div></div>
-
-<h3 id="create-and-parse-response-1">Create and parse response</h3>
-<p>TODO - unclear what the responses would be here?</p>
+<p>See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for defined status update flows.</p>
 
 
 							
@@ -262,8 +187,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/pos/flow-initiation">
-												<p class="c-page-nav__heading">Flow initiation</p>
+											<a href="/pos-android-sdk/guides/pos/api-overview">
+												<p class="c-page-nav__heading">API overview</p>
 											</a>
 										</li>
 									
@@ -274,8 +199,20 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
+											<a href="/pos-android-sdk/guides/pos/querying-for-information">
+												<p class="c-page-nav__heading">Querying for information</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/flow-initiation">
+												<p class="c-page-nav__heading">Initiate flows</p>
 											</a>
 										</li>
 									
@@ -298,8 +235,44 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pos/parse-responses">
+												<p class="c-page-nav__heading">Parse responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pos/handling-errors">
 												<p class="c-page-nav__heading">Handling errors</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/events-subscription">
+												<p class="c-page-nav__heading">System events</p>
 											</a>
 										</li>
 									
@@ -322,8 +295,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
-												<p class="c-page-nav__heading">Querying for responses</p>
+											<a href="/pos-android-sdk/guides/pos/application-guidelines">
+												<p class="c-page-nav__heading">Application guidelines</p>
 											</a>
 										</li>
 									
@@ -334,32 +307,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/querying-for-information">
-												<p class="c-page-nav__heading">Querying for information</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/events-subscription">
-												<p class="c-page-nav__heading">Event subscription</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/query-for-devices">
-												<p class="c-page-nav__heading">Query for devices</p>
+											<a href="/pos-android-sdk/guides/pos/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
 											</a>
 										</li>
 									
@@ -395,21 +344,25 @@
 							 	
 							
 							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/handling-errors" class="c-arrow-link c-arrow-link--prev u-mr-auto">Handling errors</a>
+										<a href="/pos-android-sdk/guides/pos/events-subscription" class="c-arrow-link c-arrow-link--prev u-mr-auto">System events</a>
 									
 									
-										<a href="/pos-android-sdk/guides/pos/querying-for-responses" class="c-arrow-link c-arrow-link--next u-ml-auto">Querying for responses</a>
+										<a href="/pos-android-sdk/guides/pos/application-guidelines" class="c-arrow-link c-arrow-link--next u-ml-auto">Application guidelines</a>
 									
 								
-							
-							 	
-							
-							 	
 							
 							 	
 							

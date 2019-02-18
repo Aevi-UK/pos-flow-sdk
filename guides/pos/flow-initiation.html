@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Flow initiation | AEVI AppFlow</title>
+			<title>Initiate flows | AEVI AppFlow</title>
 		
 		
 			<meta name="description" content="How to initiate a flow">
@@ -29,15 +29,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -68,17 +72,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>How to initiate a request for payment and other types with AppFlow</p>
+							<p>How to initiate flows</p>
 						</div>
 					
 					
@@ -139,33 +149,7 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="initiating-a-flow">Initiating a flow</h1>
-
-<p>First ensure you have installed the <a href="pre-requisites">pre-requisites</a> and setup your project correctly to import all the AppFlow dependencies.</p>
-
-<p>The main entry point to the API is via the <code class="highlighter-rouge">PaymentApi</code> class. From here you can retrieve the client object that allows you to interact with different parts of the API.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-  <span class="c1">// You must check that the processing service is installed, and if not,</span>
-  <span class="c1">// show message to merchant to contact support</span>
-  <span class="k">if</span> <span class="o">(!</span><span class="n">PaymentApi</span><span class="o">.</span><span class="na">isProcessingServiceInstalled</span><span class="o">(</span><span class="n">context</span><span class="o">))</span> <span class="o">{</span>
-       <span class="c1">// Show error message and exit</span>
-  <span class="o">}</span>
-  <span class="n">PaymentClient</span> <span class="n">paymentClient</span> <span class="o">=</span> <span class="n">PaymentApi</span><span class="o">.</span><span class="na">getPaymentClient</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
-
-</code></pre></div></div>
-
-<h1 id="paymentclient-functions">PaymentClient functions</h1>
-
-<p>The <code class="highlighter-rouge">PaymentClient</code> object provides several standard blocks of functionality:</p>
-
-<ul>
-  <li><a href="#initiate-a-flow">Initiate a flow</a></li>
-  <li><a href="querying-for-information">Querying for information</a></li>
-  <li><a href="query-for-devices">Query for connected devices</a></li>
-</ul>
-
-<h2 id="initiate-a-flow">Initiate a flow</h2>
+							<h1 id="flow-initiation">Flow initiation</h1>
 <p>There are two ways to initiate a flow via <code class="highlighter-rouge">PaymentClient</code>.</p>
 
 <ul>
@@ -173,15 +157,15 @@
   <li><code class="highlighter-rouge">initiateRequest(Request request)</code></li>
 </ul>
 
-<p>A <code class="highlighter-rouge">Payment</code> is used when some client-defined amount of money is being transferred as a result of it. Examples are sale (purchase / payment), refund, pre-authorisation, etc. These all involve money being moved from one entity to another - customer to merchant or vice versa, as defined by the client application. The <code class="highlighter-rouge">Payment</code> model has been defined to support these standard point of sale scenarios.</p>
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/Payment.html">Payment</a> is used when some defined amount of money is being transferred as a result of the transaction. Examples are sale (purchase / payment), refund, pre-authorisation, etc. These all involve money being moved from one entity to another - customer to merchant or vice versa, as defined by the client application. The <code class="highlighter-rouge">Payment</code> model has been defined to support these standard point of sale scenarios.</p>
 
-<p>A <code class="highlighter-rouge">Request</code> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow flow services to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/Request.html">Request</a> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow flow services to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
 
 <p>What data is relevant for any given request is defined by its <em>request type</em>. Please see the documentation in <a href="/pos-android-sdk/technical/request-types">Request Types</a> for a full list of types and associated data.</p>
 
-<h3 id="make-a-payment">Make a payment</h3>
+<h2 id="initiate-a-payment">Initiate a payment</h2>
 
-<p>In order to make a payment, a <code class="highlighter-rouge">Payment</code> object needs to be built. This is done via using the <code class="highlighter-rouge">PaymentBuilder</code> class. At a minimum a <code class="highlighter-rouge">Payment</code> must have a flow type and amounts set. Depending on the type of flow being initiated, other parameters may be defined as well. See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for examples for each type.</p>
+<p>In order to make a payment, a <code class="highlighter-rouge">Payment</code> object needs to be built. This is done via using the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentBuilder.html">PaymentBuilder</a> class. At a minimum a <code class="highlighter-rouge">Payment</code> must have a flow type and amounts set. Depending on the type of flow being initiated, other parameters may be defined as well. See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for examples for each type.</p>
 
 <p>Please note that the base amount set in <code class="highlighter-rouge">Amounts</code> should always be <strong>inclusive</strong> of tax (GST, VAT, etc).</p>
 
@@ -232,9 +216,9 @@
 <p>Once you have finished building your payment, you can send it to FPS using the <code class="highlighter-rouge">initiatePayment</code> method and subscribe to receive information whether the request was accepted or rejected by FPS.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Assign the subscribe return value to a field and ensure to dispose in activity onDestroy()</span>
-<span class="n">paymentClient</span><span class="o">.</span><span class="na">initiateRequest</span><span class="o">(</span><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
+<span class="n">paymentClient</span><span class="o">.</span><span class="na">initiatePayment</span><span class="o">(</span><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">())</span>
   <span class="o">.</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-      <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Payment accepted"</span><span class="o">);</span>
       <span class="n">finish</span><span class="o">();</span> <span class="c1">// If in an activity, it should be finished at this stage</span>
   <span class="o">},</span> <span class="n">throwable</span> <span class="o">-&gt;</span> <span class="o">{</span>
       <span class="k">if</span> <span class="o">(</span><span class="n">throwable</span> <span class="k">instanceof</span> <span class="n">FlowException</span><span class="o">)</span> <span class="o">{</span>
@@ -248,7 +232,7 @@
 </code></pre></div></div>
 
 <div class="callout callout--warn">
-  <p>As of AppFlow v2, Responses are (no longer) returned via the initiation rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See [Handling Responses](handling-responses) for more info.</p>
+  <p>As of AppFlow v2, Responses are no longer returned via the initiation rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. Response handling is covered in future pages.</p>
 </div>
 
 <h2 id="initiate-a-generic-request">Initiate a generic request</h2>
@@ -277,10 +261,10 @@
   <span class="o">});</span>
 </code></pre></div></div>
 <div class="callout callout--warn">
-  <p>As of AppFlow v2, Responses are (no longer) returned via the initiation Rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. See [Handling Responses](handling-responses) for more info.</p>
+  <p>As of AppFlow v2, Responses are no longer returned via the initiation Rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. Response handling is covered in future pages.</p>
 </div>
 
-<h2 id="initiate-a-custom-request">Initiate a custom request</h2>
+<h3 id="initiate-a-custom-request">Initiate a custom request</h3>
 <p>A flow service can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the flow service for a custom type. If however such data is required, see <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for more information.</p>
 
 <h2 id="recommended-application-architecture">Recommended application architecture</h2>
@@ -315,8 +299,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/pos/flow-initiation">
-												<p class="c-page-nav__heading">Flow initiation</p>
+											<a href="/pos-android-sdk/guides/pos/api-overview">
+												<p class="c-page-nav__heading">API overview</p>
 											</a>
 										</li>
 									
@@ -326,9 +310,21 @@
 								
 								
 									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
+										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-information">
+												<p class="c-page-nav__heading">Querying for information</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/flow-initiation">
+												<p class="c-page-nav__heading">Initiate flows</p>
 											</a>
 										</li>
 									
@@ -351,8 +347,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/handling-errors">
-												<p class="c-page-nav__heading">Handling errors</p>
+											<a href="/pos-android-sdk/guides/pos/parse-responses">
+												<p class="c-page-nav__heading">Parse responses</p>
 											</a>
 										</li>
 									
@@ -363,8 +359,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/status-update-flows">
-												<p class="c-page-nav__heading">Status update flows</p>
+											<a href="/pos-android-sdk/guides/pos/handling-errors">
+												<p class="c-page-nav__heading">Handling errors</p>
 											</a>
 										</li>
 									
@@ -387,20 +383,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/querying-for-information">
-												<p class="c-page-nav__heading">Querying for information</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/events-subscription">
-												<p class="c-page-nav__heading">Event subscription</p>
+												<p class="c-page-nav__heading">System events</p>
 											</a>
 										</li>
 									
@@ -411,8 +395,32 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/query-for-devices">
-												<p class="c-page-nav__heading">Query for devices</p>
+											<a href="/pos-android-sdk/guides/pos/status-update-flows">
+												<p class="c-page-nav__heading">Status update flows</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/application-guidelines">
+												<p class="c-page-nav__heading">Application guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
 											</a>
 										</li>
 									
@@ -440,15 +448,19 @@
 							 	
 							
 							 	
+							
+							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/pre-requisites" class="c-arrow-link c-arrow-link--prev u-mr-auto">Pre-requisites</a>
+										<a href="/pos-android-sdk/guides/pos/querying-for-information" class="c-arrow-link c-arrow-link--prev u-mr-auto">Querying for information</a>
 									
 									
-										<a href="/pos-android-sdk/guides/pos/flow-response-listeners" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow response listener</a>
+										<a href="/pos-android-sdk/guides/pos/handling-responses" class="c-arrow-link c-arrow-link--next u-ml-auto">Handling responses</a>
 									
 								
 							

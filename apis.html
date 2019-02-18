@@ -27,15 +27,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -66,17 +70,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -135,25 +145,29 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<p>AppFlow consists of two separate APIs, each with one or many associated sample apps;</p>
 <ul>
-  <li><code class="highlighter-rouge">Payment Initiation API</code> - Provides general flow and system information and allows apps to initiate financial and generic requests</li>
+  <li><code class="highlighter-rouge">Payment Initiation API</code> - Provides general flow and system information and allows apps to initiate flows</li>
   <li><code class="highlighter-rouge">Payment Flow Service API</code> - Provides an integration point for flow services to be called throughout the flow</li>
 </ul>
 
 <h3 id="payment-initiation-api">Payment Initiation API</h3>
 
-<p>The <code class="highlighter-rouge">Payment Initiation API</code> allows an application (typically a POS app) to initiate a payment. It also provides various functions to query the system for information about the flow services and payment services available for use.</p>
+<p>The <code class="highlighter-rouge">Payment Initiation API</code> allows an application (typically a POS app) to initiate a flow. It also provides various functions to query the system for information about the defined flows and installed flow services.</p>
 
-<p>This is the API you should be looking at if you are building a POS application.</p>
+<p>This API is mainly relevant for POS applications, but available for any application that requires AppFlow information or initiating capabilities.</p>
 
-<p>Please see <a href="/pos-android-sdk/guides/pos/flow-initiation">Flow Initiation</a> for detailed information.</p>
+<p>Please see <a href="/pos-android-sdk/guides/pos/pre-requisites">Flow Initiation</a> for detailed information.</p>
 
 <h3 id="payment-flow-service-api">Payment Flow Service API</h3>
 
 <p>The <code class="highlighter-rouge">Payment Flow Service API</code> allows for applications to be called throughout the flows and provide capabilities.</p>
 
-<p>This is the API you should be looking at if you are building a <em>value added service</em>, such as loyalty, charity, currency conversion, receipt generation, printing, etc, <em>or</em> if you are building a payment application that can process payments.</p>
+<p>This is the API you should be looking at if you are building</p>
+<ul>
+  <li>a <em>value added service</em>, such as loyalty, charity, currency conversion, receipt generation, printing, etc</li>
+  <li>a <em>payment application</em> that can process payments via any form of payment method</li>
+</ul>
 
-<p>Please see <a href="/pos-android-sdk/guides/vaa/implementing-flow-services">Implementing Value Added Apps</a> for an introduction on how to integrate your application.</p>
+<p>Please see <a href="/pos-android-sdk/guides/vaa/pre-requisites">Implementing Value Added Services</a> or <a href="/pos-android-sdk/guides/pa/pre-requisites">Implementing Payment Applications</a> for more details.</p>
 
 							
 
@@ -165,6 +179,18 @@
 						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
 							
 							
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/intro">
+												<p class="c-page-nav__heading">AppFlow Introduction</p>
+											</a>
+										</li>
+									
+									
+								
 							
 								
 								
@@ -255,6 +281,8 @@
 					<div class="o-col-12 u-text-center">
 						<div class="u-inline-block u-flex@sm">
 							
+							
+							 	
 							
 							 	
 							

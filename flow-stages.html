@@ -27,15 +27,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -66,17 +70,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -135,10 +145,17 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<p>A <em>flow</em> is simply a configuration that defines one to many <em>stages</em> and for each stage, defines what applications can be called and what data should be passed to and from them.</p>
 
-<p>There are two types of flows - <code class="highlighter-rouge">payment</code> and <code class="highlighter-rouge">generic</code>. Payment flows are initiated via a <code class="highlighter-rouge">Payment</code> and always involves movement of money from one party to another as requested by a client (POS) app. Examples are purchases and refunds. The generic flows can on the other hand represent any function that is typical for POS/payments like tokenisation or reversals, but also custom functions as defined by flow services.</p>
+<p>There are three main types of flows;</p>
+<ul>
+  <li><code class="highlighter-rouge">Payment</code> flows, which involve the transfer of money from one party to another, typically via sale/purchase or refund.</li>
+  <li><code class="highlighter-rouge">Generic</code> flows, which are designed to support any custom/bespoke scenario where the request/response models can hold any arbitrary data. Examples of this are tokenisation or batch closure.</li>
+  <li><code class="highlighter-rouge">Status update</code> flows, which allow an application to inform other applications of some status/state change</li>
+</ul>
+
+<p>All stages have an associated <em>stage model</em>, which provide request data as well as augmentation options and various convenience utilities.</p>
 
 <h2 id="payment-flows">Payment flows</h2>
-<p>The most common flow is the <em>sale</em> flow, which is used for all standard transactions where a customer is charged for some goods or services.</p>
+<p>The most common payment flow is the <em>sale</em> flow, which is used for all standard transactions where a customer is charged for some goods or services.</p>
 
 <p>Below is a diagram illustrating the sale flow. Note that <em>Payment Services</em> are just a type of flow services and integrates with the same API as any other flow service, but for clarity, are named differently here.</p>
 
@@ -156,21 +173,30 @@
 
 <p>Note; By default, pre-flow is <em>only</em> called for cases where the payment amounts are zero.</p>
 
+<p>A pre-flow app can via the <code class="highlighter-rouge">PreFlowModel</code> set data in a <code class="highlighter-rouge">Payment</code> model similar to what an initiation app can do. It may also cancel the flow.</p>
+
 <h3 id="split">Split</h3>
 
 <p>If a split application is installed and the request has enabled split, the split stage will be executed where the application can split the requested amount into one or more individual transactions. The most common use case of this is to allow a group of customers to split the bill, either based on amount or via basket items.</p>
 
 <p>See <a href="/pos-android-sdk/guides/vaa/split-considerations">Considerations for Split applications</a> for more details what is required from split apps.</p>
 
-<p>The input request to the split stage is <code class="highlighter-rouge">SplitRequest</code>.</p>
+<p>A split app can via the <code class="highlighter-rouge">SplitStageModel</code> update the base amount and/or basket for the next transaction. It may also cancel the flow.</p>
 
 <h3 id="pre-transaction">Pre-transaction</h3>
 
-<p>This stage allows an application to modify request data <em>before</em> any payment card is read.</p>
+<p>This stage allows an application to modify request data <em>before</em> any payment card is read, assuming that there is a payment application that reads cards and supports the payment-card-reading stage.</p>
 
 <p>For most applications, post-card-reading will be a more appropriate stage as card details may then also be available. This is explored in further depth in the API documentation.</p>
 
-<p>The input model here is <code class="highlighter-rouge">TransactionRequest</code>.</p>
+<p>A pre-transaction app can via the <code class="highlighter-rouge">PreTransactionModel</code> do things like;</p>
+<ul>
+  <li>Add amounts (like charity donation or a fee)</li>
+  <li>Add baskets</li>
+  <li>Pay off a portion or all of the requested amounts</li>
+  <li>Apply discounts to baskets / basket items</li>
+  <li>Add or update customer details</li>
+</ul>
 
 <h3 id="payment-card-reading">Payment card reading</h3>
 
@@ -178,31 +204,33 @@
 
 <p>If it is supported and the card reading is successful, card data will be available for the remaining stages.</p>
 
+<p>A payment-card-reading app can via the <code class="highlighter-rouge">CardReadingModel</code> set card details or decline the transaction.</p>
+
 <h3 id="post-card-reading">Post-card-reading</h3>
 
 <p>This stage is executed after the optional payment card reading step, meaning there may or may not be valid card data available.</p>
 
-<p>The input model here is <code class="highlighter-rouge">TransactionRequest</code>.</p>
+<p>Post-card-reading is using the same model as pre-transaction, <code class="highlighter-rouge">PreTransactionModel</code>, and can perform the same actions.</p>
 
-<h3 id="payment-processing">Payment processing</h3>
+<h3 id="transaction-processing">Transaction processing</h3>
 
 <p>At this stage, the payment app will process the payment based on the data provided (which may or may not have been augmented in previous stages).</p>
 
-<p>At the end of this stage, a <code class="highlighter-rouge">TransactionResponse</code> will be sent back dictating the outcome of the transaction.</p>
+<p>At the end of this stage, a <code class="highlighter-rouge">TransactionResponse</code> will be sent back via a <code class="highlighter-rouge">TransactionProcessingModel</code> dictating the outcome of the transaction.</p>
 
 <h3 id="post-transaction">Post-transaction</h3>
 
 <p>A <code class="highlighter-rouge">TransactionSummary</code> model will be passed to applications in this stage, which contains a breakdown of the input transaction data and a list of transaction responses for that transaction. It will also contain the card data if any was set by the payment application at either payment app stage.</p>
 
-<p>Note that the only thing an application can augment at this point is adding transaction references.</p>
+<p>Note that the only thing an application can augment at this point is adding transaction references, via the <code class="highlighter-rouge">PostTransactionModel</code>.</p>
 
 <h3 id="post-flow">Post-flow</h3>
 
 <p>This stage is executed after all transactions are completed and a final <code class="highlighter-rouge">PaymentResponse</code> object has been created which is available for applications here to read.</p>
 
-<p>At this stage, no response is required or possible as nothing can be changed at this point.</p>
+<p>At this stage, there are no options to augment any data as the flow has completed.</p>
 
-<p><em>Note: Only one post-flow application is supported at this stage.</em></p>
+<p>A post-flow app may however choose to keep executing in the background in parallel to the flow.</p>
 
 <h2 id="generic-flows">Generic flows</h2>
 
@@ -212,11 +240,21 @@
 
 <p>The generic stage is where the request is processed. As an example, for a request of type <code class="highlighter-rouge">tokenisation</code>, this is where a payment app would read a card and generate token.</p>
 
-<p>There can only be one service handling a generic request.</p>
+<p>There can only be one service handling a generic request and passing back a response via the <code class="highlighter-rouge">GenericStageModel</code>.</p>
 
 <h3 id="post-generic">Post-generic</h3>
 
-<p>This is the generic equivalent of Post-flow, where an app gets called with the final response and can review that data. It can also add references to that response.</p>
+<p>This is the generic equivalent of Post-flow, where an app gets called with the final response and can review that data.</p>
+
+<p>It can also add references to that response via the <code class="highlighter-rouge">PostGenericStageModel</code>.</p>
+
+<h2 id="status-update-flows">Status update flows</h2>
+
+<p>Status update flows are similar to generic flows in terms of how they are initiated and what models are used, but the execution of
+the flows are different. For status updates, there is just a single stage, <code class="highlighter-rouge">STATUS_UPDATE</code>, that may contain one to many applications that
+get called in sequence for the purpose of getting access to the request data. The flow is executed entirely in the background from a special request queue and can process in parallel to payment and generic foreground flows.</p>
+
+<p>Applications can fetch the data and optionally add references via the <code class="highlighter-rouge">StatusUpdateModel</code>.</p>
 
 							
 
@@ -228,6 +266,18 @@
 						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
 							
 							
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/intro">
+												<p class="c-page-nav__heading">AppFlow Introduction</p>
+											</a>
+										</li>
+									
+									
+								
 							
 								
 								
@@ -318,6 +368,8 @@
 					<div class="o-col-12 u-text-center">
 						<div class="u-inline-block u-flex@sm">
 							
+							
+							 	
 							
 							 	
 							

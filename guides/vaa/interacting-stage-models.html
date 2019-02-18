@@ -1,0 +1,463 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Interacting with stage models | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
+					
+					
+						<div class="u-h6">
+							<p>Interact with stage models</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>A <em>stage model</em> is the main point of interaction for your application when it comes to reading data, augmenting data, sending response, etc.
+Each stage has its own tailored model that provides input and output functions relevant for that stage.
+The one exception to the rule is <code class="highlighter-rouge">POST_CARD_READING</code>, which uses the same model as <code class="highlighter-rouge">PRE_TRANSACTION</code>.</p>
+
+<p>The stage model is either passed to you via a callback method, or you have to construct it from your service/activity, depending on what approach you use for defining your entry points.</p>
+
+<p>All the stage models provide a similar set of functions,</p>
+
+<ul>
+  <li>Initialise from a service context via <code class="highlighter-rouge">fromService()</code></li>
+  <li>Initialise from an activity context via <code class="highlighter-rouge">fromActivity()</code></li>
+  <li>Get the request (input data) for this stage</li>
+  <li>A number of augmentation functions</li>
+  <li>Add entries to audit log via <code class="highlighter-rouge">addAuditEntry()</code></li>
+  <li>Subscribe to flow service events via <code class="highlighter-rouge">getEvents()</code></li>
+  <li>A method to send the response</li>
+  <li>Start an activity to handle the request via <code class="highlighter-rouge">processInActivity()</code> (from a service context)</li>
+  <li>Send a message an activity started via <code class="highlighter-rouge">processInActivity</code> from a service context</li>
+  <li>Listen to activity lifecycle events from an activity started via <code class="highlighter-rouge">processInActivity()</code></li>
+</ul>
+
+<p>In addition, the stage models set up some interaction points with the API behind the scenes to reduce the amount of boilerplate required for app developers.</p>
+
+<p>See <a href="https://github.com/Aevi-UK/pos-flow-sdk/blob/master/payment-flow-service-api/src/main/java/com/aevi/sdk/pos/flow/stage/PreTransactionModel.java">PreTransactionModel</a> for an example of a stage model.</p>
+
+<h2 id="retrieving-input-data">Retrieving input data</h2>
+
+<p>All models have a getter for retrieving the input data relevant for that stage;</p>
+<ul>
+  <li>PreFlowModel - <code class="highlighter-rouge">getPayment()</code></li>
+  <li>PreTransactionModel - <code class="highlighter-rouge">getTransactionRequest()</code></li>
+  <li>PostTransactionModel - <code class="highlighter-rouge">getTransactionSummary()</code></li>
+  <li>PostFlowModel - <code class="highlighter-rouge">getPaymentResponse()</code></li>
+  <li>GenericStageModel - <code class="highlighter-rouge">getRequest()</code></li>
+  <li>PostGenericStageModel - <code class="highlighter-rouge">getResponse()</code></li>
+</ul>
+
+<h2 id="sending-response">Sending response</h2>
+<p>Each model has at a minimum a <code class="highlighter-rouge">sendResponse()</code> method and likely a <code class="highlighter-rouge">skip()</code> or <code class="highlighter-rouge">finish()</code> method.</p>
+
+<div class="callout callout--warning">
+  <p>Even if you DO NOT augment the data in any way then your service must still call one of the <code>sendResponse()</code> / <code>skip()</code> / <code>finish()</code> methods to tell FPS that your service is done.</p>
+</div>
+
+<h2 id="augmenting-data">Augmenting data</h2>
+<p>Depending on what function your application is offering and for what stages it will be called, there are different augmentation options. This section will break down all the augmentation options (for payment flows specifically) and for what stages and functions they may be useful. The next section will look at specific use cases and advise on how to model your service for that use case.</p>
+
+<p>Note that we do not cover <code class="highlighter-rouge">PRE_FLOW</code> here as it is a special case. Contact AEVI for details.</p>
+
+<h3 id="pretransactionmodel-augmentations">PreTransactionModel augmentations</h3>
+<p>The majority of the relevant augmentations happen before the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage (at what point a payment service determines the outcome of the transaction). After that point, all flow services can do is add references. This section will cover the augmentation options for the <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code> stages. For both these stages, any augmentations are done via the <code class="highlighter-rouge">PreTransactionModel</code>.</p>
+
+<h4 id="adding-additional-amounts">Adding additional amounts</h4>
+<p>There are various scenarios for which adding additional amounts is relevant, be it for tipping, fees, donations, etc. The <code class="highlighter-rouge">PreTransactionModel</code> contains two methods for doing this;</p>
+<ul>
+  <li><code class="highlighter-rouge">setAdditionalAmount(String identifier, long amount)</code></li>
+  <li><code class="highlighter-rouge">setAdditionalAmountAsBaseFraction(String identifier, float fraction)</code></li>
+</ul>
+
+<p>The first method allows you to specify the amount value in its sub-unit form, whereas the second method allows you to add an amount as a <em>fraction</em> of the request <em>base amount value</em>. This is useful for a variety of cases where the amount is a percentage of the base amount, such as fees, tipping, etc.</p>
+
+<p>In both cases, the amount is identified via a string identifier. See <a href="/pos-android-sdk/technical/additional-amounts">Additional Amounts</a> for details.</p>
+
+<h4 id="adding-a-basket">Adding a basket</h4>
+<p>The client/POS application may have provided a basket in the initial request. To provide sensible separation between what app/service added what items, flow services can add <em>new</em> baskets, but not add more items to the existing baskets (discounts excepted). This can be done with the <code class="highlighter-rouge">PreTransactionModel.addNewBasket(Basket basket)</code> method.</p>
+
+<p>This is the recommended approach to add any form of “upsells” or extras, as it adds visibility of what specifically has been added, allowing receipts apps to show it clearly on the receipts.</p>
+
+<div class="callout callout--info">
+  <p>Note that the request amounts will be automatically updated to reflect this new basket.</p>
+</div>
+
+<h4 id="addingupdating-customer-details">Adding/updating customer details</h4>
+<p>A flow service can either add or update customer details. If the initial <code class="highlighter-rouge">Payment</code> does not contain any customer data, the flow service can create a new <code class="highlighter-rouge">Customer</code> model and add to the transaction. If however a <code class="highlighter-rouge">Customer</code> model already exists, a flow service can add</p>
+<ul>
+  <li>Tokens</li>
+  <li>Customer details as additional data</li>
+</ul>
+
+<p>Either case is done via <code class="highlighter-rouge">PreTransactionModel.addOrUpdateCustomerDetails(Customer customer)</code>. If adding, the <code class="highlighter-rouge">Customer</code> parameter is created by your service. If updating, you use the <code class="highlighter-rouge">Customer</code> model from the request, update it and then pass it in here.</p>
+
+<h4 id="paying-amounts">Paying amounts</h4>
+<p>A flow service can pay off a portion or all of the requested amounts. The most common scenario for this is via loyalty rewards or points. This can be done via <code class="highlighter-rouge">PreTransactionModel.setAmountsPaid(Amounts amountsPaid, String paymentMethod)</code>. The amounts must not exceed requested amounts and the payment method must be set. See <a href="/pos-android-sdk/technical/payment-methods">Payment Methods</a> for defined options.</p>
+
+<p>This method is recommended when the payment has no relation to any basket items. If however the payment is provided as discounts to certain items in the basket, like offering a free coffee, then the recommended approach is to apply discounts to baskets which is covered in the next section.</p>
+
+<h4 id="applying-discounts-to-baskets">Applying discounts to baskets</h4>
+<p>If your service provides discounts or rewards based on basket items, then this function will allow your service to apply discounts as items in the same basket. As an example, if the basket contains an item “Latte” with a cost of $3.50, you can via this method add a “free coffee reward” that would look something like “Reward: Free Latte” with a negative amount of $-3.50 to negate the cost of the original item.</p>
+
+<p>See <code class="highlighter-rouge">PreTransactionModel.applyDiscountsToBasket(String basketId, List&lt;BasketItem&gt; basketItems, String paymentMethod)</code> for more info.</p>
+
+<h4 id="adding-request-data">Adding request data</h4>
+<p>Any arbitrary data that may be required or useful for other flow services (or the POS app) can be added via the <code class="highlighter-rouge">PreTransactionModel.addRequestData(String key, T... values)</code> method.</p>
+
+<h3 id="posttransactionmodel-references">PostTransactionModel references</h3>
+<p>The <code class="highlighter-rouge">PostTransactionModel</code> offers a <code class="highlighter-rouge">addReferences(String key, T... values)</code> method to provide references back to the POS app for the transaction.</p>
+
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/api-overview">
+												<p class="c-page-nav__heading">API Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/determine-stages">
+												<p class="c-page-nav__heading">Determine flow stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/expose-app-info">
+												<p class="c-page-nav__heading">Expose app info</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
+												<p class="c-page-nav__heading">Implementing the services</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
+												<p class="c-page-nav__heading">Interacting with stage models</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/handling-events">
+												<p class="c-page-nav__heading">Handling events</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
+												<p class="c-page-nav__heading">Adding response listeners</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
+												<p class="c-page-nav__heading">Application Guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/implementing-flow-services" class="c-arrow-link c-arrow-link--prev u-mr-auto">Implementing the services</a>
+									
+									
+										<a href="/pos-android-sdk/guides/vaa/handling-events" class="c-arrow-link c-arrow-link--next u-ml-auto">Handling events</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

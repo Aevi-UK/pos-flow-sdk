@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Receipt Applications | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="Special considerations for developing receipt printing applications">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Receipts</h2>
+					
+					
+						<div class="u-h6">
+							<p>Special considerations for developing receipt printing applications</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<h1 id="receipt-applications">Receipt Applications</h1>
+
+<p>Receipts should usually be printed by a flow service application that is executed in the <code class="highlighter-rouge">POST_TRANSACTION</code> or <code class="highlighter-rouge">POST_GENERIC</code> stage. Therefore, a receipt printing application should implement a service extending <code class="highlighter-rouge">BasePaymentFlowService</code> and override the two methods <code class="highlighter-rouge">onPostTransaction</code> and <code class="highlighter-rouge">onGeneric</code>. Within <code class="highlighter-rouge">onPostTransaction</code> the service will retrieve the <code class="highlighter-rouge">TransactionSummary</code> and use this to construct a receipt. Within the <code class="highlighter-rouge">onGeneric</code> method the receipt app must obtain the correct data from the request data and use the information to print the receipt. See <a href="/pos-android-sdk/technical/receipts">receipts</a> for more details on the type of data you can expect.</p>
+
+<h2 id="receipts-for-payments">Receipts for payments</h2>
+
+<p>The <code class="highlighter-rouge">TransactionSummary</code> object contains information about who the receipt is for and details of the <code class="highlighter-rouge">Transaction</code> that has just occurred in the previous stages. The <code class="highlighter-rouge">Transaction</code> object can contain lots of data that may or may not need to be printed on the receipt which has been added by any number of flow apps in the flow so far. It is likely that as well as the different data acquirers will have there own requirements as to what needs to be printed on the receipt.</p>
+
+<p>However, there are certain data structures that will always be present which are described below.</p>
+
+<h3 id="baskets">Baskets</h3>
+
+<p>Both POS applications and flow services can add baskets to the transaction. It is most likely that these all simply need to be printed onto the receipt. This can be done by simply finding all the baskets in the <code class="highlighter-rouge">TransactionSummary</code> and adding to the receipt e.g.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">currency</span> <span class="o">=</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getRequestedAmounts</span><span class="o">().</span><span class="na">getCurrency</span><span class="o">();</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">Basket</span> <span class="n">basket</span> <span class="o">:</span> <span class="n">transactionSummary</span><span class="o">.</span><span class="na">getBaskets</span><span class="o">())</span> <span class="o">{</span>
+  <span class="n">addBasketDetails</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">basket</span><span class="o">,</span> <span class="n">currency</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Where the <code class="highlighter-rouge">addBasketDetails</code> method above does the work of adding all the basket lines items to the receipt.</p>
+
+<p>Basket objects can themselves contain other additional data items that may require specific handling in certain use cases.</p>
+
+<h3 id="different-amounts">Different amounts</h3>
+
+<p>The <code class="highlighter-rouge">TransactionSummary</code> object also contains all <code class="highlighter-rouge">TransactionResponses</code> that may have occurred during a flow. Each <code class="highlighter-rouge">TransactionResponse</code> contains information about an amount that has been paid. The <code class="highlighter-rouge">TransactionResponse</code> contains at least a amount processed, which should always be added to the receipt, and can optionally include any number of additional amounts. Usually these amounts indicate sub totals such as tax, cashback, tip etc. These additional amounts can simply be iterated and added to the receipt.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">for</span> <span class="o">(</span><span class="n">TransactionResponse</span> <span class="n">transactionResponse</span> <span class="o">:</span> <span class="n">transactions</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">Amounts</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getAmountsProcessed</span><span class="o">();</span>
+  <span class="n">String</span> <span class="n">paymentMethod</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getPaymentMethod</span><span class="o">();</span>
+  <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">addAmounts</span> <span class="o">=</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getAdditionalAmounts</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">type</span> <span class="o">:</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;&gt;(</span><span class="n">addAmounts</span><span class="o">.</span><span class="na">keySet</span><span class="o">()))</span> <span class="o">{</span>
+      <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">type</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">(),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="k">new</span> <span class="n">Amount</span><span class="o">(</span><span class="n">addAmounts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">type</span><span class="o">),</span> <span class="n">amounts</span><span class="o">.</span><span class="na">getCurrency</span><span class="o">())));</span>
+  <span class="o">}</span>
+
+  <span class="n">append</span><span class="o">(</span><span class="n">printPayload</span><span class="o">,</span> <span class="n">getPaidByMessage</span><span class="o">(</span><span class="n">paymentMethod</span><span class="o">),</span> <span class="n">formatAmount</span><span class="o">(</span><span class="n">amounts</span><span class="o">.</span><span class="na">getTotalAmount</span><span class="o">()));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Note that of course amounts in the API are always longs and should be converted sensibly to the correct currency and unit display, shown above as <code class="highlighter-rouge">formatAmount</code> method. Care should be taken to ensure the <a href="dealing-with-amounts">units are displayed correctly</a>.</p>
+
+<p>The <code class="highlighter-rouge">getPaidByMessage</code> method referenced above will convert the payment method string supplied into a user friendly string to display on the receipt. Usually this would indicate how the payment was fulfilled e.g. by card, cash or loyalty points etc.</p>
+
+<h3 id="customer-details">Customer details</h3>
+
+<p>Depending on the use-case it may be a requirement to display customer data on a receipt. For <code class="highlighter-rouge">Payment</code> requests a specific <code class="highlighter-rouge">Customer</code> object is made available if it has been added during the flow. The <code class="highlighter-rouge">Customer</code> object contains some basic standard fields as well as a number of <a href="/pos-android-sdk/technical/customer-details">additional data fields described here</a>. Customer information can be added before the <code class="highlighter-rouge">Payment</code> is initiated or at any time in the flow by a flow service that is able to identify the customer in some way e.g. card token, customer email, login.</p>
+
+<h3 id="adspromotions">Ads/promotions</h3>
+
+<p>It is possible that an advertising flow service might add data to augment a flow. This may need to be displayed on the receipt. This could include adding images and/or a QR code that can be scanned by a customer to access further content from the advert. <a href="/pos-android-sdk/technical/use-case-driven-data#adspromotions">See here for more details of the kind of data an advert service may add to the transaction</a></p>
+
+<h3 id="card-details">Card details</h3>
+
+<p>If a response was paid for by card then the <code class="highlighter-rouge">TransactionResponse</code> object will contain a <code class="highlighter-rouge">Card</code> object containing the details. This can be extracted and added to a receipt like so.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Card</span> <span class="n">card</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getCard</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">card</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getCardholderName</span><span class="o">());</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getMaskedPan</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getMaskedPan</span><span class="o">());</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getExpiryDate</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">appendToReceipt</span><span class="o">(</span><span class="n">card</span><span class="o">.</span><span class="na">getExpiryDate</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="n">AdditionalData</span> <span class="n">cardData</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="na">getAdditionalData</span><span class="o">();</span>
+  <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"network"</span><span class="o">);</span>
+  <span class="n">appendIfPresent</span><span class="o">(</span><span class="n">cardData</span><span class="o">,</span> <span class="s">"entryMethod"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>As well as the standard card fields other data may also be available in the additionalData stored with the <code class="highlighter-rouge">Card</code>. As above you can see the code is extracting the “network” and “entryMethod”. The <a href="/pos-android-sdk/technical/card-details">complete list of additional data for card can be found here</a></p>
+
+<h3 id="transaction-references">Transaction references</h3>
+
+<p>Each <code class="highlighter-rouge">TransactionResponse</code> can also contain any number of bespoke references these can be found in the <code class="highlighter-rouge">AdditionalData</code> returned from the <code class="highlighter-rouge">getReferences()</code> method. These references are usually added by a payment flow service and acquirers may mandate that certain ones are shown on the receipt. e.g. transaction ID and certain EMV values.</p>
+
+<p>The references may also contain other bespoke data that does not fit into any of the objects above e.g loyalty data. This may also need to be printed on the receipt. For example these references may contain loyalty data which can be extracted as below.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">AdditionalData</span> <span class="n">references</span> <span class="o">=</span> <span class="n">transactionResponse</span><span class="o">.</span><span class="na">getReferences</span><span class="o">();</span>
+<span class="n">appendIfPresent</span><span class="o">(</span><span class="n">references</span><span class="o">,</span> <span class="s">"earnPoints"</span><span class="o">);</span>
+<span class="n">appendIfPresent</span><span class="o">(</span><span class="n">references</span><span class="o">,</span> <span class="s">"redeemPoints"</span><span class="o">);</span>
+<span class="n">appendIfPresent</span><span class="o">(</span><span class="n">references</span><span class="o">,</span> <span class="s">"totalPoints"</span><span class="o">);</span>
+
+</code></pre></div></div>
+
+<p><a href="/pos-android-sdk/technical/use-case-driven-data#loyalty">For more information about specific loyalty data attributes</a></p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		
+
+		
+			<footer class="c-footer c-footer--bordered">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

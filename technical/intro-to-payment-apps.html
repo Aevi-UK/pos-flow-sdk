@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Overview | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="How to integrate your payment application with AppFlow">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Integrating Payment Applications</h2>
+					
+					
+						<div class="u-h6">
+							<p>How to integrate your payment application with AppFlow</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>Payment applications are responsible for processing transactions and establishing the outcomes. There are no restrictions as to what payment methods these applications choose to use for processing the payment - be it a traditional card payment, mobile, cryptocurrencies, etc.</p>
+
+<h2 id="multiple-payment-applications">Multiple payment applications</h2>
+
+<p>There can be multiple payment applications available, offering different payment methods or simply connected to different acquirers / payment gateways.</p>
+
+<p>There are two ways in which a request is narrowed down to a single payment application for processing.</p>
+
+<p>The first is the <em>flow configuration</em>, which will determine what applications are eligible to receive the request.</p>
+
+<p>Secondarily, there are matching algorithms that will match request data to payment application support info. As an example, if the request has specified <code class="highlighter-rouge">GBP</code> as the currency, and one of the payment applications only supports <code class="highlighter-rouge">EUR</code>, then that application is not a candidate to process this payment and will be filtered out.</p>
+
+<p>Once the filtering has completed, the system will automatically progress with any single application that remains eligible. If however there is still more than one option, the merchant and/or customer will be presented with a selection UI on the device to choose which application to use.</p>
+
+<h2 id="external-payment-system-support">External payment system support</h2>
+
+<p>This implementation supports the concept of <em>payment adapters</em>, which means that payment services developed against other APIs could be used to handle AppFlow requests.</p>
+
+<p>As an example, AppFlow requests can be converted to <code class="highlighter-rouge">Square Register</code> requests via a <em>Square payment adapter</em>, which proxies the request onto the Square system for processing and then converts the result back to AppFlow at the end of it.</p>
+
+<p>AppFlow comes with such an adapter pre-defined for communicating with the <code class="highlighter-rouge">AEVI Simple Payment API</code> (previous generation legacy SDK) payment apps.</p>
+
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		
+
+		
+			<footer class="c-footer c-footer--bordered">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

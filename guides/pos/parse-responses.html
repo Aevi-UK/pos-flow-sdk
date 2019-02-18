@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Parse responses | AEVI AppFlow</title>
+		
+		
+			<meta name="description" content="How to parse the responses">
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+
+
+
+
+
+	
+		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+	
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-10@lg o-col-9@xl">
+					
+						<h2 class="u-text-lg u-text-xl@sm">Flow Initiation</h2>
+					
+					
+						<div class="u-h6">
+							<p>How to parse responses from a flow</p>
+						</div>
+					
+					
+					
+				</div><!-- /.o-col -->
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+
+
+
+	<div class="u-pt-8 u-pb-5">
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-8@lg o-col-7@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<h1 id="response-parsing">Response parsing</h1>
+<p>As mentioned, there are two types of responses depending on what type of request was initiated.</p>
+
+<h2 id="responses">Responses</h2>
+<p>As the <code class="highlighter-rouge">Request</code> and <code class="highlighter-rouge">Response</code> data is bespoke to each type of request, there is no general information on how to parse these responses. See <a href="/pos-android-sdk/technical/request-types">Request Types</a> to find detailed information on how to create requests and parse responses for each use case.</p>
+
+<h2 id="payment-responses">Payment Responses</h2>
+<p>The response to a <code class="highlighter-rouge">Payment</code> is returned in the form of a <code class="highlighter-rouge">PaymentResponse</code> object.</p>
+
+<p>To investigate the outcome of the request, you can call <code class="highlighter-rouge">response.getOutcome()</code>. This will return a <code class="highlighter-rouge">PaymentRequest.Outcome</code> value that can be;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">FULFILLED</code> - This essentially means success - in that the full amounts defined in the request have been processed successfully</li>
+  <li><code class="highlighter-rouge">PARTIALLY_FULFILLED</code> - This means that parts of the amounts were successfully processed, but not all of it. See further down for more info.</li>
+  <li><code class="highlighter-rouge">FAILED</code> - No money was charged. See the FailureReason for more info (below).</li>
+</ul>
+
+<p>In the case of the latter two options above, a <code class="highlighter-rouge">FailureReason</code> can be parsed to get a better idea of what went wrong;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">NONE</code> - No error (never used for <code class="highlighter-rouge">FAILED</code>)</li>
+  <li><code class="highlighter-rouge">CANCELLED</code> - The payment was cancelled before it could complete</li>
+  <li><code class="highlighter-rouge">REJECTED</code> - The request was rejected, either due to invalid data or because there was no payment service that could handle it</li>
+  <li><code class="highlighter-rouge">DECLINED</code> - The payment service declined the payment (see transactionResponse.getResponseCode() to determine the reason)</li>
+  <li><code class="highlighter-rouge">TIMEOUT</code> - The flow timed out due to application and/or merchant inactivity</li>
+  <li><code class="highlighter-rouge">ERROR</code> - Some unexpected error caused the payment to fail</li>
+</ul>
+
+<div class="callout callout--warning">
+  <p>Due to the vast amount of possible failure reasons, not every reason can be represented. If you encounter failures during development, please check the FPS system audit log / request logs in the `AppFlow` app, or use Logcat.</p>
+</div>
+
+<p>There is a convenience method, <code class="highlighter-rouge">response.isAllTransactionApproved()</code>, that will help you determine whether all transactions were approved or not. It is important to realise that it is possible for the outcome to be <em>FULFILLED</em> despite failed transactions. This is due to the way the payment flow operates, where a split app can split up the payment into multiple transactions, and it may choose to retry a transaction or move the balance forward, etc. The payment flow <em>only</em> cares about ensuring the amounts requested are processed - it does not care <em>how</em> that is done.</p>
+
+<div class="callout callout--success">
+<p>
+You can check what the total amounts charged were by calling `response.getTotalAmountsProcessed()`. Due to the ability for flow services to add and pay amounts, it is possible that the amounts processed is more than what you initially requested. As an example, a flow service might add a tip or some fee or a charity donation, meaning the overall amounts will be greater than what your application requested initially.
+</p>
+</div>
+
+<p>You can get the full list of transactions by calling <code class="highlighter-rouge">response.getTransactions()</code>. The <code class="highlighter-rouge">Transaction</code> contains all the relevant input data for that transaction. It also contains a list of <code class="highlighter-rouge">TransactionResponse</code> objects that were generated from flow services in the flow. This is often from payment applications, but may also be from value added services such as loyalty where rewards or points were used.</p>
+
+<p>The <code class="highlighter-rouge">TransactionResponse</code> contains the following mandatory fields;</p>
+
+<ul>
+  <li>Outcome - Approved or Declined</li>
+  <li>Amounts processed - The amounts processed (may not equal the TransactionRequest amount)</li>
+  <li>Payment method - What method was used for payment (card, cash, etc)</li>
+</ul>
+
+<p>In addition, it may optionally contains</p>
+<ul>
+  <li>Response code - The response code, which is payment service (protocol, region, etc) specific</li>
+  <li>Card - The details of the card used, if any, for the transaction</li>
+  <li>References - A set of transaction references</li>
+</ul>
+
+<p>See here for more information about <a href="/pos-android-sdk/technical/transactions">Transaction objects</a>.</p>
+
+<h5 id="partially-fulfilled">Partially fulfilled</h5>
+<p>Partially fulfilled outcomes should generally be rare, but can happen as a result of</p>
+<ul>
+  <li>the payment app declining after a flow service pays off amounts (such as via loyalty points)</li>
+  <li>a split transaction getting cancelled after at least one approved transaction</li>
+  <li>a host/gateway performing a partial auth</li>
+  <li>some unexpected error in the flow.</li>
+</ul>
+
+<p>It is <strong>essential</strong> that your application can manage this outcome. There are a few different approaches to take in this scenario;</p>
+
+<ul>
+  <li>You can initiate a new request with the remaining balance</li>
+  <li>You can “give up” and cancel the payment. In the case of split transactions, you <em>must</em> ensure to reverse the transactions that were approved.</li>
+</ul>
+
+<p>It is advisable to offer these options in your app to the merchant as he/she would be in the best position to make this decision.</p>
+
+<h4 id="flow-application-trace">Flow application trace</h4>
+<p>You can review what flow applications were called and what type of data they may have augmented, if any, as part of the payment processing or your request.</p>
+
+<p>The <code class="highlighter-rouge">PaymentResponse</code> and <code class="highlighter-rouge">Transaction</code> models contains information about what data was augmented in the flow, by what app and in what stage.</p>
+
+<p>See <code class="highlighter-rouge">PaymentResponse.getExecutedPreFlowApp()</code>, <code class="highlighter-rouge">PaymentResponse.getExecutedPostFlowApp()</code> and <code class="highlighter-rouge">Transaction.getExecutedFlowApps()</code> to retrieve this information on an overall flow or per transaction basis.</p>
+
+<p>The below keys can be used to check what data was augmented via mapping to values in the <code class="highlighter-rouge">FlowAppInfo.getAugmentedData()</code> list.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Augmented data key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“amount”</td>
+      <td>The amounts were augmented</td>
+    </tr>
+    <tr>
+      <td>“basket”</td>
+      <td>An existing basket was augmented, or a new one was added</td>
+    </tr>
+    <tr>
+      <td>“customer”</td>
+      <td>Customer details were augmented or added</td>
+    </tr>
+    <tr>
+      <td>“currency”</td>
+      <td>The currency of a transaction was updated (currency conversion)</td>
+    </tr>
+    <tr>
+      <td>“payment”</td>
+      <td>The payment data was augmented (via PRE_FLOW)</td>
+    </tr>
+    <tr>
+      <td>“cancelled”</td>
+      <td>The flow was requested to be cancelled</td>
+    </tr>
+    <tr>
+      <td>“additionalData”</td>
+      <td>Additional data was augmented or added for the request</td>
+    </tr>
+    <tr>
+      <td>“references”</td>
+      <td>References were added to the response</td>
+    </tr>
+  </tbody>
+</table>
+
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+				
+					<div class="o-col-3@lg o-offset-1@lg o-offset-2@xl">
+						<ul class="c-page-nav u-sticky u-pin-t-6 u-mt-4 u-mt-1@lg u-mb-1 u-mb-4@lg">
+							
+							
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/pre-requisites">
+												<p class="c-page-nav__heading">Pre-requisites</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/api-overview">
+												<p class="c-page-nav__heading">API overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/querying-for-information">
+												<p class="c-page-nav__heading">Querying for information</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/flow-initiation">
+												<p class="c-page-nav__heading">Initiate flows</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/handling-responses">
+												<p class="c-page-nav__heading">Handling responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/pos/parse-responses">
+												<p class="c-page-nav__heading">Parse responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/handling-errors">
+												<p class="c-page-nav__heading">Handling errors</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/events-subscription">
+												<p class="c-page-nav__heading">System events</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/status-update-flows">
+												<p class="c-page-nav__heading">Status update flows</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/application-guidelines">
+												<p class="c-page-nav__heading">Application guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
+											</a>
+										</li>
+									
+									
+								
+							
+						</ul><!-- /.c-page-nav -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+	</div>
+
+
+
+	
+	
+		<div class="u-bg-primary u-text-white u-pt-3 u-pt-4@sm u-pb-3 u-pb-4@sm">
+			<div class="o-container">
+				<div class="o-row">
+					<div class="o-col-12 u-text-center">
+						<div class="u-inline-block u-flex@sm">
+							
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/guides/pos/handling-responses" class="c-arrow-link c-arrow-link--prev u-mr-auto">Handling responses</a>
+									
+									
+										<a href="/pos-android-sdk/guides/pos/handling-errors" class="c-arrow-link c-arrow-link--next u-ml-auto">Handling errors</a>
+									
+								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+						</div>
+					</div><!-- /.o-col -->
+				</div><!-- /.o-row -->
+			</div><!-- /.o-container -->
+		</div>
+		
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+
+	
+

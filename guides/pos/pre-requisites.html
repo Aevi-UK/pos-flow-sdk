@@ -29,15 +29,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -68,17 +72,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>Installation of required applications and configuring your project</p>
+							<p>Get started with integration</p>
 						</div>
 					
 					
@@ -141,18 +151,21 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="pre-requisites">Pre-requisites</h1>
 
-<p>Before developing any applications you will need to obtain and install the AEVI AppFlow components.</p>
+<p>In order to explore AppFlow or test your application, you will need to install the relevant AEVI AppFlow components on an Android device or emulator (API level 21+).
+Note that this can be any generic Android device/emulator - AppFlow itself does not depend on any payment terminal functions.</p>
 
-<p>You will need to install these two applications, which are provided for you by AEVI;</p>
+<p>The following two core applications are part of the developer bundle;</p>
 <ul>
-  <li>Flow Processing Service (FPS) - implements the APIs and executes the flows</li>
+  <li>Flow Processing Service (FPS) - handles API calls from the initiation API, executes the flow and calls value added services and payment applications</li>
   <li>Developer Config Provider - provides the flow configurations and other settings for AppFlow</li>
 </ul>
 
-<p>Please download the latest developer bundle from <a href="/pos-android-sdk/downloads">here</a>, which contains these applications as well as the latest samples.</p>
+<p>In addition, the bundle also contains samples that can be used to see AppFlow in action.</p>
+
+<p>Please download the latest developer bundle from <a href="/pos-android-sdk/downloads">here</a>.</p>
 
 <div class="callout callout--danger">
-  <p>Please ensure you install the correct version of FPS to match the version of the API you are using in your application. i.e. for AppFlow v2 please install FPS v2.x.x</p>
+  <p>Please ensure you install a version of FPS that matches the version of the API you are using in your application. i.e. for API 2.0.X please install FPS v2.0.X</p>
 </div>
 
 <h2 id="integrate">Integrate</h2>
@@ -177,11 +190,7 @@
     }
 </code></pre></div></div>
 
-<h3 id="payment-initiation-api-dependencies">Payment Initiation API Dependencies</h3>
-
-<p>The following dependencies should be added to your build.gradle file under the dependencies section.</p>
-
-<p>For client/POS applications to initiate flows.</p>
+<p>Add the dependency listing below in the dependencies section of your <code class="highlighter-rouge">build.gradle</code> file in order to integrate the <code class="highlighter-rouge">Payment Initiation API</code>.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'com.aevi.sdk.pos.flow:payment-initiation-api:&lt;version&gt;'
 </code></pre></div></div>
@@ -198,32 +207,8 @@ of these data structures are, in order to keep them as flexible and configurable
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation `com.aevi.sdk.flow:api-constants:&lt;version&gt;'
 </code></pre></div></div>
 
+<h2 id="legacy-migration">Legacy Migration</h2>
 <p>If your application is currently integrated with the first version of AppFlow, please see <a href="/pos-android-sdk/technical/v1-to-v2-migration">migration from v1</a> for details on how to update to v2.</p>
-
-<h2 id="api-dependencies">API Dependencies</h2>
-
-<p>AppFlow also makes use of a few other AEVI open source libraries that can be used outside of AppFlow as well.</p>
-
-<h3 id="android-rxmessenger">Android RxMessenger</h3>
-
-<p><a href="https://github.com/Aevi-UK/android-rxmessenger">RxMessenger</a> is a library that provides an RxJava interface around communication between Android services and other components such as activities.</p>
-
-<p>This library is a core part of the AppFlow implementation and is used for all communications between the various applications that form the flow.</p>
-
-<p>Most of the use of this library is abstracted from the clients of the AppFlow APIs, but if you have advanced requirements for how to manage service and activity lifecycles in your application, this may be of help.</p>
-
-<p>There is some direct use in the AppFlow Samples, but for a more thorough illustration of its use, have a look at the RxMessenger sample.</p>
-<ul>
-  <li><a href="https://github.com/Aevi-UK/android-rxmessenger/tree/master/SampleServerApp">Service sample</a></li>
-  <li><a href="https://github.com/Aevi-UK/android-rxmessenger/tree/master/SampleClientApp">Client sample</a></li>
-</ul>
-
-<h3 id="json-utils">JSON Utils</h3>
-
-<p><a href="https://github.com/Aevi-UK/json-utils">JsonUtils</a> is a useful companion to RxMessenger and can be used to easily serialise and deserialise models to and from JSON. JSON is an excellent language and platform agnostic way to pass data between components. AppFlow uses JSON exclusively to represent data, configurations, etc.</p>
-
-<p>The main use case for AppFlow applications here is to use the <code class="highlighter-rouge">Jsonable</code> interface on any custom models, allowing them to easily be converted to and from JSON as part of <code class="highlighter-rouge">AdditionalData</code> values.</p>
-
 
 							
 
@@ -252,68 +237,8 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/flow-initiation">
-												<p class="c-page-nav__heading">Flow initiation</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/handling-responses">
-												<p class="c-page-nav__heading">Handling responses</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/handling-errors">
-												<p class="c-page-nav__heading">Handling errors</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/status-update-flows">
-												<p class="c-page-nav__heading">Status update flows</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
-												<p class="c-page-nav__heading">Querying for responses</p>
+											<a href="/pos-android-sdk/guides/pos/api-overview">
+												<p class="c-page-nav__heading">API overview</p>
 											</a>
 										</li>
 									
@@ -336,8 +261,8 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/events-subscription">
-												<p class="c-page-nav__heading">Event subscription</p>
+											<a href="/pos-android-sdk/guides/pos/flow-initiation">
+												<p class="c-page-nav__heading">Initiate flows</p>
 											</a>
 										</li>
 									
@@ -348,8 +273,92 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/query-for-devices">
-												<p class="c-page-nav__heading">Query for devices</p>
+											<a href="/pos-android-sdk/guides/pos/handling-responses">
+												<p class="c-page-nav__heading">Handling responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/parse-responses">
+												<p class="c-page-nav__heading">Parse responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/handling-errors">
+												<p class="c-page-nav__heading">Handling errors</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/events-subscription">
+												<p class="c-page-nav__heading">System events</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/status-update-flows">
+												<p class="c-page-nav__heading">Status update flows</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/application-guidelines">
+												<p class="c-page-nav__heading">Application guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
 											</a>
 										</li>
 									
@@ -381,9 +390,13 @@ of these data structures are, in order to keep them as flexible and configurable
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/flow-initiation" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow initiation</a>
+										<a href="/pos-android-sdk/guides/pos/api-overview" class="c-arrow-link c-arrow-link--next u-ml-auto">API overview</a>
 									
 								
+							
+							 	
+							
+							 	
 							
 							 	
 							

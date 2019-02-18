@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Implementing Flow Services | AEVI AppFlow</title>
+			<title>Implementing the services | AEVI AppFlow</title>
 		
 		
 			<meta name="description" content="How to integrate any application with AppFlow to add data or augment the flow">
@@ -29,15 +29,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -68,17 +72,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -114,11 +124,11 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
 					
 					
 						<div class="u-h6">
-							<p>How to implement a flow service</p>
+							<p>Implementing the services</p>
 						</div>
 					
 					
@@ -139,44 +149,28 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="implementing-flow-services">Implementing flow services</h1>
+							<h1 id="implementing-the-services">Implementing the services</h1>
 
-<p>There are three types of flow; <em>payment</em>, <em>generic</em> and <em>status updates</em>. These flows may have one or multiple stages defined. Any given application with a particular purpose will fit into AppFlow via what stage it will be called in.</p>
+<p>Now that you have decided what stages are relevant for your application and set up the content provider, it is time to implement the actual service.
+The service (which is an Android Service) is what FPS will be calling into for passing flow data and how your application can send back a response.</p>
 
-<p><a href="/pos-android-sdk/flow-stages">More details of flow stages can be found here</a>.</p>
+<h2 id="defining-the-service-entry-point">Defining the service entry point</h2>
 
-<h2 id="defining-the-stage-entry-points">Defining the stage entry points</h2>
+<p>Depending on the structure and requirements of your application, there are different approaches to defining your entry points for your service to be called.</p>
 
-<p>Depending on the needs and requirements of your application, there are different approaches to defining your entry points for your service to be called.</p>
-
-<p>If your service supports multiple stages where the majority can be handled without presenting a UI, the best option is to extend <code class="highlighter-rouge">BasePaymentFlowService</code>, which gives you callbacks into a service for each stage and gives you full freedom to choose how to handle that request.</p>
-
-<p>If on the other hand all your request handling involves user interaction, looking at the <code class="highlighter-rouge">ActivityProxyService</code> to delegate straight to your activities might be a better option.</p>
-
-<p>Before we look at these two options, we need to cover <em>stage models</em>, which are the models your service will be working with to read and augment data for any given stage.</p>
-
-<h3 id="stage-models">Stage models</h3>
-<p>As each stage of the flow typically deals with different input and output data, there is generally one stage model defined per stage. The one exception is for <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code>, where they do in fact share the same data types and same rules, meaning they also share the model.</p>
-
-<p>All the stage models provide a similar set of functions,</p>
-
+<p>There are two main options;</p>
 <ul>
-  <li>Initialise from a service context</li>
-  <li>Initialise from an activity context</li>
-  <li>Get the request (input data) for this stage</li>
-  <li>A number of augmentation functions</li>
-  <li>A method to send the response</li>
-  <li>Start an activity to handle the request (from a service context)</li>
+  <li>Extend a base service class and have full control over if/when UI is launched and how to handle events, etc</li>
+  <li>Use a pre-defined service that simply proxies any request straight to an activity of your choice</li>
 </ul>
 
-<p>In addition, the stage models set up some interaction points with the API behind the scenes to reduce the amount of boilerplate required for app developers.</p>
+<p>As as simple rule - if all your AppFlow implementation will be UI-based, then <code class="highlighter-rouge">ActivityProxyService</code> is the best place to start.
+If on the other hand you have scenarios where you don’t require user interface, or need to execute asynchronously, extending <code class="highlighter-rouge">BasePaymentFlowService</code> gives you more flexibility.</p>
 
-<p>See <a href="https://github.com/Aevi-UK/pos-flow-sdk/blob/master/payment-flow-service-api/src/main/java/com/aevi/sdk/pos/flow/stage/PreTransactionModel.java">PreTransactionModel</a> for an example of a stage model.</p>
-
-<p>Below you can find a table which outlines what intent actions and stage models to use for each stage.</p>
+<p>You will see that each method has a <em>model</em> passed to it as a parameter. This is covered in detail on the next page.</p>
 
 <h3 id="extending-basepaymentflowservice">Extending BasePaymentFlowService</h3>
-<p>The <code class="highlighter-rouge">BasePaymentFlowService</code>, contains a method per stage that a subclass can override to handle that particular stage.</p>
+<p>The <code class="highlighter-rouge">BasePaymentFlowService</code> contains a method per stage that a subclass can override to handle that particular stage.</p>
 
 <p>An example of such a method is,</p>
 
@@ -200,14 +194,6 @@
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onGeneric</span><span class="o">(</span><span class="n">GenericStageModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">GenericStageHandler</span><span class="o">.</span><span class="na">handleGenericRequest</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onForceFinish</span><span class="o">(</span><span class="n">ClientCommunicator</span> <span class="n">clientCommunicator</span><span class="o">)</span> <span class="o">{</span>
-      <span class="kd">super</span><span class="o">.</span><span class="na">onForceFinish</span><span class="o">(</span><span class="n">clientCommunicator</span><span class="o">);</span> <span class="c1">// be sure to call the super method here for auto finish</span>
-
-      <span class="c1">// Finish up anything you might have started in here. Activities started via `processInActivity` will</span>
-      <span class="c1">// be finished automatically and any response sent here will be ignored</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
@@ -265,30 +251,20 @@
 
 <p>The models only keep a weak reference to your activities, so there are no risks of activity memory leaks via the models even if your code passes these onto other classes in your application.</p>
 
-<h2 id="defining-the-generic-stage-entry-points">Defining the generic stage entry points</h2>
+<div class="callout callout--info">
+  <p>Note - make sure to read about flow service events further down this page to understand how using the proxy impacts this.</p>
+</div>
 
-<p>In addition to being called for payment flows, your application can also handle what we refer to as <em>generic</em> requests that applications can initiate via the client APIs. These generic requests may be of well-defined types like <em>tokenisation</em>, or be custom for a particular app or group of apps. There is an example in the <code class="highlighter-rouge">initiation sample application</code> that calls into the <code class="highlighter-rouge">flow service sample</code> to show loyalty point balance.</p>
+<h2 id="handling-status-updates">Handling status updates</h2>
 
-<p>There are only two possible stages for generic</p>
+<p><a href="/pos-android-sdk/guides/pos/status-update-flows">Status update flows</a> are a bit different to the other flows in that they are processed in the <em>background</em> and requests are submitted to a <em>request queue</em>. They can be processed in parallel to the standard payment and generic flows.</p>
 
-<ul>
-  <li><code class="highlighter-rouge">GENERIC</code></li>
-  <li><code class="highlighter-rouge">POST_GENERIC</code></li>
-</ul>
+<p>To handle these updates, either extend the <code class="highlighter-rouge">BaseStatusUpdateService</code> or override <code class="highlighter-rouge">onStatusUpdate()</code> method in a <code class="highlighter-rouge">BasePaymentFlowService</code> implementation.
+Applications can choose to finish without passing back any data to the client via the <code class="highlighter-rouge">finish()</code> method in the model, or pass back a set of references via the <code class="highlighter-rouge">finishWithReferences()</code> method.</p>
 
-<p>See <a href="/pos-android-sdk/flow-stages">Flow Stages</a> for details on the stages.</p>
-
-<p>As outlined earlier, the stages can be handled via the <code class="highlighter-rouge">BasePaymentFlowService</code> and <code class="highlighter-rouge">ActivityProxyService</code>. In addition, for generic stages, there are also specific base classes (due to the fact that generic requests are part of the AppFlow <em>base APIs</em> and not unique to the POS implementation of AppFlow).</p>
-
-<p>See <code class="highlighter-rouge">BaseGenericService</code> and <code class="highlighter-rouge">BasePostGenericService</code> for base classes specifically for these stages. These are demonstrated via the samples as well. These may be preferred if your service is <em>only</em> interested in generic flows, otherwise the other options above are more suitable.</p>
-
-<h2 id="defining-status-update-entry-point">Defining status update entry point</h2>
-
-<p><a href="/pos-android-sdk/guides/pos/status-update-flows">Status update flows</a> are a bit different in that they are processed in the <em>background</em> and requests are submitted to a <em>request queue</em>. They can be processed in parallel to the standard payment and generic flows.</p>
-
-<p>Applications that process status updates must only run in the background - i.e handle the update in the service and not launch any activities. Applications can choose to finish without passing back any data to the client via the <code class="highlighter-rouge">finish()</code> method in the model, or pass back a set of references via the <code class="highlighter-rouge">finishWithReferences()</code> method.</p>
-
-<p>To handle these updates, either extend the <code class="highlighter-rouge">BaseStatusUpdateService</code> or override <code class="highlighter-rouge">onStatusUpdate()</code> method in a <code class="highlighter-rouge">BasePaymentFlowService</code> implementation.</p>
+<div class="callout callout--warning">
+  <p>Applications that process status updates must ONLY run in the background - i.e handle the update in the service and not launch any activities. The proxy approach may not be used for this.</p>
+</div>
 
 <h2 id="stages-summary">Stages summary</h2>
 
@@ -343,7 +319,7 @@
     </tr>
     <tr>
       <td><code class="highlighter-rouge">STATUS_UPDATE</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_StatusUpdate</code></td>
+      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_STATUS_UPDATE</code></td>
       <td><code class="highlighter-rouge">StatusUpdateModel</code></td>
     </tr>
   </tbody>
@@ -354,13 +330,7 @@
 
 <p>Any flow service can do this via simply returning back an empty response immediately from the model (finish(), skip(), etc) and then continuing to execute. It is up to each flow service if and when the service is stopped as described in a section below.</p>
 
-<h2 id="undoing-your-augmentation">Undoing your augmentation</h2>
-
-<p>Due to the nature of services getting called in sequence, where an outcome is determined somewhere in the middle, it is possible that a flow will be cancelled, declined or otherwise aborted before it is successfully completed. This means that any action you performed at a stage earlier in the flow, like using a customers loyalty points for a purchase, is now invalid.</p>
-
-<p>To mitigate this and allow a flow service to undo previously made changes, AppFlow supports <em>response listeners</em>, which is a separate entry point into your application to which a <code class="highlighter-rouge">PaymentResponse</code> or <code class="highlighter-rouge">Response</code> is passed so that your application can review the outcome.</p>
-
-<p>See <a href="/pos-android-sdk/guides/pos/flow-response-listeners">Flow Response Listeners</a> for more information.</p>
+<p><strong>Note</strong> that this is only allowed from a <em>service</em>, you may not keep any activities running after sending response or skip.</p>
 
 <h2 id="service-lifecycle">Service lifecycle</h2>
 <p>AppFlow does not ever stop your service. It is entirely up to your implementation if the service should remain running in the background (until Android kills it) and accepts requests, or shut down after each request has been handled via a call to <code class="highlighter-rouge">stopSelf()</code>.</p>
@@ -368,41 +338,6 @@
 <p>You can also call <code class="highlighter-rouge">setStopServiceOnEndOfStream(true)</code> from the service to indicate that you want the service to automatically be stopped after the client (FPS) has closed the connection.</p>
 
 <p>Do note however that if you wish to process data in the background / asynchronously to the flow (via passing back an empty response and continuing parsing the input data - typically for analytics, etc), you need to ensure you don’t call the above method or <code class="highlighter-rouge">stopSelf()</code> too early.</p>
-
-<h2 id="supported-flow-types">Supported flow types</h2>
-<p>Via the <code class="highlighter-rouge">PaymentFlowServiceInfo</code> model, your service will be reporting various details, including what flow types are supported and whether the service supports any <em>custom</em> request types.</p>
-
-<p>Most flow services will be supporting a specific set of flow types, like <em>sale</em> or <em>refund</em> or <em>tokenisation</em>. As an example, a loyalty application would typically only be applicable to <em>sale</em> flows.</p>
-
-<p>It is important to understand here that the flow types reported by a flow service does not automatically enable a client to initiate those types. What a client can initiate is entirely based on the defined flows and their associated flow types. It is possible for a flow service to support a type for which there is no flow and for a flow to list a flow service for a type it does not support.</p>
-
-<p>The latter scenario is where the supported flow types reported from the flow service comes into effect. FPS will ensure that a flow service that does not support a given type does not get called. This is to ensure that flow services do not need to worry about handling unsupported types.</p>
-
-<p>However, there are use cases where a flow service may <em>want</em> to get called for any type and handle it on its own, in which case it can leave the supported flow types set empty, which means FPS will always allow any type for request to be sent to it.</p>
-
-<h2 id="defining-custom-types">Defining custom types</h2>
-<p>In addition to specifying support for the pre-defined types like <em>sale</em> etc, a flow service can also define a new custom type via the <code class="highlighter-rouge">PaymentFlowServiceInfo</code>. It is possible for a flow service to only support custom request types and none of the pre-defined types.</p>
-
-<p>An example of a custom request type can be found in the <code class="highlighter-rouge">Flow Service Sample</code>, which defines <code class="highlighter-rouge">showLoyaltyPointsBalance</code> as a type, allowing a client to initiate a request which will show a customer their loyalty points balance.</p>
-
-<p>If your custom request requires input data and/or contains output data, please see <a href="/pos-android-sdk/technical/reference-values">Reference Values</a>.</p>
-
-<h2 id="appflow-actions">AppFlow actions</h2>
-<p>AppFlow provides the merchant with flow controls via a standard sticky Android notification. The possible actions a merchant can choose here are</p>
-<ul>
-  <li><em>Cancel</em> - Cancel the flow (only applicable to <code class="highlighter-rouge">PRE_FLOW</code> and <code class="highlighter-rouge">SPLIT</code>)</li>
-  <li><em>Resume</em> - Resume the current step (if merchant left the activity for some reason)</li>
-  <li><em>Skip</em> - Skip this step (not applicable to all stages)</li>
-</ul>
-
-<p>These choices can lead to two outcomes for your service, documented below.</p>
-
-<h3 id="resume">Resume</h3>
-<p>If your service is handling a request in an activity, and the merchant/operator presses the home button, or otherwise leave that activity, they may then choose to resume it later via the notification. This means your activity (provided it follows the <a href="application-guidelines">AppFlow Guidelines</a>, may then be re-created.</p>
-
-<h3 id="force-finish">Force finish</h3>
-<p>If the merchant cancels the flow, or chooses to skip the application via the notification, or your service times out, your service will receive a “force finish” request. At this stage, your service can no longer send back a response and you must shut down any UI or other processing in progress.</p>
-
 
 							
 
@@ -431,8 +366,44 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/vaa/api-overview">
+												<p class="c-page-nav__heading">API Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/determine-stages">
+												<p class="c-page-nav__heading">Determine flow stages</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/guides/vaa/expose-app-info">
+												<p class="c-page-nav__heading">Expose app info</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
-												<p class="c-page-nav__heading">Implementing Flow Services</p>
+												<p class="c-page-nav__heading">Implementing the services</p>
 											</a>
 										</li>
 									
@@ -443,8 +414,20 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/integration">
-												<p class="c-page-nav__heading">Integration</p>
+											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
+												<p class="c-page-nav__heading">Interacting with stage models</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/vaa/handling-events">
+												<p class="c-page-nav__heading">Handling events</p>
 											</a>
 										</li>
 									
@@ -456,7 +439,7 @@
 									
 										<li class="is-active">
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
+												<p class="c-page-nav__heading">Adding response listeners</p>
 											</a>
 										</li>
 									
@@ -479,68 +462,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/use-cases">
-												<p class="c-page-nav__heading">Use cases</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/receipt-considerations">
-												<p class="c-page-nav__heading">Receipt Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/split-considerations">
-												<p class="c-page-nav__heading">Split Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/dealing-with-amounts">
-												<p class="c-page-nav__heading">Dealing with Amounts</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/initiating-a-flow">
-												<p class="c-page-nav__heading">Initiating a flow</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/guides/vaa/references">
-												<p class="c-page-nav__heading">References</p>
+											<a href="/pos-android-sdk/guides/vaa/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
 											</a>
 										</li>
 									
@@ -568,25 +491,23 @@
 							 	
 							
 							 	
+							
+							 	
+							
+							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/vaa/pre-requisites" class="c-arrow-link c-arrow-link--prev u-mr-auto">Pre-requisites</a>
+										<a href="/pos-android-sdk/guides/vaa/expose-app-info" class="c-arrow-link c-arrow-link--prev u-mr-auto">Expose app info</a>
 									
 									
-										<a href="/pos-android-sdk/guides/vaa/integration" class="c-arrow-link c-arrow-link--next u-ml-auto">Integration</a>
+										<a href="/pos-android-sdk/guides/vaa/interacting-stage-models" class="c-arrow-link c-arrow-link--next u-ml-auto">Interacting with stage models</a>
 									
 								
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
 							
 							 	
 							

@@ -29,15 +29,19 @@
 					
 						<ul class="c-nav c-nav--stacked u-mx-auto">
 							
-								<li><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
 							
 								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
 							
 						</ul><!-- /.c-nav -->
 					
 					
 						
-							<a href="/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 								Reference
 								<div class="c-btn__icon">
 									<i class="o-icon o-icon--folder"></i>
@@ -68,17 +72,23 @@
 											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
 												
 													
-													<li class=""><a href="/pos-android-sdk/appflow-overview">Introduction</a></li>
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
 												
 													
 													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
 												
 											</ul><!-- /.c-nav -->
 										
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/technical/javadocs" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>How to find out information about FPS and the flows configured</p>
+							<p>How to query for relevant AppFlow information</p>
 						</div>
 					
 					
@@ -143,12 +153,13 @@
 
 <p>Your application can query the API for information that will help you to decide what kind of flows can be initiated and what data can be defined in the request.</p>
 
-<p>This information is contained with a <code class="highlighter-rouge">PaymentSettings</code> model object which exposes useful information such as;</p>
+<p>This information is contained with the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/config/PaymentSettings.html">PaymentSettings</a> model object which exposes useful information such as;</p>
 
 <ul>
-  <li>Installed flow services</li>
+  <li>Installed flow services and associated metadata</li>
   <li>Flow configurations</li>
   <li>FPS settings</li>
+  <li>AppFlow settings</li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">getPaymentSettings</span><span class="o">()</span>
@@ -157,9 +168,10 @@
    <span class="o">});</span>
 </code></pre></div></div>
 
-<h2 id="payment-flow-services">Payment flow services</h2>
-<p>A <code class="highlighter-rouge">PaymentFlowServices</code> object can be obtained via <code class="highlighter-rouge">paymentSettings.getPaymentFlowServices()</code>, which can be used to query for collated information across all flow services, or from a specific flow service.</p>
+<h2 id="installed-flow-services">Installed flow services</h2>
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentFlowServices.html">PaymentFlowServices</a> object can be obtained via <code class="highlighter-rouge">paymentSettings.getPaymentFlowServices()</code>, which can be used to query for collated information across all flow services, or from a specific flow service.</p>
 
+<p>Information relevant for what the current AppFlow environment supports can be reviewed, such as;</p>
 <ul>
   <li>Supported currencies</li>
   <li>Supported payment methods</li>
@@ -174,10 +186,12 @@
   </li>
 </ul>
 
+<p>In addition, flow service metadata is available such as application name, vendor, version, etc.</p>
+
 <p>This, in combination with the information from the next section, will help you determine what is possible on any given device.</p>
 
 <h2 id="flow-configurations">Flow configurations</h2>
-<p>The <code class="highlighter-rouge">FlowConfigurations</code> model returned via <code class="highlighter-rouge">paymentSettings.getFlowConfigurations()</code> exposes information about all the active flows in FPS.</p>
+<p>The <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/config/FlowConfigurations.html">FlowConfigurations</a> model returned via <code class="highlighter-rouge">paymentSettings.getFlowConfigurations()</code> exposes information about all the active flows in FPS.</p>
 
 <p>The flow configurations <strong>alone</strong> determine what functions are available for a client application, such as whether refund is supported or whether a sale can be split or not. These flow configurations are generally defined by AEVI and/or the acquirer/bank to match the requirements for the environment and/or enabled device in which they will be used.</p>
 
@@ -193,7 +207,7 @@
 <p>It is also possible to get all or stream all the available flow configs and apply Rx filtering on these to get the results required.</p>
 
 <h2 id="fps-settings">FPS Settings</h2>
-<p>The Flow Processing Service (FPS), can to some extent be configured by acquirers and/or merchants.</p>
+<p>The behaviour of Flow Processing Service (FPS) can to some extent be configured by acquirers and/or merchants.</p>
 
 <p>Examples of such settings are</p>
 
@@ -203,7 +217,17 @@
   <li>UI theming, show/hide controls, etc</li>
 </ul>
 
+<p>See all settings <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/config/FpsSettings.html">here</a>.</p>
+
 <p>These settings can be retrieved via <code class="highlighter-rouge">paymentSettings.getFpsSettings()</code>.</p>
+
+<h2 id="appflow-settings">AppFlow Settings</h2>
+
+<p>As of v2.1.0, this also exposes some general settings that is intended to be useful for any application integrated with AppFlow.</p>
+
+<p>This includes things like date and time formats, primary language/currency, etc.</p>
+
+<p>See all settings <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/config/AppFlowSettings.html">here</a>.</p>
 
 							
 
@@ -232,68 +256,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/pos/flow-initiation">
-												<p class="c-page-nav__heading">Flow initiation</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/pos/flow-response-listeners">
-												<p class="c-page-nav__heading">Flow response listener</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/pos/handling-responses">
-												<p class="c-page-nav__heading">Handling responses</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/pos/handling-errors">
-												<p class="c-page-nav__heading">Handling errors</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/pos/status-update-flows">
-												<p class="c-page-nav__heading">Status update flows</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
-												<p class="c-page-nav__heading">Querying for responses</p>
+											<a href="/pos-android-sdk/guides/pos/api-overview">
+												<p class="c-page-nav__heading">API overview</p>
 											</a>
 										</li>
 									
@@ -316,8 +280,8 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/events-subscription">
-												<p class="c-page-nav__heading">Event subscription</p>
+											<a href="/pos-android-sdk/guides/pos/flow-initiation">
+												<p class="c-page-nav__heading">Initiate flows</p>
 											</a>
 										</li>
 									
@@ -328,8 +292,92 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/guides/pos/query-for-devices">
-												<p class="c-page-nav__heading">Query for devices</p>
+											<a href="/pos-android-sdk/guides/pos/handling-responses">
+												<p class="c-page-nav__heading">Handling responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/parse-responses">
+												<p class="c-page-nav__heading">Parse responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/handling-errors">
+												<p class="c-page-nav__heading">Handling errors</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/querying-for-responses">
+												<p class="c-page-nav__heading">Querying for responses</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/events-subscription">
+												<p class="c-page-nav__heading">System events</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/status-update-flows">
+												<p class="c-page-nav__heading">Status update flows</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/application-guidelines">
+												<p class="c-page-nav__heading">Application guidelines</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
+											<a href="/pos-android-sdk/guides/pos/next-steps">
+												<p class="c-page-nav__heading">Next steps</p>
 											</a>
 										</li>
 									
@@ -359,27 +407,31 @@
 							 	
 							
 							 	
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
-							
-							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/querying-for-responses" class="c-arrow-link c-arrow-link--prev u-mr-auto">Querying for responses</a>
+										<a href="/pos-android-sdk/guides/pos/api-overview" class="c-arrow-link c-arrow-link--prev u-mr-auto">API overview</a>
 									
 									
-										<a href="/pos-android-sdk/guides/pos/events-subscription" class="c-arrow-link c-arrow-link--next u-ml-auto">Event subscription</a>
+										<a href="/pos-android-sdk/guides/pos/flow-initiation" class="c-arrow-link c-arrow-link--next u-ml-auto">Initiate flows</a>
 									
 								
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
+							
+							 	
 							
 							 	
 							

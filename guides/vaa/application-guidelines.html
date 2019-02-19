@@ -184,7 +184,7 @@
 
 <p>It is up to you how to manage user interactions (back / home) and lifecycle events like <code class="highlighter-rouge">onStop()</code> and <code class="highlighter-rouge">onDestroy()</code> based on what suits your application use case best. There are however a few things to consider.</p>
 
-<p>As mentioned above, FPS does give merchants the option to resume or skip an application via notification controls. This means that if the user presses back or home from your application, and you don’t send back an API response due to this, your app may be restarted with the same request again if the merchant chooses to do so.</p>
+<p>As mentioned above, FPS does give merchants the option to resume or skip an application via notification controls. This means that if the user presses back or home from your application, and you don’t send back an API response due to this, your app may be receive an event asking it to resume the UI.</p>
 
 <div class="callout callout--warning">
   <p>It is crucial that you make a decision whether to support the resume event (see Handling events page) or to send a response upon activity onStopped()/onDestroyed().</p>
@@ -201,7 +201,7 @@
 
 <h2 id="manifest-flags">Manifest flags</h2>
 
-<p>All activities that are launched inside the payment flow must define these flags inside the <code class="highlighter-rouge">activity</code> tag.</p>
+<p>All activities that are launched inside a flow must define these flags inside the <code class="highlighter-rouge">activity</code> tag.</p>
 <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;activity</span>
   <span class="err">...</span>
   <span class="na">android:excludeFromRecents=</span><span class="s">"true"</span>

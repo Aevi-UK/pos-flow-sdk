@@ -326,9 +326,9 @@ Applications can choose to finish without passing back any data to the client vi
 </table>
 
 <h2 id="asynchronous-request-handling">Asynchronous request handling</h2>
-<p>A flow service can handle a request asynchronously in a fire-and-forget fashion where FPS does not wait for any response. This is mainly useful for the “post” stages where there may be apps that are interested in the outcome of things (such as for analytics), but do not want to provide any input back or delay the processing completion.</p>
+<p>An application can handle a request asynchronously in a fire-and-forget fashion where FPS does not wait for any response. This is mainly useful for the “post” stages where there may be apps that are interested in the outcome of things (such as for analytics), but do not want to provide any input back or delay the processing completion.</p>
 
-<p>Any flow service can do this via simply returning back an empty response immediately from the model (finish(), skip(), etc) and then continuing to execute. It is up to each flow service if and when the service is stopped as described in a section below.</p>
+<p>Any application can do this via simply returning back an empty response immediately from the model (finish(), skip(), etc) and then continuing to execute. It is up to each application if and when the service is stopped as described in a section below.</p>
 
 <p><strong>Note</strong> that this is only allowed from a <em>service</em>, you may not keep any activities running after sending response or skip.</p>
 

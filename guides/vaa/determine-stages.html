@@ -124,7 +124,7 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Applications</h2>
 					
 					
 						<div class="u-h6">
@@ -162,28 +162,28 @@ how to set up your application for AppFlow.</p>
 
 <p>The <a href="/pos-android-sdk/technical/request-types">Request Types</a> page outlines the defined AppFlow functions, which via the associated request types defines the <em>flows</em>.</p>
 
-<p>Your flow service will need to define what flow types are supported and from that, what flow stages to be called for.</p>
+<p>Your application will need to define what flow types are supported and from that, what flow stages to be called for.</p>
 
-<p>Is is important to understand that there are two factors that will impact for what flows your service gets called;</p>
+<p>Is is important to understand that there are two factors that will impact for what flows your application gets called;</p>
 <ul>
   <li>The flows defined via the <code class="highlighter-rouge">AppFlow Configuration Provider</code> (in the case of the bundle, this is the <code class="highlighter-rouge">AppFlow Settings</code> application)</li>
-  <li>What flow types your service reports as supported</li>
+  <li>What flow types your application reports as supported</li>
 </ul>
 
-<p>Some types of flow service will only ever be relevant for a particular type of flows. An example is loyalty, which is applicable when a customer is purchasing goods or services.
-These services should define the exact set of supported flow types to ensure they are only called for the relevant functions (like <code class="highlighter-rouge">sale</code>).</p>
+<p>Some types of applications will only ever be relevant for a particular type of flows. An example is loyalty, which is applicable when a customer is purchasing goods or services.
+These applications should define the exact set of supported flow types to ensure they are only called for the relevant functions (like <code class="highlighter-rouge">sale</code>).</p>
 
-<p>Other types of flow services, such as receipt handling services or feedback/ratings services, are not generally restricted to a particular set of functions or flows.
-For these services, it is better to not define supported flow types, which means they can be called for <em>any</em> flow.
+<p>Other types of applications, such as for receipt handling or feedback/ratings, are not generally restricted to a particular set of functions or flows.
+For these applications, it is better to not define supported flow types, which means they can be called for <em>any</em> flow.
 Instead, what flows they are called for is <em>entirely</em> down to the flow configurations for the particular environment/device.</p>
 
 <h2 id="determine-relevant-stages-by-function">Determine relevant stages by function</h2>
 
-<p>Once you have decided what flow types are relevant, you need to select for what stages in those flows your service should be called.</p>
+<p>Once you have decided what flow types are relevant, you need to select for what stages in those flows your application should be called.</p>
 
-<p>Most value added services will fit into one of the payment stages for standard financial transactions.</p>
+<p>Most value added applications will fit into one of the payment stages for standard financial transactions.</p>
 
-<p>The following payment stages, as described in the AppFlow intro, may be relevant for value added services</p>
+<p>The following payment stages, as described in the AppFlow intro, may be relevant for value added applications</p>
 
 <ul>
   <li><code class="highlighter-rouge">PRE_FLOW</code> (rarely)</li>
@@ -250,7 +250,7 @@ Instead, what flows they are called for is <em>entirely</em> down to the flow co
 <p>For assigning points and/or signing up new customers, <code class="highlighter-rouge">POST_TRANSACTION</code> should be used. At this stage, the outcome of the transaction is known and the payment app may have provided a card token as well as part of the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code>.</p>
 
 <h3 id="tipping">Tipping</h3>
-<p>If a POS application does not provide tipping as a function, a flow service may choose to offer this separately.</p>
+<p>If a POS application does not provide tipping as a function, an application may choose to offer this separately.</p>
 
 <p>Tipping is mainly relevant for the <code class="highlighter-rouge">sale</code> and <code class="highlighter-rouge">preAuthCompletion</code> flows.</p>
 
@@ -259,32 +259,32 @@ Instead, what flows they are called for is <em>entirely</em> down to the flow co
 <p>To apply a tip, see the <code class="highlighter-rouge">setAdditionalAmount()</code> or <code class="highlighter-rouge">setAdditionalAmountAsBaseFraction()</code> methods in the stage models.</p>
 
 <h3 id="receipts">Receipts</h3>
-<p>AppFlow enables handling of receipts to be managed by a flow service rather than the payment application or POS application. This is useful for receipt services that allow customers to gather all their receipts in a single location. It is also encouraged for more traditional receipt handling (like printing), as it means integration with printers / printing APIs can be done in a single application as opposed to embedding this functionality in  the POS/payment application.</p>
+<p>AppFlow enables handling of receipts to be managed by a value added application rather than the payment application or POS application. This is useful for receipt services that allow customers to gather all their receipts in a single location. It is also encouraged for more traditional receipt handling (like printing), as it means integration with printers / printing APIs can be done in a single application as opposed to embedding this functionality in  the POS/payment application.</p>
 
-<p>Receipt handling is typically not restricted to a specific set of flows, which is why we would recommend that your service do not report any flow types so that it can be called for any flow.</p>
+<p>Receipt handling is typically not restricted to a specific set of flows, which is why we would recommend that your application do not report any flow types so that it can be called for any flow.</p>
 
-<p>Receipt handling flow services should be called in the <code class="highlighter-rouge">POST_TRANSACTION</code> stage, when the transaction outcome is known.</p>
+<p>Receipt handling applications should be called in the <code class="highlighter-rouge">POST_TRANSACTION</code> stage, when the transaction outcome is known.</p>
 
 <p>There are quite a few considerations to be made for receipt handling in AppFlow - please see <a href="/pos-android-sdk/technical/receipt-considerations">Considerations for receipt applications</a> for in-depth info.</p>
 
 <h3 id="feedback--ratings">Feedback / Ratings</h3>
-<p>Various services can be made available allowing acquirers/merchants to get customer feedback at the end of a transaction, typically via some rating system.</p>
+<p>Applications can be called at the end of a transaction, allowing acquirers/merchants to ask for customer feedback, typically via some rating system.</p>
 
-<p>What type of flows this should be called for will be down to the acquirers, meaning it is best if your service does not report any supported flow types.</p>
+<p>What type of flows this should be called for will be down to the acquirers, meaning it is best if your application does not report any supported flow types.</p>
 
 <p>For payment flows, if feedback is desired <em>per customer</em>, then <code class="highlighter-rouge">POST_TRANSACTION</code> is the relevant stage, or if feedback is desired for the overall payment, then <code class="highlighter-rouge">POST_FLOW</code> is more appropriate.</p>
 
 <p>For generic flows, <code class="highlighter-rouge">POST_GENERIC</code> is the stage to look for.</p>
 
 <h3 id="ads--promotions">Ads / Promotions</h3>
-<p>A flow service can provide ads and promotions that can be read and shown by other services in the flow. As an example, a receipt application might add it to the receipt.</p>
+<p>A value added application can provide ads and promotions that can be read and shown by other applications in the flow. As an example, a receipt application might add it to the receipt.</p>
 
 <p>TBD - flows and stages.</p>
 
 <h3 id="analytics--reporting">Analytics / Reporting</h3>
-<p>It is possible for a flow service to gather and report information and statistics around transactions. As this would deal with potentially sensitive customer data, this would for the most case require a special acquirer application(s).</p>
+<p>It is possible for a value added application to gather and report information and statistics around transactions. As this would deal with potentially sensitive customer data, this would for the most case require a special acquirer application(s).</p>
 
-<p>As these services are typically run for all flows, flow types should be left empty.</p>
+<p>As these applications are typically run for all flows, flow types should be left empty.</p>
 
 <p>These applications can run asynchronously in the <code class="highlighter-rouge">POST_FLOW</code> stage, meaning that they can accept the <code class="highlighter-rouge">PaymentResponse</code> data, and let the flow finish whilst the service processes the data in the background. This is to ensure that such activities do not delay the flow, which would have a negative impact on the sale experience.</p>
 

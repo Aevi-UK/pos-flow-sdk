@@ -162,7 +162,18 @@
 <h3 id="flow-name-vs-type">Flow name vs type</h3>
 <p>A flow has both a name and a type associated with it. This is due to the fact that AppFlow supports multiple flows per type, to allow for scenarios where different stages and/or applications can be used with the same type. As an example, there may be two different <em>sale</em> flows each with a different loyalty scheme and the merchant initiates the relevant one based on what scheme the customer is signed up with.</p>
 
-<p>Clients must provide the flow type at a minimum, and optionally a flow name to explicitly specify what flow to use. If no name is provided and there are multiple flows available for the given type, a dialog will be presented allowing the merchant to select the desired flow.</p>
+<p>Initiating apps must provide the flow type at a minimum, and optionally a flow name to explicitly specify what flow to use. If no name is provided and there are multiple flows available for the given type, a dialog will be presented allowing the merchant to select the desired flow.</p>
+
+<p>If flow name is required, there are two ways to determine what flow name to use:</p>
+
+<ul>
+  <li>The available flows are known up front</li>
+  <li>The possible flows are looked up programmatically from desired type</li>
+</ul>
+
+<p>The first case is fairly standard for initiating apps where they are customised for a particular acquirer. In these cases, that acquirer project will define specifications that outline the available flows and the initiating app can technically hard code the flow names to represent the function they want to initiate.</p>
+
+<p>The second case would allow for dynamic choices of flows, but as FPS already supports this natively, it may not be as useful.</p>
 
 <h3 id="custom-types">Custom types</h3>
 <p>In addition to the pre-defined flows, FPS will also create ad-hoc flows dynamically based on the custom request types reported by the flow services. These are generic flows which typically only call a single application. It is however possible for more than one application to support a custom type, in which case the app selection will be done according to <code class="highlighter-rouge">SINGLE_SELECT</code> rules, described below.</p>
@@ -178,25 +189,6 @@
   <li><code class="highlighter-rouge">MULTIPLE</code> - Multiple applications can be defined and they will be called one by one in order of definition</li>
   <li><code class="highlighter-rouge">DYNAMIC_SELECT</code> - This is a special dev/test type (not allowed in prod) that can have an empty list of apps for full runtime selection of eligible apps</li>
 </ul>
-
-<h2 id="initiating-a-flow">Initiating a flow</h2>
-<p>For client / POS applications, it is important to understand the relationship between a particular POS/payment function and the flow configurations.</p>
-
-<p>In order to initiate any form of request, the flow <em>type</em> has to be provided. However, since AppFlow supports multiple flows per type, it is also possible to specify the flow <em>name</em> to select one specific flow.</p>
-
-<p>There are two ways for POS applications to determine what flow name to use:</p>
-
-<ul>
-  <li>The available flows are known up front</li>
-  <li>The possible flows are looked up programmatically from desired type</li>
-</ul>
-
-<p>The first case is fairly standard for POS applications where they are customised for a particular acquirer. In these cases, that acquirer project will define specifications that outline the available flows and the POS app can technically hard code the flow names to represent the function they want to initiate.</p>
-
-<p>The second case would allow for dynamic choices of flows, but as FPS already supports this natively, it may not be as useful.</p>
-
-<h2 id="getting-called-in-a-flow">Getting called in a flow</h2>
-<p>When a flow service is called in the flow, the input request will contain a <em>type</em> which has been derived from the flow that is being processed. This type represents the function of the flow and will tell flow services what is expected of them. For instance, a payment app will handle <code class="highlighter-rouge">sale</code> and <code class="highlighter-rouge">refund</code> differently, just like a loyalty app technically could choose to refund points for one flow and reward points in another based on the type.</p>
 
 							
 
@@ -227,6 +219,18 @@
 										<li>
 											<a href="/pos-android-sdk/appflow-overview">
 												<p class="c-page-nav__heading">AppFlow Overview</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
+											<a href="/pos-android-sdk/appflow-apps">
+												<p class="c-page-nav__heading">AppFlow Applications</p>
 											</a>
 										</li>
 									
@@ -273,18 +277,6 @@
 								
 									
 										<li class="is-active">
-											<a href="/pos-android-sdk/payment-applications">
-												<p class="c-page-nav__heading">Payment Applications</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
 											<a href="/pos-android-sdk/design-philosophy">
 												<p class="c-page-nav__heading">Design Philosophy</p>
 											</a>
@@ -318,6 +310,8 @@
 							 	
 							
 							 	
+							
+							 	
 								  
 									
 									
@@ -329,8 +323,6 @@
 										<a href="/pos-android-sdk/apis" class="c-arrow-link c-arrow-link--next u-ml-auto">AppFlow APIs</a>
 									
 								
-							
-							 	
 							
 							 	
 							

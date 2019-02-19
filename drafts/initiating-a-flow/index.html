@@ -9,10 +9,10 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>References | AEVI AppFlow</title>
+			<title>Initiating a flow | AEVI AppFlow</title>
 		
 		
-			<meta name="description" content="Value Added Application Reference">
+			<meta name="description" content="How to initiate a flow from a flow service">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -128,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>Getting more information</p>
+							<p>How to initiate a flow from a flow service</p>
 						</div>
 					
 					
@@ -149,12 +149,17 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="references">References</h1>
-<p>For API docs, please see <a href="javadocs">Javadocs</a>.</p>
+							<p>In general, POS applications are responsible for initiating flows and requests. There are however certain scenarios where a value added service may be required to do this in order to meet certain requirements. The most common example is where a loyalty app might be the first point of interaction with a customer where they identify themselves. In order to pass this information onto a payment flow (without using bespoke integrations), the loyalty app can initiate a zero based amounts payment with associated customer data. The POS application will then be called in the <code class="highlighter-rouge">PRE_FLOW</code> stage where it can perform its normal function and update the <code class="highlighter-rouge">Payment</code> model with relevant data before the flow continues.</p>
 
-<p>Please see the <code class="highlighter-rouge">Flow Service Sample</code> for examples of value added service operations.</p>
+<p>Ensure that you have communicated with AEVI before attempting to support this use case, as it requires specific flows and a POS app that supports this scenario.</p>
 
-<p>// TODO link to technical docs here</p>
+<p>The advice and rules outlined in the <a href="/pos-android-sdk/guides/pos/flow-initiation">flow initiation guide</a> apply here as well, with a few limitations;</p>
+<ul>
+  <li>Only the following fields may be set: <code class="highlighter-rouge">Customer</code>, <code class="highlighter-rouge">cardToken</code>, <code class="highlighter-rouge">additionalData</code> and the mandatory <code class="highlighter-rouge">flowType</code> / <code class="highlighter-rouge">flowName</code></li>
+  <li>The <code class="highlighter-rouge">Amounts</code> <em>must</em> be set to 0 (<code class="highlighter-rouge">new Amounts(0, "XXX")</code>)</li>
+</ul>
+
+<p>Contact AEVI for more details for this use case.</p>
 
 							
 

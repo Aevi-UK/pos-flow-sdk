@@ -122,7 +122,7 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Applications</h2>
 					
 					
 						<div class="u-h6">
@@ -188,16 +188,16 @@ The one exception to the rule is <code class="highlighter-rouge">POST_CARD_READI
 <p>Each model has at a minimum a <code class="highlighter-rouge">sendResponse()</code> method and likely a <code class="highlighter-rouge">skip()</code> or <code class="highlighter-rouge">finish()</code> method.</p>
 
 <div class="callout callout--warning">
-  <p>Even if you DO NOT augment the data in any way then your service must still call one of the <code>sendResponse()</code> / <code>skip()</code> / <code>finish()</code> methods to tell FPS that your service is done.</p>
+  <p>Even if you DO NOT augment the data in any way then your application must still call one of the <code>sendResponse()</code> / <code>skip()</code> / <code>finish()</code> methods to tell FPS that your application is done.</p>
 </div>
 
 <h2 id="augmenting-data">Augmenting data</h2>
-<p>Depending on what function your application is offering and for what stages it will be called, there are different augmentation options. This section will break down all the augmentation options (for payment flows specifically) and for what stages and functions they may be useful. The next section will look at specific use cases and advise on how to model your service for that use case.</p>
+<p>Depending on what function your application is offering and for what stages it will be called, there are different augmentation options. This section will break down all the augmentation options (for payment flows specifically) and for what stages and functions they may be useful. The next section will look at specific use cases and advise on how to model your application for that use case.</p>
 
 <p>Note that we do not cover <code class="highlighter-rouge">PRE_FLOW</code> here as it is a special case. Contact AEVI for details.</p>
 
 <h3 id="pretransactionmodel-augmentations">PreTransactionModel augmentations</h3>
-<p>The majority of the relevant augmentations happen before the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage (at what point a payment service determines the outcome of the transaction). After that point, all flow services can do is add references. This section will cover the augmentation options for the <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code> stages. For both these stages, any augmentations are done via the <code class="highlighter-rouge">PreTransactionModel</code>.</p>
+<p>The majority of the relevant augmentations happen before the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage (at what point a payment application determines the outcome of the transaction). After that point, all value added applications can do is add references. This section will cover the augmentation options for the <code class="highlighter-rouge">PRE_TRANSACTION</code> and <code class="highlighter-rouge">POST_CARD_READING</code> stages. For both these stages, any augmentations are done via the <code class="highlighter-rouge">PreTransactionModel</code>.</p>
 
 <h4 id="adding-additional-amounts">Adding additional amounts</h4>
 <p>There are various scenarios for which adding additional amounts is relevant, be it for tipping, fees, donations, etc. The <code class="highlighter-rouge">PreTransactionModel</code> contains two methods for doing this;</p>
@@ -211,7 +211,7 @@ The one exception to the rule is <code class="highlighter-rouge">POST_CARD_READI
 <p>In both cases, the amount is identified via a string identifier. See <a href="/pos-android-sdk/technical/additional-amounts">Additional Amounts</a> for details.</p>
 
 <h4 id="adding-a-basket">Adding a basket</h4>
-<p>The client/POS application may have provided a basket in the initial request. To provide sensible separation between what app/service added what items, flow services can add <em>new</em> baskets, but not add more items to the existing baskets (discounts excepted). This can be done with the <code class="highlighter-rouge">PreTransactionModel.addNewBasket(Basket basket)</code> method.</p>
+<p>The flow initiation application may have provided a basket in the initial request. To provide sensible separation between what app/service added what items, value added applications can add <em>new</em> baskets, but not add more items to the existing baskets (discounts excepted). This can be done with the <code class="highlighter-rouge">PreTransactionModel.addNewBasket(Basket basket)</code> method.</p>
 
 <p>This is the recommended approach to add any form of “upsells” or extras, as it adds visibility of what specifically has been added, allowing receipts apps to show it clearly on the receipts.</p>
 
@@ -220,29 +220,29 @@ The one exception to the rule is <code class="highlighter-rouge">POST_CARD_READI
 </div>
 
 <h4 id="addingupdating-customer-details">Adding/updating customer details</h4>
-<p>A flow service can either add or update customer details. If the initial <code class="highlighter-rouge">Payment</code> does not contain any customer data, the flow service can create a new <code class="highlighter-rouge">Customer</code> model and add to the transaction. If however a <code class="highlighter-rouge">Customer</code> model already exists, a flow service can add</p>
+<p>A value added application can either add or update customer details. If the initial <code class="highlighter-rouge">Payment</code> does not contain any customer data, the application can create a new <code class="highlighter-rouge">Customer</code> model and add to the transaction. If however a <code class="highlighter-rouge">Customer</code> model already exists, the application can add</p>
 <ul>
   <li>Tokens</li>
   <li>Customer details as additional data</li>
 </ul>
 
-<p>Either case is done via <code class="highlighter-rouge">PreTransactionModel.addOrUpdateCustomerDetails(Customer customer)</code>. If adding, the <code class="highlighter-rouge">Customer</code> parameter is created by your service. If updating, you use the <code class="highlighter-rouge">Customer</code> model from the request, update it and then pass it in here.</p>
+<p>Either case is done via <code class="highlighter-rouge">PreTransactionModel.addOrUpdateCustomerDetails(Customer customer)</code>. If adding, the <code class="highlighter-rouge">Customer</code> parameter is created by your application. If updating, you use the <code class="highlighter-rouge">Customer</code> model from the request, update it and then pass it in here.</p>
 
 <h4 id="paying-amounts">Paying amounts</h4>
-<p>A flow service can pay off a portion or all of the requested amounts. The most common scenario for this is via loyalty rewards or points. This can be done via <code class="highlighter-rouge">PreTransactionModel.setAmountsPaid(Amounts amountsPaid, String paymentMethod)</code>. The amounts must not exceed requested amounts and the payment method must be set. See <a href="/pos-android-sdk/technical/payment-methods">Payment Methods</a> for defined options.</p>
+<p>A value added application can pay off a portion or all of the requested amounts. The most common scenario for this is via loyalty rewards or points. This can be done via <code class="highlighter-rouge">PreTransactionModel.setAmountsPaid(Amounts amountsPaid, String paymentMethod)</code>. The amounts must not exceed requested amounts and the payment method must be set. See <a href="/pos-android-sdk/technical/payment-methods">Payment Methods</a> for defined options.</p>
 
 <p>This method is recommended when the payment has no relation to any basket items. If however the payment is provided as discounts to certain items in the basket, like offering a free coffee, then the recommended approach is to apply discounts to baskets which is covered in the next section.</p>
 
 <h4 id="applying-discounts-to-baskets">Applying discounts to baskets</h4>
-<p>If your service provides discounts or rewards based on basket items, then this function will allow your service to apply discounts as items in the same basket. As an example, if the basket contains an item “Latte” with a cost of $3.50, you can via this method add a “free coffee reward” that would look something like “Reward: Free Latte” with a negative amount of $-3.50 to negate the cost of the original item.</p>
+<p>If your application provides discounts or rewards based on basket items, then this function will allow your service to apply discounts as items in the same basket. As an example, if the basket contains an item “Latte” with a cost of $3.50, you can via this method add a “free coffee reward” that would look something like “Reward: Free Latte” with a negative amount of $-3.50 to negate the cost of the original item.</p>
 
 <p>See <code class="highlighter-rouge">PreTransactionModel.applyDiscountsToBasket(String basketId, List&lt;BasketItem&gt; basketItems, String paymentMethod)</code> for more info.</p>
 
 <h4 id="adding-request-data">Adding request data</h4>
-<p>Any arbitrary data that may be required or useful for other flow services (or the POS app) can be added via the <code class="highlighter-rouge">PreTransactionModel.addRequestData(String key, T... values)</code> method.</p>
+<p>Any arbitrary data that may be required or useful for other applications can be added via the <code class="highlighter-rouge">PreTransactionModel.addRequestData(String key, T... values)</code> method.</p>
 
 <h3 id="posttransactionmodel-references">PostTransactionModel references</h3>
-<p>The <code class="highlighter-rouge">PostTransactionModel</code> offers a <code class="highlighter-rouge">addReferences(String key, T... values)</code> method to provide references back to the POS app for the transaction.</p>
+<p>The <code class="highlighter-rouge">PostTransactionModel</code> offers a <code class="highlighter-rouge">addReferences(String key, T... values)</code> method to provide references back to the flow initiation app for the transaction.</p>
 
 
 							

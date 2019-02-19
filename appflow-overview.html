@@ -145,7 +145,7 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<p>The purpose of the AppFlow solution is to provide acquirers and merchants with flexible and powerful options for shaping their point of sale offering. This includes choices of standalone or integrated environments, a choice of numerous value added services that integrate seamlessly into the point of sale experience where a customer can pay via a range of supported payment methods.</p>
 
-<p>AppFlow enables applications (<em>flow services</em>) to be called at different stages of the point of sale journey or <em>flow</em>. What these points are and what applications are called is down to the <em>flow</em> applied to that particular request. The flow applied is determined by the type of the request, such as <em>sale</em> or <em>reversal</em>, which is one of the parameters an initiating application will in the request used to initiate the flow.</p>
+<p>AppFlow enables applications (referred to as <em>flow services</em>) to be called at different stages of the point of sale <em>flow</em>. What these stages are and what applications are called is down to the <em>flow</em> applied to that particular request. The flow applied is determined by the type of the request, such as <em>sale</em> or <em>reversal</em>, which is one of the parameters an initiating application will set in the request used to initiate the flow.</p>
 
 <p>Below is a <em>simplified</em> view of this solution.</p>
 
@@ -153,9 +153,9 @@
 <img src="/pos-android-sdk/images/fps-overview.png" alt="overview" />
 </p>
 
-<p>As you can see from this diagram, the Flow Processing Service (FPS) is the core component that handles all requests and moves them through a flow. FPS is developed and maintained by AEVI; it can be installed onto any Android (API level 21+) device to facilitate this functionality. Once installed onto a device, developers will be able to use the AppFlow APIs to initiate flows and implement value added services and payment  applications. Whereas FPS in this context relates to financial functions, it is in fact agnostic of any particular domain and can be used for any purpose that requires calling a set of applications at different stages of a flow.</p>
+<p>As you can see from this diagram, the <em>Flow Processing Service (FPS)</em> is the core component that handles all requests and moves them through a flow. FPS is developed and maintained by AEVI; it can be installed onto any Android (<em>API level 21+</em>) device to facilitate AppFlow functionality. Once installed onto a device, developers will be able to use the AppFlow APIs in their applications to interact with it. FPS itself is agnostic of point of sale or payments and can be used for any scenario where a flow of applications is useful.</p>
 
-<p>Most flows will be customised for the particular function they provide. For instance, a <code class="highlighter-rouge">sale</code> flow may be sent through a split stage (to split the bill) but that would not make sense for a <code class="highlighter-rouge">refund</code> flow. Flows are fully customisable. The production flows will usually be defined by the bank, acquirer or payment processor distributing AEVI enabled devices.</p>
+<p>Most flows will be customised for the particular function they provide. For instance, a <code class="highlighter-rouge">sale</code> flow may be sent through a split stage (to split the bill) but that would not make sense for a <code class="highlighter-rouge">refund</code> flow. The production flows will usually be defined by the bank, acquirer or payment processor distributing AEVI enabled devices.</p>
 
 <h3 id="summary">Summary</h3>
 
@@ -166,54 +166,6 @@
   <li>Each stage in the flow can optionally execute a number of <em>flow services</em>. These are either statically defined in the flow or dynamically chosen at runtime based on their eligibility for that flow.</li>
   <li>Each flow service will process the data that has been sent to it and pass back a response. The type of data sent between FPS and the flow service for any given stage is determined by the data models for that stage.</li>
 </ul>
-
-<p>If you are developing a client application (POS app), you don’t necessarily need to worry about these details, but if you are developing a flow service then these stages indicate the times at which your flow service may be called.</p>
-
-<p>This is explained in more detail in the upcoming <a href="flow-stages">Flow Stages</a> and <a href="flow-configurations">Flow Configurations</a> sections.</p>
-
-<h2 id="applications">Applications</h2>
-<p>There are two main groups of applications in AppFlow</p>
-
-<ul>
-  <li>Flow initiating applications - typically POS apps</li>
-  <li>Flow services - Value added services and payment applications</li>
-</ul>
-
-<h3 id="flow-initiating-applications">Flow initiating applications</h3>
-
-<p>Flow initiating applications are what the merchant/operator uses to input the details of a transaction, such as choosing items for a customer order or scanning item barcodes. Often this type of application is referred to as a POS app. In AppFlow, these applications make use the <code class="highlighter-rouge">Payment Initiation API</code> to create requests and initiate flows with those requests and subsequently receive a response.</p>
-
-<p>The requests created by these applications determine what flow is called and indirectly what flow services are called via parameters like currency, etc.</p>
-
-<h3 id="flow-services">Flow services</h3>
-
-<p>Flow services are applications that adhere to the <code class="highlighter-rouge">Payment Flow Service API</code> and get called in a flow to perform some function, such as loyalty. FPS will know when to call any given flow service based on the information exposed by the flow service and the flow configuration.</p>
-
-<p>These services can be divided into two main groups;</p>
-
-<ul>
-  <li>Value added services, such as loyalty or split bill</li>
-  <li>Payment applications, which processes the actual payments</li>
-</ul>
-
-<p>The latter, payment applications, are in this context defined as flow services that execute in the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage. They may optionally also support the <code class="highlighter-rouge">PAYMENT_CARD_READING</code> stage where a card may be presented separately to the processing of the payment, to allow for other flow services to react on the given card data, such as token or scheme. These form of applications are typically developed by or on behalf of the acquirer/bank.</p>
-
-<p>The value added services can perform many different tasks that will benefit the merchant and/or customer. Typically these services will augment a request in some way by applying a discount, adding costs such as tax or fees, or in some cases perform operations such as cancelling the transaction. Some examples of value added services are</p>
-
-<ul>
-  <li>loyalty programs</li>
-  <li>charity donations</li>
-  <li>split bill</li>
-  <li>ratings</li>
-  <li>advertising and promos</li>
-  <li>currency conversion</li>
-  <li>receipt printing/emailing</li>
-</ul>
-
-<p>There is no limit on the number of flow services that can be called for any given flow or stage, but in practise it is rarely more than a few to a handful of applications.</p>
-
-<p>FPS performs eligibility filtering of flow services based on request data, flow configuration and flow service metadata.
-If more than one flow service is eligible for a particular stage and a choice is required, FPS will present a selection dialog to the user/merchant allowing them to specify which flow service to use.</p>
 
 							
 
@@ -254,6 +206,18 @@ If more than one flow service is eligible for a particular stage and a choice is
 								
 									
 										<li class="is-active">
+											<a href="/pos-android-sdk/appflow-apps">
+												<p class="c-page-nav__heading">AppFlow Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li class="is-active">
 											<a href="/pos-android-sdk/flow-stages">
 												<p class="c-page-nav__heading">Flow Stages</p>
 											</a>
@@ -280,18 +244,6 @@ If more than one flow service is eligible for a particular stage and a choice is
 										<li class="is-active">
 											<a href="/pos-android-sdk/apis">
 												<p class="c-page-nav__heading">AppFlow APIs</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/payment-applications">
-												<p class="c-page-nav__heading">Payment Applications</p>
 											</a>
 										</li>
 									
@@ -339,7 +291,7 @@ If more than one flow service is eligible for a particular stage and a choice is
 										<a href="/pos-android-sdk/intro" class="c-arrow-link c-arrow-link--prev u-mr-auto">AppFlow Introduction</a>
 									
 									
-										<a href="/pos-android-sdk/flow-stages" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow Stages</a>
+										<a href="/pos-android-sdk/appflow-apps" class="c-arrow-link c-arrow-link--next u-ml-auto">AppFlow Applications</a>
 									
 								
 							

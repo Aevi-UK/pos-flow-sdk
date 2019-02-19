@@ -124,7 +124,7 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Value Added Services</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Value Added Applications</h2>
 					
 					
 						<div class="u-h6">
@@ -151,12 +151,11 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="exposing-application-info">Exposing application info</h1>
 
-<p>In order for your application to be AppFlow compliant, it must expose certain information. It does this via implementing a content provider and
-exposing it via the application manifest.</p>
+<p>In order for your application to be AppFlow compliant, it must expose certain information. It does this via implementing a content provider and exposing it via the application manifest.</p>
 
 <h2 id="adding-the-service-info-provider">Adding the service info provider</h2>
 
-<p>FPS and other applications require certain information about every flow service.</p>
+<p>FPS and other applications require certain information about every value added service.</p>
 
 <p>This is done by extending <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider</code>, as the sample code from the <code class="highlighter-rouge">Flow Service Sample</code> below shows</p>
 
@@ -178,38 +177,40 @@ exposing it via the application manifest.</p>
 
 <p>See <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/pos/flow/model/PaymentFlowServiceInfoBuilder.html">PaymentFlowServiceInfoBuilder</a> for complete details of what can be set.</p>
 
-<p>The following data must be set for value added flow services;</p>
+<p>The following data must be set for value added applications;</p>
 
 <ul>
-  <li><code class="highlighter-rouge">withVendor()</code> - The company providing the service</li>
+  <li><code class="highlighter-rouge">withVendor()</code> - The company providing the application</li>
   <li><code class="highlighter-rouge">withDisplayName()</code> - The name of the application to show to merchants/customers</li>
   <li><code class="highlighter-rouge">withCanPayAmounts()</code> - <strong>If</strong> you provide any form of payment method or apply discounts to baskets</li>
   <li><code class="highlighter-rouge">withCanAdjustAmounts()</code> - <strong>If</strong> you add amounts, like tip, fees, charity, tax or add baskets</li>
 </ul>
 
 <div class="callout callout--warning">
-  <p>Note that if you fail to report that your service can pay or adjust amounts here, FPS will reject any attempts from your application to do so.</p>
+  <p>Note that if you fail to report that your application can pay or adjust amounts here, FPS will reject any attempts from your application to do so.</p>
 </div>
 
 <p>The following data is optional, but we recommend you understand and consider each item as they impact how your service is called;</p>
 
 <ul>
   <li><code class="highlighter-rouge">withSupportedFlowTypes()</code> - Define what flow types your app supports (such as <code class="highlighter-rouge">sale</code> or <code class="highlighter-rouge">refund</code>). (details further down)</li>
-  <li><code class="highlighter-rouge">withCustomRequestTypes()</code> - Define custom/bespoke types that your service can handle (details further down)</li>
-  <li><code class="highlighter-rouge">withSupportedCurrencies()</code> - Restrict what currencies your service can handle (default is all currencies)</li>
-  <li><code class="highlighter-rouge">withSupportedDataKeys()</code> - Define what data keys (for additional data) your service can read/write/update</li>
+  <li><code class="highlighter-rouge">withCustomRequestTypes()</code> - Define custom/bespoke types that your application can handle (details further down)</li>
+  <li><code class="highlighter-rouge">withSupportedCurrencies()</code> - Restrict what currencies your application can handle (default is all currencies)</li>
+  <li><code class="highlighter-rouge">withSupportedDataKeys()</code> - Define what data keys (for additional data) your application can read/write/update</li>
 </ul>
 
 <div class="callout callout--info">
-  <p>withSupportedFlowTypes() is optional, but if left empty, it means FPS will call your flow service for any flow and it is up to your flow service to handle unsupported types. If types are specified, FPS will ensure your service only gets called for flows with types that your service supports.</p>
+  <p>withSupportedFlowTypes() is optional, but if left empty, it means FPS will call your application for any flow and it is up to your application to handle unsupported types. If types are specified, FPS will ensure your application only gets called for flows with types that are reported as supported.</p>
 </div>
+
 <p>See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for a list of all defined flow types.</p>
 
 <div class="callout callout--info">
-  <p>withCustomRequestTypes() can be used to define custom types that are specific to your flow service. This may be a function to return some particular data like loyalty balance, or
+  <p>withCustomRequestTypes() can be used to define custom types that are specific to your application. This may be a function to return some particular data like loyalty balance, or
      to display such data. It is entirely up to your application what data is required and returned and
-      whether your service shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See ShowLoyaltyPointsBalance in the Flow Service Sample for illustration.</p>
+      whether your application shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See ShowLoyaltyPointsBalance in the Flow Service Sample for illustration.</p>
 </div>
+
 <p>See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
 
 <h2 id="expose-via-manifest">Expose via manifest</h2>
@@ -232,7 +233,7 @@ exposing it via the application manifest.</p>
 
 <p>If the data reported via <code class="highlighter-rouge">PaymentFlowServiceInfo</code> has changed, you need notify FPS of this.</p>
 
-<p>Call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your service and call your provider again to get the new information.</p>
+<p>Call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your application and call your provider again to get the new information.</p>
 
 							
 

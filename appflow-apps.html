@@ -9,10 +9,8 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Initiating a flow | AEVI AppFlow</title>
+			<title>AppFlow Applications | AEVI AppFlow</title>
 		
-		
-			<meta name="description" content="How to initiate a flow from a flow service">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -124,12 +122,8 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Integrating Value Added Applications</h2>
+						<h2 class="u-text-lg u-text-xl@sm">AppFlow Applications</h2>
 					
-					
-						<div class="u-h6">
-							<p>How to initiate a flow from a flow service</p>
-						</div>
 					
 					
 					
@@ -149,17 +143,49 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>In general, POS applications are responsible for initiating flows and requests. There are however certain scenarios where a value added service may be required to do this in order to meet certain requirements. The most common example is where a loyalty app might be the first point of interaction with a customer where they identify themselves. In order to pass this information onto a payment flow (without using bespoke integrations), the loyalty app can initiate a zero based amounts payment with associated customer data. The POS application will then be called in the <code class="highlighter-rouge">PRE_FLOW</code> stage where it can perform its normal function and update the <code class="highlighter-rouge">Payment</code> model with relevant data before the flow continues.</p>
+							<p>There are two main types of AppFlow applications;</p>
 
-<p>Ensure that you have communicated with AEVI before attempting to support this use case, as it requires specific flows and a POS app that supports this scenario.</p>
-
-<p>The advice and rules outlined in the <a href="/pos-android-sdk/guides/pos/flow-initiation">flow initiation guide</a> apply here as well, with a few limitations;</p>
 <ul>
-  <li>Only the following fields may be set: <code class="highlighter-rouge">Customer</code>, <code class="highlighter-rouge">cardToken</code>, <code class="highlighter-rouge">additionalData</code> and the mandatory <code class="highlighter-rouge">flowType</code> / <code class="highlighter-rouge">flowName</code></li>
-  <li>The <code class="highlighter-rouge">Amounts</code> <em>must</em> be set to 0 (<code class="highlighter-rouge">new Amounts(0, "XXX")</code>)</li>
+  <li>Flow initiators</li>
+  <li>Flow services</li>
 </ul>
 
-<p>Contact AEVI for more details for this use case.</p>
+<h3 id="flow-initiators">Flow initiators</h3>
+
+<p><em>Flow initiating</em> applications is what the merchant/operator uses to enter details for a particular function. A classic example would be to scan customer goods into a basket in order to take a payment. AppFlow is however not restricted to transaction style flows and allows for any form of function to be initiated, such as updating inventory or registering a customer for loyalty purposes.</p>
+
+<p>These applications are often referred to as a POS or ECR app. They make use of the <code class="highlighter-rouge">Payment Initiation API</code> to query AppFlow for information, and to initiate flows with request data tailored for that flow.</p>
+
+<h3 id="flow-services">Flow services</h3>
+
+<p><em>Flow services</em> are applications that adhere to the <code class="highlighter-rouge">Payment Flow Service API</code> and get called in a flow to perform some function, such as loyalty or processing payments.</p>
+
+<p>There is no limit on the number of flow services that can be called for any given flow or stage, but in practise it is rarely more than a few to a handful of applications.</p>
+
+<p>The flow services can be divided into two main groups;</p>
+
+<ul>
+  <li>Payment applications, which processes the actual payments</li>
+  <li>Value added applications, such as loyalty or split bill</li>
+</ul>
+
+<h4 id="payment-applications">Payment applications</h4>
+
+<p>The <em>payment applications</em> are in this context defined as flow services that execute in the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage. They may optionally also support the <code class="highlighter-rouge">PAYMENT_CARD_READING</code> stage where a card may be presented separately to the processing of the payment, to allow for other flow services to react on the given card data, such as token or scheme. These form of applications are typically developed by or on behalf of the acquirer/bank, but can also be independent payment solutions where a customer pays via cash, vouchers, QR codes, etc.</p>
+
+<h4 id="value-added-applications">Value added applications</h4>
+
+<p><em>Value added applications</em> typically offer a function or service that will benefit the merchant and/or customer. For most scenarios, they will augment a flow in some way by applying a discount, adding costs such as tax or fees, or splitting a flow into multiple per-customer flows. Some examples are</p>
+
+<ul>
+  <li>loyalty programs</li>
+  <li>charity donations</li>
+  <li>split bill</li>
+  <li>ratings</li>
+  <li>advertising and promos</li>
+  <li>currency conversion</li>
+  <li>receipt printing/emailing</li>
+</ul>
 
 							
 
@@ -176,8 +202,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/pre-requisites">
-												<p class="c-page-nav__heading">Pre-requisites</p>
+											<a href="/pos-android-sdk/intro">
+												<p class="c-page-nav__heading">AppFlow Introduction</p>
 											</a>
 										</li>
 									
@@ -188,8 +214,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/api-overview">
-												<p class="c-page-nav__heading">API Overview</p>
+											<a href="/pos-android-sdk/appflow-overview">
+												<p class="c-page-nav__heading">AppFlow Overview</p>
 											</a>
 										</li>
 									
@@ -200,8 +226,8 @@
 								
 									
 										<li>
-											<a href="/pos-android-sdk/guides/vaa/determine-stages">
-												<p class="c-page-nav__heading">Determine flow stages</p>
+											<a href="/pos-android-sdk/appflow-apps">
+												<p class="c-page-nav__heading">AppFlow Applications</p>
 											</a>
 										</li>
 									
@@ -211,9 +237,9 @@
 								
 								
 									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/expose-app-info">
-												<p class="c-page-nav__heading">Expose app info</p>
+										<li class="is-active">
+											<a href="/pos-android-sdk/flow-stages">
+												<p class="c-page-nav__heading">Flow Stages</p>
 											</a>
 										</li>
 									
@@ -223,9 +249,9 @@
 								
 								
 									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
-												<p class="c-page-nav__heading">Implementing the services</p>
+										<li class="is-active">
+											<a href="/pos-android-sdk/flow-configurations">
+												<p class="c-page-nav__heading">Flow Configurations</p>
 											</a>
 										</li>
 									
@@ -235,9 +261,9 @@
 								
 								
 									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
-												<p class="c-page-nav__heading">Interacting with stage models</p>
+										<li class="is-active">
+											<a href="/pos-android-sdk/apis">
+												<p class="c-page-nav__heading">AppFlow APIs</p>
 											</a>
 										</li>
 									
@@ -247,45 +273,9 @@
 								
 								
 									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/handling-events">
-												<p class="c-page-nav__heading">Handling events</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
-												<p class="c-page-nav__heading">Adding response listeners</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
-												<p class="c-page-nav__heading">Application Guidelines</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/guides/vaa/next-steps">
-												<p class="c-page-nav__heading">Next steps</p>
+										<li class="is-active">
+											<a href="/pos-android-sdk/design-philosophy">
+												<p class="c-page-nav__heading">Design Philosophy</p>
 											</a>
 										</li>
 									
@@ -315,12 +305,17 @@
 							 	
 							
 							 	
-							
-							 	
-							
-							 	
-							
-							 	
+								  
+									
+									
+									
+									
+										<a href="/pos-android-sdk/appflow-overview" class="c-arrow-link c-arrow-link--prev u-mr-auto">AppFlow Overview</a>
+									
+									
+										<a href="/pos-android-sdk/flow-stages" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow Stages</a>
+									
+								
 							
 							 	
 							

@@ -143,51 +143,50 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>A <em>flow</em> is simply a configuration that defines one to many <em>stages</em> and for each stage, defines what applications can be called and what data should be passed to and from them.</p>
+							<p>The flow <em>stages</em> determine what applications are called and how they are called.</p>
 
-<p>There are three main types of flows;</p>
+<p>There are three main types of flows that will impact what stages are available;</p>
+
 <ul>
-  <li><code class="highlighter-rouge">Payment</code> flows, which involve the transfer of money from one party to another, typically via sale/purchase or refund.</li>
-  <li><code class="highlighter-rouge">Generic</code> flows, which are designed to support any custom/bespoke scenario where the request/response models can hold any arbitrary data. Examples of this are tokenisation or batch closure.</li>
-  <li><code class="highlighter-rouge">Status update</code> flows, which allow an application to inform other applications of some status/state change</li>
+  <li><code class="highlighter-rouge">Payment</code> flows, which involve the transfer of money from one party to another, such as sale/purchase or refund.</li>
+  <li><code class="highlighter-rouge">Generic</code> flows, which are designed to support any custom/bespoke scenario where the request/response models can hold any arbitrary data. Examples of AEVI defined types are tokenisation and batch closure.</li>
+  <li><code class="highlighter-rouge">Status update</code> flows, which allow an application to inform other applications of some status/state change, such as basket or customer updates.</li>
 </ul>
-
-<p>All stages have an associated <em>stage model</em>, which provide request data as well as augmentation options and various convenience utilities.</p>
 
 <h2 id="payment-flows">Payment flows</h2>
 <p>The most common payment flow is the <em>sale</em> flow, which is used for all standard transactions where a customer is charged for some goods or services.</p>
 
-<p>Below is a diagram illustrating the sale flow. Note that <em>Payment Services</em> are just a type of flow services and integrates with the same API as any other flow service, but for clarity, are named differently here.</p>
+<p>Below is a diagram illustrating a sale flow with all supported stages. The only mandatory stage is <code class="highlighter-rouge">TRANSACTION_PROCESSING</code>- all others are optional.</p>
+
+<p>In the diagram you can see the distinction between payment applications and value added applications based on the stage of the flow.</p>
 
 <p><img src="/pos-android-sdk/images/sale-flow.png" alt="default sale flow" title="Sale flow" /></p>
 
-<p>As a developer, you can provide flow service applications that target one or more stage(s) of the flow. The FPS will ensure that (if added to the flow configuration) your application is called at the correct stage and you are passed all the request details gathered for the transaction so far. Typically the flow will also ensure the request is fulfilled by the payment application that typically reads payment cards and processes the payments. Your application can be defined to be called at multiple stages of the flow. An example could be a loyalty points app, where you may want to offer a customer the option to use their points for a purchase before payment processing, and you may want to reward the customer with points after a successful purchase.</p>
+<p>An application can be defined to be called at multiple stages of the same flow. An example could be a loyalty points app, where you may want to offer a customer the option to redeem their points for a purchase before the payment application processes the payment (<code class="highlighter-rouge">pre-transaction</code>), and you may want to reward the customer with points after a successful purchase (<code class="highlighter-rouge">post-transaction</code>).</p>
 
-<p>See here for more details about <a href="flow-configurations">flow configurations</a>.</p>
+<p>Below is a short summary for each stage relevant for payment flows.</p>
 
 <h3 id="pre-flow">Pre-flow</h3>
 
-<p>This stage is executed immediately after the source <code class="highlighter-rouge">Payment</code> has been received and validated. It is executed only once per <em>payment</em>, before any actual transactions take place.</p>
+<p>This stage is executed immediately after the source <code class="highlighter-rouge">Payment</code> has been received and validated. It is executed only once per flow, regardless of whether the flow is split or not.</p>
 
 <p>Pre-flow is designed to handle the fairly rare use cases where an application other than the POS application initiates a flow. As an example, a loyalty app might be the first point of interaction with a customer where they identify themselves. In order to pass this information onto a payment flow (without using bespoke integrations), the loyalty app can initiate a zero based amounts payment with associated customer data. The POS application will then be called in the pre-flow stage where it can perform its normal function and update the <code class="highlighter-rouge">Payment</code> model with relevant data before the flow continues.</p>
 
-<p>Note; By default, pre-flow is <em>only</em> called for cases where the payment amounts are zero.</p>
+<p>Note; By default, pre-flow is <em>only</em> called for cases where the payment amounts are zero. This is configurable via <code class="highlighter-rouge">FpsSettings</code>.</p>
 
 <p>A pre-flow app can via the <code class="highlighter-rouge">PreFlowModel</code> set data in a <code class="highlighter-rouge">Payment</code> model similar to what an initiation app can do. It may also cancel the flow.</p>
 
 <h3 id="split">Split</h3>
 
-<p>If a split application is installed and the request has enabled split, the split stage will be executed where the application can split the requested amount into one or more individual transactions. The most common use case of this is to allow a group of customers to split the bill, either based on amount or via basket items.</p>
+<p>If a split application is installed and the request has enabled split, the split stage will be executed where the application can split the flow into one or more individual transactions. The most common use case of this is to allow a group of customers to split the bill, either based on amount or via basket items.</p>
 
-<p>See <a href="/pos-android-sdk/guides/vaa/split-considerations">Considerations for Split applications</a> for more details what is required from split apps.</p>
-
-<p>A split app can via the <code class="highlighter-rouge">SplitStageModel</code> update the base amount and/or basket for the next transaction. It may also cancel the flow.</p>
+<p>A split app can via the <code class="highlighter-rouge">SplitModel</code> update the base amount and/or basket for the next transaction. It may also cancel the flow.</p>
 
 <h3 id="pre-transaction">Pre-transaction</h3>
 
-<p>This stage allows an application to modify request data <em>before</em> any payment card is read, assuming that there is a payment application that reads cards and supports the payment-card-reading stage.</p>
+<p>This stage allows an application to modify request data <em>before</em> any potential payment card is read, assuming that there is a payment application that reads cards and supports the optional payment-card-reading stage.</p>
 
-<p>For most applications, post-card-reading will be a more appropriate stage as card details may then also be available. This is explored in further depth in the API documentation.</p>
+<p>For most applications, <em>post-card-reading</em> will be a more appropriate stage as card details may then also be available, allowing an informed choice of how to identify a customer. This is explored in further depth in the API documentation.</p>
 
 <p>A pre-transaction app can via the <code class="highlighter-rouge">PreTransactionModel</code> do things like;</p>
 <ul>
@@ -200,11 +199,11 @@
 
 <h3 id="payment-card-reading">Payment card reading</h3>
 
-<p>This is an optional stage that a payment app may or may not support (some payment services will not even process payments via cards).</p>
+<p>This is an optional stage that a payment app may or may not support. Note that there is no guarantee that payment applications even use payment cards as a payment method - it could be cash, QR codes, etc.</p>
 
-<p>If it is supported and the card reading is successful, card data will be available for the remaining stages.</p>
+<p>If the stage is supported and the card reading is successful, card data will be available for the remaining stages.</p>
 
-<p>A payment-card-reading app can via the <code class="highlighter-rouge">CardReadingModel</code> set card details or decline the transaction.</p>
+<p>A payment app can via the <code class="highlighter-rouge">CardReadingModel</code> set card details or decline the transaction.</p>
 
 <h3 id="post-card-reading">Post-card-reading</h3>
 
@@ -226,9 +225,9 @@
 
 <h3 id="post-flow">Post-flow</h3>
 
-<p>This stage is executed after all transactions are completed and a final <code class="highlighter-rouge">PaymentResponse</code> object has been created which is available for applications here to read.</p>
+<p>This stage is executed after the flow is completed and a final <code class="highlighter-rouge">PaymentResponse</code> object has been created which is made available for applications at this stage.</p>
 
-<p>At this stage, there are no options to augment any data as the flow has completed.</p>
+<p>There are no options to augment any data as the flow has completed.</p>
 
 <p>A post-flow app may however choose to keep executing in the background in parallel to the flow.</p>
 
@@ -295,6 +294,18 @@ get called in sequence for the purpose of getting access to the request data. Th
 								
 									
 										<li>
+											<a href="/pos-android-sdk/appflow-apps">
+												<p class="c-page-nav__heading">AppFlow Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/flow-stages">
 												<p class="c-page-nav__heading">Flow Stages</p>
 											</a>
@@ -321,18 +332,6 @@ get called in sequence for the purpose of getting access to the request data. Th
 										<li class="is-active">
 											<a href="/pos-android-sdk/apis">
 												<p class="c-page-nav__heading">AppFlow APIs</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li class="is-active">
-											<a href="/pos-android-sdk/payment-applications">
-												<p class="c-page-nav__heading">Payment Applications</p>
 											</a>
 										</li>
 									
@@ -374,19 +373,19 @@ get called in sequence for the purpose of getting access to the request data. Th
 							 	
 							
 							 	
+							
+							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/appflow-overview" class="c-arrow-link c-arrow-link--prev u-mr-auto">AppFlow Overview</a>
+										<a href="/pos-android-sdk/appflow-apps" class="c-arrow-link c-arrow-link--prev u-mr-auto">AppFlow Applications</a>
 									
 									
 										<a href="/pos-android-sdk/flow-configurations" class="c-arrow-link c-arrow-link--next u-ml-auto">Flow Configurations</a>
 									
 								
-							
-							 	
 							
 							 	
 							

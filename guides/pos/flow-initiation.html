@@ -159,7 +159,7 @@
 
 <p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/Payment.html">Payment</a> is used when some defined amount of money is being transferred as a result of the transaction. Examples are sale (purchase / payment), refund, pre-authorisation, etc. These all involve money being moved from one entity to another - customer to merchant or vice versa, as defined by the client application. The <code class="highlighter-rouge">Payment</code> model has been defined to support these standard point of sale scenarios.</p>
 
-<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/Request.html">Request</a> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow flow services to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/Request.html">Request</a> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow AppFlow applications to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
 
 <p>What data is relevant for any given request is defined by its <em>request type</em>. Please see the documentation in <a href="/pos-android-sdk/technical/request-types">Request Types</a> for a full list of types and associated data.</p>
 
@@ -181,7 +181,7 @@
 <p>If the flow name is known (in scenarios where there are multiple flows per type), it is recommended that the flow name is specifically given by using the following method to specify the exact flow required
 <code class="highlighter-rouge">withPaymentFlow(type, name)</code>.</p>
 
-<p>You can define and provide basket details, so that other applications in the flow can use that information to provide value added services, like applying item based discounts, or print as line items on a receipt.</p>
+<p>You can define and provide basket details, so that other applications in the flow can use that information to provide services, like applying item based discounts, or print as line items on a receipt.</p>
 
 <p>As per the <code class="highlighter-rouge">Amounts</code> base amount, note that the basket item amount must be <strong>inclusive</strong> of tax.</p>
 
@@ -237,7 +237,7 @@
 
 <h2 id="initiate-a-generic-request">Initiate a generic request</h2>
 
-<p>Examples of generic requests are tokenisation, reversal or dynamic types as supported by flow services.</p>
+<p>Examples of generic requests are tokenisation orreversal, but they are also used for custom types.</p>
 
 <p>For these types of requests, all applications must know what data to expect for any given request type. Please see <a href="/pos-android-sdk/technical/request-types">Request Types</a> for common requests and code snippets for creating requests and responses.</p>
 
@@ -265,7 +265,7 @@
 </div>
 
 <h3 id="initiate-a-custom-request">Initiate a custom request</h3>
-<p>A flow service can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the flow service for a custom type. If however such data is required, see <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for more information.</p>
+<p>AppFlow applications can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the handling application for a custom type. If however such data is required, see <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for more information.</p>
 
 <h2 id="recommended-application-architecture">Recommended application architecture</h2>
 <p>As previously explained, the way Android components work with lifecycles and that AppFlow is service driven, means that there is no guarantee an activity will still be alive to receive a response once the flow is completed.</p>

@@ -156,7 +156,7 @@ exposing it via the application manifest.</p>
 
 <h2 id="adding-the-service-info-provider">Adding the service info provider</h2>
 
-<p>FPS and other applications require certain information about every flow service.</p>
+<p>FPS and other applications require certain information about every payment application.</p>
 
 <p>This is done by extending <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider</code>, as the sample code below shows</p>
 
@@ -191,7 +191,7 @@ exposing it via the application manifest.</p>
 </ul>
 
 <div class="callout callout--warning">
-  <p>Note that if you fail to report that your service can pay amounts here, FPS will reject any attempts from your application to do so.</p>
+  <p>Note that if you fail to report that your application can pay amounts here, FPS will reject any such attempts.</p>
 </div>
 
 <p>In addition, it is <em>strongly</em> recommended that the following data is set <em>if possible</em>;</p>
@@ -203,10 +203,11 @@ exposing it via the application manifest.</p>
 </ul>
 
 <div class="callout callout--info">
-  <p>withCustomRequestTypes() can be used to define custom types that are specific to your flow service. This may be a function to return some particular data like loyalty balance, or
+  <p>withCustomRequestTypes() can be used to define custom types that are specific to your payment applicaiton. This may be a function to return some particular data like totals, or
      to display such data. It is entirely up to your application what data is required and returned and
       whether your service shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See ShowLoyaltyPointsBalance in the Flow Service Sample for illustration.</p>
 </div>
+
 <p>See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
 
 <h2 id="expose-via-manifest">Expose via manifest</h2>
@@ -229,7 +230,7 @@ exposing it via the application manifest.</p>
 
 <p>If the data reported via <code class="highlighter-rouge">PaymentFlowServiceInfo</code> has changed, you need notify FPS of this.</p>
 
-<p>Call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your service and call your provider again to get the new information.</p>
+<p>Call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your application and call your provider again to get the new information.</p>
 
 							
 

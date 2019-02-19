@@ -143,7 +143,11 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>AppFlow has been designed with maximum flexibility in mind to ensure that the APIs do not limit what can be done. This is reflected via the generic <code class="highlighter-rouge">Request</code> and <code class="highlighter-rouge">Response</code> approach, the use of string constants as opposed to enums in the majority of cases and the ability to pass any custom or bespoke data via the <code class="highlighter-rouge">AdditionalData</code> fields in the various API models. The cost of all this flexibility is that it can sometimes be hard to know what data to provide for a request or expect from a response. See the <a href="/pos-android-sdk/technical">technical documentation</a> for more information about types of model and data that can be passed in <code class="highlighter-rouge">Request</code> and <code class="highlighter-rouge">Response</code> objects.</p>
+							<p>AppFlow has been designed to be as flexible as possible. This is achieved via the generic <code class="highlighter-rouge">Request</code> and <code class="highlighter-rouge">Response</code> models, configurable flows, support for additional/custom/bespoke data for basically any scenario and so on. Bounded types such as <code class="highlighter-rouge">enum</code> are also avoided wherever possible.</p>
+
+<p>This is to avoid limitations and restrictions and to support cases where third party applications define a private/internal API/contract for proprietary data. In the documentation you will find definitions for the various types of requests, what data can be passed for various requests and use cases, and what format this data is in. This is to ensure applications can set and read data in a compatible way.</p>
+
+<p>Although AEVI does not enforce the use of this common set of definitions, developers <em>should</em> always look to the documentation to ensure consistency with other applications.</p>
 
 <h3 id="data-representations">Data representations</h3>
 
@@ -151,17 +155,15 @@
 
 <h3 id="languages">Languages</h3>
 
-<p>The APIs are primarily Java based, but as the underlying representation is JSON there is no real language restriction from a system point of view.</p>
+<p>The APIs are primarily <em>Java</em> based, but as the underlying representation is JSON there is no real language restriction from a system point of view.</p>
 
-<p>Kotlin is implicitly supported due to its interoperability with Java.</p>
+<p><em>Kotlin</em> (and some other JVM-based languages) are implicitly supported due to interoperability with Java.</p>
 
-<p>Javascript and iOS support is on the roadmap.</p>
-
-<p>Other languages (compatible with the JVM) can be supported but may require a translation layer on the client side.</p>
+<p><em>Javascript</em> and <em>iOS</em> APIs are on the roadmap.</p>
 
 <h3 id="technologies">Technologies</h3>
 
-<p>These APIs make extensive use of reactive (Rx) based principles. Therefore in the case of the Java API it makes heavy use of the RxJava library.</p>
+<p>These APIs make extensive use of reactive (Rx) based principles. Therefore in the case of the Java API it makes heavy use of the <em>RxJava</em> library.</p>
 
 <p>To read more about Rx principles and the RxJava library itself see <a href="https://github.com/ReactiveX/RxJava">the documentation here</a>. For the remainder of this documentation it is assumed that the reader is familiar with asynchronous and event-based programming using observable streams.</p>
 
@@ -204,6 +206,18 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/appflow-apps">
+												<p class="c-page-nav__heading">AppFlow Applications</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/flow-stages">
 												<p class="c-page-nav__heading">Flow Stages</p>
 											</a>
@@ -230,18 +244,6 @@
 										<li>
 											<a href="/pos-android-sdk/apis">
 												<p class="c-page-nav__heading">AppFlow APIs</p>
-											</a>
-										</li>
-									
-									
-								
-							
-								
-								
-									
-										<li>
-											<a href="/pos-android-sdk/payment-applications">
-												<p class="c-page-nav__heading">Payment Applications</p>
 											</a>
 										</li>
 									
@@ -296,7 +298,7 @@
 									
 									
 									
-										<a href="/pos-android-sdk/payment-applications" class="c-arrow-link c-arrow-link--prev u-mr-auto">Payment Applications</a>
+										<a href="/pos-android-sdk/apis" class="c-arrow-link c-arrow-link--prev u-mr-auto">AppFlow APIs</a>
 									
 									
 										<a href="/pos-android-sdk/apis" class="c-arrow-link c-arrow-link--next u-ml-auto">AppFlow APIs</a>

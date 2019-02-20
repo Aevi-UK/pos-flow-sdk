@@ -168,7 +168,7 @@ Read more about this <a href="/pos-android-sdk/technical/payment-card-reading">h
 <h3 id="non-payment-functions">Non-payment functions</h3>
 
 <p>For other functions, such as <code class="highlighter-rouge">reversal</code> (<code class="highlighter-rouge">void</code>), <code class="highlighter-rouge">tokenisation</code>, etc, the <code class="highlighter-rouge">GENERIC</code> stage is used.
-See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for the different generic types and whether your application can support any of these.</p>
+See <a href="/pos-android-sdk/request-types">Flow Types</a> for the different generic types and whether your application can support any of these.</p>
 
 <h2 id="the-service">The service</h2>
 
@@ -209,7 +209,7 @@ See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for the
 <h2 id="transaction-processing">Transaction processing</h2>
 <p>The request for a payment flow comes in the form of a <code class="highlighter-rouge">TransactionRequest</code> object and can be fetched via <code class="highlighter-rouge">TransactionProcessingModel.getTransactionRequest()</code>. There are two different ids defined in this class - please see <a href="/pos-android-sdk/technical/transactions">Transactions</a> for more information about what the ids are how they can be used.</p>
 
-<p>You can determine what type of transaction it is from <code class="highlighter-rouge">TransactionRequest.getFlowType()</code>. This will map to one of the types defined in <a href="/pos-android-sdk/technical/request-types">Request Types</a> for where the request class if of type <code class="highlighter-rouge">Payment</code>.</p>
+<p>You can determine what type of transaction it is from <code class="highlighter-rouge">TransactionRequest.getFlowType()</code>. This will map to one of the types defined in <a href="/pos-android-sdk/technical/request-types">Flow Types</a> for where the request class if of type <code class="highlighter-rouge">Payment</code>.</p>
 
 <p>The amounts relevant for the transaction are available via the <code class="highlighter-rouge">TransactionRequest.getAmounts()</code> method. Note that it is very important to understand the way AppFlow represents amounts and what the structure of it means for a payment application. See <a href="parsing-amounts">parsing amounts</a> for details.</p>
 
@@ -272,7 +272,7 @@ See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for the
 
 <h2 id="generic-scenarios">Generic scenarios</h2>
 
-<p>The response here is managed via <code class="highlighter-rouge">GenericStageModel</code>. In terms of how to parse the request and create a response for any given type, please see the <a href="/pos-android-sdk/technical/request-types">Request Types</a> page which details all the supported types.</p>
+<p>The response here is managed via <code class="highlighter-rouge">GenericStageModel</code>. In terms of how to parse the request and create a response for any given type, please see the <a href="/pos-android-sdk/technical/request-types">Flow Types</a> page which details all the supported types.</p>
 
 
 							

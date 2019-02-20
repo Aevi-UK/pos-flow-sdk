@@ -161,11 +161,11 @@
 
 <p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/Request.html">Request</a> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow AppFlow applications to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
 
-<p>What data is relevant for any given request is defined by its <em>request type</em>. Please see the documentation in <a href="/pos-android-sdk/technical/request-types">Request Types</a> for a full list of types and associated data.</p>
+<p>What data is relevant for any given request is defined by the <em>flow type</em>. Please see the documentation in <a href="/pos-android-sdk/request-types">Flow Types</a> for a full list of types and associated data.</p>
 
 <h2 id="initiate-a-payment">Initiate a payment</h2>
 
-<p>In order to make a payment, a <code class="highlighter-rouge">Payment</code> object needs to be built. This is done via using the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentBuilder.html">PaymentBuilder</a> class. At a minimum a <code class="highlighter-rouge">Payment</code> must have a flow type and amounts set. Depending on the type of flow being initiated, other parameters may be defined as well. See <a href="/pos-android-sdk/technical/request-types">Request Types</a> for examples for each type.</p>
+<p>In order to make a payment, a <code class="highlighter-rouge">Payment</code> object needs to be built. This is done via using the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentBuilder.html">PaymentBuilder</a> class. At a minimum a <code class="highlighter-rouge">Payment</code> must have a flow type and amounts set. Depending on the type of flow being initiated, other parameters may be defined as well. See <a href="/pos-android-sdk/request-types">Flow Types</a> for examples for each type.</p>
 
 <p>Please note that the base amount set in <code class="highlighter-rouge">Amounts</code> should always be <strong>inclusive</strong> of tax (GST, VAT, etc).</p>
 
@@ -239,7 +239,7 @@
 
 <p>Examples of generic requests are tokenisation orreversal, but they are also used for custom types.</p>
 
-<p>For these types of requests, all applications must know what data to expect for any given request type. Please see <a href="/pos-android-sdk/technical/request-types">Request Types</a> for common requests and code snippets for creating requests and responses.</p>
+<p>For these types of requests, all applications must know what data to expect for any given request type. Please see <a href="/pos-android-sdk/request-types">Flow Types</a> for common requests and code snippets for creating requests and responses.</p>
 
 <p>Once you have finished building your request, you can send it to FPS using the <code class="highlighter-rouge">initiateRequest</code> method and subscribe to receive information whether the request was accepted or rejected by FPS.</p>
 

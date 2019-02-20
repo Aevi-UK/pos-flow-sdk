@@ -160,7 +160,7 @@ how to set up your application for AppFlow.</p>
 
 <h2 id="determine-relevant-flows">Determine relevant flows</h2>
 
-<p>The <a href="/pos-android-sdk/request-types">Request Types</a> page outlines the defined AppFlow functions, which via the associated request types defines the <em>flows</em>.</p>
+<p>The <a href="/pos-android-sdk/request-types">Flow Types</a> page outlines the various functions AEVI has defined for AppFlow.</p>
 
 <p>Your application will need to define what flow types are supported and from that, what flow stages to be called for.</p>
 
@@ -181,44 +181,60 @@ Instead, what flows they are called for is <em>entirely</em> down to the flow co
 
 <p>Once you have decided what flow types are relevant, you need to select for what stages in those flows your application should be called.</p>
 
-<p>Most value added applications will fit into one of the payment stages for standard financial transactions.</p>
-
-<p>The following payment stages, as described in the AppFlow intro, may be relevant for value added applications</p>
-
-<ul>
-  <li><code class="highlighter-rouge">PRE_FLOW</code> (rarely)</li>
-  <li><code class="highlighter-rouge">SPLIT</code></li>
-  <li><code class="highlighter-rouge">PRE_TRANSACTION</code></li>
-  <li><code class="highlighter-rouge">POST_CARD_READING</code></li>
-  <li><code class="highlighter-rouge">POST_TRANSACTION</code></li>
-  <li><code class="highlighter-rouge">POST_FLOW</code> (rarely)</li>
-</ul>
-
-<p>In addition, we have the generic and status update stages that may be relevant for some use cases</p>
-
-<ul>
-  <li><code class="highlighter-rouge">GENERIC</code></li>
-  <li><code class="highlighter-rouge">POST_GENERIC</code></li>
-  <li><code class="highlighter-rouge">STATUS_UPDATE</code></li>
-</ul>
+<p>Most value added applications will fit into one or several of the payment stages for standard financial transactions.</p>
 
 <p>Below is a quick outline of what stages are relevant for particular functions that AppFlow supports.</p>
 
-<ul>
-  <li>Reacting to outcomes -&gt; <code class="highlighter-rouge">POST_TRANSACTION</code> (per customer), <code class="highlighter-rouge">POST_FLOW</code> (per flow), <code class="highlighter-rouge">POST_GENERIC</code></li>
-  <li>Adding additional amounts -&gt; <code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</li>
-  <li>Adding basket items -&gt; <code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</li>
-  <li>Paying amounts -&gt; <code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code></li>
-  <li>Applying discounts -&gt; <code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code></li>
-  <li>Add/update customer details -&gt; <code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</li>
-  <li>Add arbitrary data -&gt; <code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</li>
-  <li>Handle a specific request -&gt; <code class="highlighter-rouge">GENERIC</code></li>
-  <li>Being notified of POS status changes -&gt; <code class="highlighter-rouge">STATUS_UPDATE</code></li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Stages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Reacting to outcomes</td>
+      <td><code class="highlighter-rouge">POST_TRANSACTION</code> (per customer), <code class="highlighter-rouge">POST_FLOW</code> (per flow), <code class="highlighter-rouge">POST_GENERIC</code></td>
+    </tr>
+    <tr>
+      <td>Adding additional amounts</td>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</td>
+    </tr>
+    <tr>
+      <td>Adding basket items</td>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</td>
+    </tr>
+    <tr>
+      <td>Paying amounts</td>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code></td>
+    </tr>
+    <tr>
+      <td>Applying discounts</td>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code></td>
+    </tr>
+    <tr>
+      <td>Add/update customer details</td>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</td>
+    </tr>
+    <tr>
+      <td>Add custom/bespoke data</td>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code>, <code class="highlighter-rouge">POST_CARD_READING</code>, <code class="highlighter-rouge">PRE_FLOW</code> (rarely)</td>
+    </tr>
+    <tr>
+      <td>Custom request</td>
+      <td><code class="highlighter-rouge">GENERIC</code></td>
+    </tr>
+    <tr>
+      <td>POS status updates</td>
+      <td><code class="highlighter-rouge">STATUS_UPDATE</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="determine-relevant-stages-by-use-case">Determine relevant stages by use case</h2>
 
-<p>This section outlines some common use cases and how they fit into AppFlow.</p>
+<p>This section outlines some common use cases for value added applications and offer advice on how to approach this in AppFlow.</p>
 
 <h3 id="loyalty">Loyalty</h3>
 <p>A loyalty application typically provides three main functions:</p>

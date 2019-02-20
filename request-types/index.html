@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Request types | AEVI AppFlow</title>
+			<title>Flow types | AEVI AppFlow</title>
 		
 		
 		
@@ -122,11 +122,11 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Request types</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Flow types</h2>
 					
 					
 						<div class="u-h6">
-							<p>AEVI defined request types</p>
+							<p>AEVI defined flows</p>
 						</div>
 					
 					
@@ -145,15 +145,17 @@
 				
 					<div class="o-col-9@lg o-col-8@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>Acquirers and/or flow services may support additional types to these. Please see <a href="/pos-android-sdk/reference-values/bespoke-data">Bespoke Data</a> for information about this. In addition, AppFlow supports status updates via a separate set of flows defined in <a href="/pos-android-sdk/guides/pos/status-update-flows">Status Update Flows</a>.</p>
+							<p>This page contains a list of AEVI defined flow types.</p>
 
-<p>Please note that the types that are available in any given acquirer environment / device are down to the flows that are defined and configured. The flows can be queried for programmatically - see <a href="/pos-android-sdk/guides/pos/querying-for-information">Querying for Information</a> for more information. Do <em>not</em> take for granted that all types are always available on all devices using AppFlow.</p>
+<p>Acquirers and/or flow services may support additional types to these. Please see <a href="/pos-android-sdk/reference-values/bespoke-data">Bespoke Data</a> for information about this.</p>
 
-<p>There are two different models that can be used for initiating a flow - please see the summary table at the bottom of the page to see what model (and hence API method) to use for what type.</p>
+<p>Please note that the flow types that are available in any given acquirer environment / device are down to the flow configurations. The flows can be queried for programmatically - see <a href="/pos-android-sdk/guides/pos/querying-for-information">Querying for Information</a> for more information. Do <em>not</em> take for granted that all types are always available on all devices using AppFlow.</p>
 
-<p>If you can’t find a request type you are after, or require additional data to be part of a particular scenario. please contact AEVI to discuss. The following is not an exhaustive list, rather it is what has been defined by AEVI so far.</p>
+<p>There are two different models and initiation methods for payments vs generic requests. The summary table defines what request class each type is.</p>
 
-<p>Click relevant links in the sidebar for detailed information on how to initiate that particular type of request.</p>
+<p>If you can’t find a flow type you are after, or require additional data to be part of a particular scenario. please contact AEVI to discuss. The following is not an exhaustive list, rather it is what has been defined by AEVI so far.</p>
+
+<p>Click the links in the sidebar for detailed information on how to initiate that particular type of request.</p>
 
 <p>For information on reference data, values and formats to go with these requests, see <a href="/pos-android-sdk/reference-values">Reference Values</a></p>
 
@@ -215,25 +217,25 @@
       <td>tokenisation</td>
       <td>Request</td>
       <td>Retrieve a token to identify the customer (typically from card)</td>
-      <td>GENERIC</td>
+      <td>GENERIC, POST_GENERIC</td>
     </tr>
     <tr>
       <td>reversal</td>
       <td>Request</td>
       <td>Reversal / Void of previous transaction</td>
-      <td>GENERIC</td>
+      <td>GENERIC, POST_GENERIC</td>
     </tr>
     <tr>
       <td>batchClosure</td>
       <td>Request</td>
       <td>Close a batch</td>
-      <td>GENERIC</td>
+      <td>GENERIC, POST_GENERIC</td>
     </tr>
     <tr>
       <td>receiptDelivery</td>
       <td>Request</td>
       <td>Deliver a receipt for cash/cheque/etc payment to customer or re-deliver a receipt obtained from a previous transaction</td>
-      <td>GENERIC</td>
+      <td>GENERIC, POST_GENERIC</td>
     </tr>
     <tr>
       <td>basketStatusUpdate</td>

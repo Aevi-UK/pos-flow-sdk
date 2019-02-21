@@ -150,10 +150,20 @@
 							<p>If you are looking to perform a quick integration to test AppFlow from your application before reading through the full documentation, this page provides the steps and code snippets that you can copy into your application to make that happen.</p>
 
 <ul>
-  <li>Add API dependency - <code class="highlighter-rouge">implementation 'com.aevi.sdk.pos.flow:payment-initiation-api:&lt;version&gt;</code></li>
-  <li>Make sure you configure your application to <a href="https://developer.android.com/studio/write/java8-support">compile with Java 8</a></li>
-  <li>Add <a href="/pos-android-sdk/guides/pos/flow-response-listeners">response listeners</a> to receive flow responses</li>
-  <li>Add code to check for FPS and initialise the client</li>
+  <li>
+    <p>Add API dependency</p>
+
+    <p><code class="highlighter-rouge">implementation 'com.aevi.sdk.pos.flow:payment-initiation-api:&lt;version&gt;</code></p>
+  </li>
+  <li>
+    <p>Make sure you configure your application to <a href="https://developer.android.com/studio/write/java8-support">compile with Java 8</a></p>
+  </li>
+  <li>
+    <p>Add <a href="/pos-android-sdk/guides/pos/flow-response-listeners">response listeners</a> for your app to be notified of responses to initiated flows</p>
+  </li>
+  <li>
+    <p>Add code to check for FPS and initialise the client</p>
+  </li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialise</span><span class="o">()</span> <span class="o">{</span>
@@ -165,7 +175,7 @@
 </code></pre></div></div>
 
 <ul>
-  <li>Add code to initiate payments and requests - here we use <em>sale</em> and <em>tokenisation</em> as examples</li>
+  <li>Add code to initiate payments and requests - here we use <a href="/pos-android-sdk/request-types/sale">sale</a> and <a href="/pos-android-sdk/request-types/tokenisation">tokenisation</a> as examples</li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initiateSale</span><span class="o">()</span> <span class="o">{</span>
@@ -198,15 +208,15 @@
 </code></pre></div></div>
 
 <ul>
-  <li>Wire up the new methods in your application, so that you can initialise and initiate</li>
-  <li>Install the <a href="/pos-android-sdk/downloads">developer bundle</a> on an Android device</li>
-  <li>Install and run your application</li>
+  <li>Wire up the new methods in your application so you can test via UI</li>
+  <li>Install the <a href="/pos-android-sdk/downloads">developer bundle</a> on an Android (API level 21+) device</li>
+  <li>Install and run your application (non-obfuscated variant)</li>
   <li>Now you can initiate flows!</li>
 </ul>
 
 <h3 id="next-steps">Next steps</h3>
 
-<p>Now that your application has a basic integration, we’d recommend you read through the <a href="/pos-android-sdk/guides/pos/api-overview">Flow Initiation Guide</a> and explore the <a href="/pos-android-sdk/reference">javadocs</a> and <a href="https://github.com/AEVI-AppFlow/pos-android-sdk">samples code</a>.</p>
+<p>Now that your application has a basic integration, we’d recommend you read through the <a href="/pos-android-sdk/guides/pos/api-overview">Flow Initiation Guide</a> and explore the <a href="/pos-android-sdk/reference">javadocs</a> and <a href="https://github.com/AEVI-AppFlow/pos-android-sdk">samples code</a>. Also make sure to <a href="/pos-android-sdk/explore">explore</a> the rest of the documentation.</p>
 
 
 							
@@ -224,8 +234,20 @@
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pos/get-started">
+												<p class="c-page-nav__heading">Get started</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
-												<p class="c-page-nav__heading">Pre-requisites</p>
+												<p class="c-page-nav__heading">Dependencies</p>
 											</a>
 										</li>
 									
@@ -381,6 +403,8 @@
 					<div class="o-col-12 u-text-center">
 						<div class="u-inline-block u-flex@sm">
 							
+							
+							 	
 							
 							 	
 							

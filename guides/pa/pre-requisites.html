@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Pre-requisites | AEVI AppFlow</title>
+			<title>Dependencies | AEVI AppFlow</title>
 		
 		
 			<meta name="description" content="Install the required applications and setup your project">
@@ -128,7 +128,7 @@
 					
 					
 						<div class="u-h6">
-							<p>Get started with integration</p>
+							<p>Adding AppFlow dependencies</p>
 						</div>
 					
 					
@@ -149,48 +149,13 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="pre-requisites">Pre-requisites</h1>
+							<h1 id="dependencies">Dependencies</h1>
 
-<p>In order to explore AppFlow or test your application, you will need to install the relevant AEVI AppFlow components on an Android device or emulator (API level 21+).
-Note that this can be any generic Android device/emulator - AppFlow itself does not depend on any payment terminal functions.</p>
+<p>All our AppFlow artifacts are published to <code class="highlighter-rouge">jcenter</code>, which is automatically used as a Maven repository by Android projects in Android Studio. If you are having problems resolving dependencies, make sure you have <code class="highlighter-rouge">jcenter()</code> defined in your <code class="highlighter-rouge">repositories</code> section in the root project <code class="highlighter-rouge">build.gradle</code>.</p>
 
-<p>The following two core applications are part of the developer bundle;</p>
-<ul>
-  <li>Flow Processing Service (FPS) - handles API calls from the initiation API, executes the flow and calls value added services and payment applications</li>
-  <li>Developer Config Provider - provides the flow configurations and other settings for AppFlow</li>
-</ul>
+<p>The AppFlow APIs are built with Java 8 which means your application must compile with Java 8. Please see the official Android docs for how to <a href="https://developer.android.com/studio/write/java8-support">compile/target Java 8</a>.</p>
 
-<p>In addition, the bundle also contains samples that can be used to see AppFlow in action.</p>
-
-<p>Please download the latest developer bundle from <a href="/pos-android-sdk/downloads">here</a>.</p>
-
-<div class="callout callout--danger">
-  <p>Please ensure you install a version of FPS that matches the version of the API you are using in your application. i.e. for API 2.0.X please install FPS v2.0.X</p>
-</div>
-
-<h2 id="integrate">Integrate</h2>
-
-<p>In your root project <code class="highlighter-rouge">build.gradle</code> file, you’ll need to include our public bintray repository in the repositories section.</p>
-
-<div class="callout callout--success">
-  <p>We are in the process of linking all our archives with the `jcenter()` maven repo soon this additional maven repo will not be required.</p>
-</div>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>repositories {
-    maven {
-        url "http://dl.bintray.com/aevi/aevi-uk"
-    }
-}
-</code></pre></div></div>
-
-<p>These APIs require that your application is compiled with Java 8. Ensure that your application build.gradle <code class="highlighter-rouge">android</code> DSL contains the following.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-</code></pre></div></div>
-
-<h2 id="api-dependencies">API Dependencies</h2>
+<h2 id="payment-flow-service-api">Payment Flow Service API</h2>
 
 <p>Add the dependency listing below in the dependencies section of your <code class="highlighter-rouge">build.gradle</code> file in order to integrate the <code class="highlighter-rouge">Payment Flow Service API</code>.</p>
 
@@ -224,8 +189,20 @@ of these data structures are, in order to keep them as flexible and configurable
 								
 									
 										<li>
+											<a href="/pos-android-sdk/guides/pa/get-started">
+												<p class="c-page-nav__heading">Get started</p>
+											</a>
+										</li>
+									
+									
+								
+							
+								
+								
+									
+										<li>
 											<a href="/pos-android-sdk/guides/pa/pre-requisites">
-												<p class="c-page-nav__heading">Pre-requisites</p>
+												<p class="c-page-nav__heading">Dependencies</p>
 											</a>
 										</li>
 									
@@ -335,10 +312,14 @@ of these data structures are, in order to keep them as flexible and configurable
 							
 							
 							 	
+							
+							 	
 								  
 									
 									
 									
+									
+										<a href="/pos-android-sdk/guides/pa/get-started" class="c-arrow-link c-arrow-link--prev u-mr-auto">Get started</a>
 									
 									
 										<a href="/pos-android-sdk/guides/pa/api-overview" class="c-arrow-link c-arrow-link--next u-ml-auto">API Overview</a>

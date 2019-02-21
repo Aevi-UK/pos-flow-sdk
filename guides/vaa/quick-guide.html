@@ -9,10 +9,8 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Expose app info | AEVI AppFlow</title>
+			<title>Quick guide | AEVI AppFlow</title>
 		
-		
-			<meta name="description" content="How to integrate any application with AppFlow to add data or augment the flow">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -124,11 +122,11 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Value Added Applications</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Flow Initiation</h2>
 					
 					
 						<div class="u-h6">
-							<p>Expose info about your application</p>
+							<p>Quick guide for integration</p>
 						</div>
 					
 					
@@ -149,91 +147,107 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="exposing-application-info">Exposing application info</h1>
+							<p>If you are looking to perform a quick integration to test AppFlow with your application before reading through the full documentation, this page provides the steps and code snippets that you can copy into your application to make that happen.</p>
 
-<p>In order for your application to be AppFlow compliant, it must expose certain information. It does this via implementing a content provider and exposing it via the application manifest.</p>
+<ul>
+  <li>
+    <p>Add API dependency</p>
 
-<h2 id="adding-the-service-info-provider">Adding the service info provider</h2>
+    <p><code class="highlighter-rouge">implementation 'com.aevi.sdk.pos.flow:payment-flow-service-api:&lt;version&gt;</code></p>
+  </li>
+  <li>
+    <p>Make sure you configure your application to <a href="https://developer.android.com/studio/write/java8-support">compile with Java 8</a></p>
+  </li>
+  <li>
+    <p>Create a service info provider that exposes info about your application (you can leave the code exactly as is just for testing purposes - what is reported here plays well with the sample initiation app)</p>
 
-<p>FPS and other applications require certain information about every value added service.</p>
-
-<p>This is done by extending <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider</code>, as the sample code from the <code class="highlighter-rouge">Flow Service Sample</code> below shows</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PaymentFlowServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ValueAddedServiceInfoProvider</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowServiceInfoProvider</span> <span class="o">{</span>
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="n">PaymentFlowServiceInfo</span> <span class="nf">getPaymentFlowServiceInfo</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nf">PaymentFlowServiceInfoBuilder</span><span class="o">()</span>
-      <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"AEVI"</span><span class="o">)</span>
-      <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"Flow Service Sample"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withVendor</span><span class="o">(</span><span class="s">"JustTestingAppFlow"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withDisplayName</span><span class="o">(</span><span class="s">"My Value Added App"</span><span class="o">)</span>
       <span class="o">.</span><span class="na">withCanAdjustAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="na">withCanPayAmounts</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">LOYALTY_POINTS</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">GIFT_CARD</span><span class="o">,</span> <span class="n">PaymentMethods</span><span class="o">.</span><span class="na">CASH</span><span class="o">)</span>
-      <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="n">FlowTypes</span><span class="o">.</span><span class="na">SALE</span><span class="o">)</span>
-      <span class="o">.</span><span class="na">withCustomRequestTypes</span><span class="o">(</span><span class="n">ShowLoyaltyPointsBalanceService</span><span class="o">.</span><span class="na">SHOW_LOYALTY_POINTS_REQUEST</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withSupportedFlowTypes</span><span class="o">(</span><span class="s">"sale"</span><span class="o">)</span>
       <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
   <span class="o">}</span>
 <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Expose the provider in the manifest</p>
 
-</code></pre></div></div>
-
-<p>See <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/pos/flow/model/PaymentFlowServiceInfoBuilder.html">PaymentFlowServiceInfoBuilder</a> for complete details of what can be set.</p>
-
-<p>The following data must be set for value added applications;</p>
-
-<ul>
-  <li><code class="highlighter-rouge">withVendor()</code> - The company providing the application</li>
-  <li><code class="highlighter-rouge">withDisplayName()</code> - The name of the application to show to merchants/customers</li>
-  <li><code class="highlighter-rouge">withCanPayAmounts()</code> - <strong>If</strong> you provide any form of payment method or apply discounts to baskets</li>
-  <li><code class="highlighter-rouge">withCanAdjustAmounts()</code> - <strong>If</strong> you add amounts, like tip, fees, charity, tax or add baskets</li>
-</ul>
-
-<div class="callout callout--warning">
-  <p>Note that if you fail to report that your application can pay or adjust amounts here, FPS will reject any attempts from your application to do so.</p>
-</div>
-
-<p>The following data is optional, but we recommend you understand and consider each item as they impact how your service is called;</p>
-
-<ul>
-  <li><code class="highlighter-rouge">withSupportedFlowTypes()</code> - Define what flow types your app supports (such as <code class="highlighter-rouge">sale</code> or <code class="highlighter-rouge">refund</code>). (details further down)</li>
-  <li><code class="highlighter-rouge">withCustomRequestTypes()</code> - Define custom/bespoke types that your application can handle (details further down)</li>
-  <li><code class="highlighter-rouge">withSupportedCurrencies()</code> - Restrict what currencies your application can handle (default is all currencies)</li>
-  <li><code class="highlighter-rouge">withSupportedDataKeys()</code> - Define what data keys (for additional data) your application can read/write/update</li>
-</ul>
-
-<div class="callout callout--info">
-  <p>withSupportedFlowTypes() is optional, but if left empty, it means FPS will call your application for any flow and it is up to your application to handle unsupported types. If types are specified, FPS will ensure your application only gets called for flows with types that are reported as supported.</p>
-</div>
-
-<p>See <a href="/pos-android-sdk/request-types">Flow Types</a> for a list of all defined flow types.</p>
-
-<div class="callout callout--info">
-  <p>withCustomRequestTypes() can be used to define custom types that are specific to your application. This may be a function to return some particular data like loyalty balance, or
-     to display such data. It is entirely up to your application what data is required and returned and
-      whether your application shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See ShowLoyaltyPointsBalance in the Flow Service Sample for illustration.</p>
-</div>
-
-<p>See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
-
-<h2 id="expose-via-manifest">Expose via manifest</h2>
-
-<p>The provider needs to be exposed in the application manifest as follows</p>
-
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;provider</span>
-  <span class="na">android:name=</span><span class="s">".PaymentFlowServiceInfoProvider"</span>
-  <span class="na">android:authorities=</span><span class="s">"&lt;your authority&gt;"</span>
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;provider</span>
+  <span class="na">android:name=</span><span class="s">".ValueAddedServiceInfoProvider"</span>
+  <span class="na">android:authorities=</span><span class="s">"com.your.packagename.appflow.provider"</span>
   <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;intent-filter&gt;</span>
       <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROVIDE_SERVICE_INFO"</span><span class="nt">/&gt;</span>
   <span class="nt">&lt;/intent-filter&gt;</span>
 <span class="nt">&lt;/provider&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Implement the service that will process requests by copying the code below. This will handle pre-transaction, and add a 10% charity donation to the flow.</p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ValueAddedService</span> <span class="kd">extends</span> <span class="n">BasePaymentFlowService</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPreTransaction</span><span class="o">(</span><span class="n">PreTransactionModel</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"Received a request of type: "</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="na">getTransactionRequest</span><span class="o">().</span><span class="na">getFlowType</span><span class="o">(),</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">setAdditionalAmountAsBaseFraction</span><span class="o">(</span><span class="s">"charityDonation"</span><span class="o">,</span> <span class="mf">0.1f</span><span class="o">);</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">sendResponse</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
-<p>The authority should be unique. We recommend you use your package name as a prefix.</p>
+<ul>
+  <li>
+    <p>Expose the service in the manifest</p>
 
-<h2 id="notifying-data-changes">Notifying data changes</h2>
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;service</span>
+  <span class="na">android:name=</span><span class="s">".ValueAddedService"</span>
+  <span class="na">android:exported=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"com.aevi.sdk.flow.action.PROCESS_PRE_TRANSACTION"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>That’s all the code required!</p>
+  </li>
+  <li>
+    <p>Install the <a href="/pos-android-sdk/downloads">developer bundle</a> on an Android (API level 21+) device</p>
+  </li>
+  <li>
+    <p>Install your application (non-obfuscated variant)</p>
+  </li>
+  <li>
+    <p>Start <code class="highlighter-rouge">Payment Initiation</code> from the launcher (red icon with a card on it)</p>
+  </li>
+  <li>
+    <p>Choose <code class="highlighter-rouge">Initiate a payment</code></p>
+  </li>
+  <li>
+    <p>Use default values and press the green <code class="highlighter-rouge">Initiate Payment</code> at the bottom</p>
+  </li>
+  <li>
+    <p>It will now go through the <code class="highlighter-rouge">sale</code> flow and your application should be called first</p>
+  </li>
+  <li>
+    <p>Note that as your service here is not starting any activities, all you will see is the <em>Toast</em> popping up</p>
+  </li>
+</ul>
 
-<p>If the data reported via <code class="highlighter-rouge">PaymentFlowServiceInfo</code> has changed, you need notify FPS of this.</p>
+<h3 id="next-steps">Next steps</h3>
 
-<p>Call <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider.notifyServiceInfoChange()</code> statically and FPS will invalidate any cached configuration data for your application and call your provider again to get the new information.</p>
+<ul>
+  <li>Read the full guide, starting from <a href="/pos-android-sdk/guides/vaa/pre-requisites">dependencies</a></li>
+  <li>Check out the <a href="/pos-android-sdk/reference">javadocs</a> and <a href="https://github.com/AEVI-AppFlow/pos-android-sdk">samples code</a>.</li>
+  <li><a href="/pos-android-sdk/explore">Explore</a> the rest of the documentation</li>
+</ul>
 
 							
 
@@ -309,7 +323,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/implementing-flow-services">
 												<p class="c-page-nav__heading">Implementing the services</p>
 											</a>
@@ -321,7 +335,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/interacting-stage-models">
 												<p class="c-page-nav__heading">Interacting with stage models</p>
 											</a>
@@ -333,7 +347,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/handling-events">
 												<p class="c-page-nav__heading">Handling events</p>
 											</a>
@@ -345,7 +359,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/flow-response-listeners">
 												<p class="c-page-nav__heading">Adding response listeners</p>
 											</a>
@@ -357,7 +371,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/application-guidelines">
 												<p class="c-page-nav__heading">Application Guidelines</p>
 											</a>
@@ -369,7 +383,7 @@
 								
 								
 									
-										<li class="is-active">
+										<li>
 											<a href="/pos-android-sdk/guides/vaa/next-steps">
 												<p class="c-page-nav__heading">Next steps</p>
 											</a>
@@ -405,17 +419,6 @@
 							 	
 							
 							 	
-								  
-									
-									
-									
-									
-										<a href="/pos-android-sdk/guides/vaa/determine-stages" class="c-arrow-link c-arrow-link--prev u-mr-auto">Determine flow stages</a>
-									
-									
-										<a href="/pos-android-sdk/guides/vaa/implementing-flow-services" class="c-arrow-link c-arrow-link--next u-ml-auto">Implementing the services</a>
-									
-								
 							
 							 	
 							

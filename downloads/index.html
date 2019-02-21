@@ -133,12 +133,16 @@
 					<p>There are a few different components relevant for anyone who wants to test AppFlow or start integrating with it;</p>
 
 <ul>
-  <li>Flow Processing Service (FPS) - handles initiation requests and processes the flows</li>
-  <li>Developer Config Provider - provides flow configurations and settings to AppFlow services and FPS</li>
-  <li>API Samples - for testing and validating integrations</li>
+  <li><code class="highlighter-rouge">Flow Processing Service (FPS)</code> - handles initiation requests and processes the flows</li>
+  <li><code class="highlighter-rouge">AppFlow Settings</code> - provides flow configurations and settings tailored for developers</li>
+  <li><code class="highlighter-rouge">Payment Initiation Sample</code> - sample to query AppFlow and initiate flows</li>
+  <li><code class="highlighter-rouge">Flow Service Sample</code> - sample that provides value added functions in the flow</li>
+  <li><code class="highlighter-rouge">Payment Service Sample</code> - sample that illustrates the function of a payment application in AppFlow</li>
 </ul>
 
-<p>If any of these components changes, a new <code class="highlighter-rouge">developer bundle</code> will be created and published to this page for downloads. In the table below you can see what versions of each component is and what API version they are integrated with.</p>
+<p>These components are all provided as part of a <em>developer bundle</em>.</p>
+
+<p>If any of these components changes, a new bundle will be created and published to this page for downloads. In the table below you can see what versions of each component is and what API version they are integrated with.</p>
 
 <p>The first official bundle with AppFlow v2 is <code class="highlighter-rouge">v6</code> (v1 - v5 were internal releases).</p>
 
@@ -162,6 +166,11 @@
     </tr>
   </tbody>
 </table>
+
+<div class="callout callout--danger">
+  <p>Please ensure you install a version of FPS that matches the version of the API you are using in your application. i.e. for API 2.0.X please install FPS v2.0.X</p>
+</div>
+
 
 					
 

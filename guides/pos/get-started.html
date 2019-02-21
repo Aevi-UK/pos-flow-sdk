@@ -9,10 +9,8 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Querying for information | AEVI AppFlow</title>
+			<title>Get started | AEVI AppFlow</title>
 		
-		
-			<meta name="description" content="Getting information about FPS and the flows">
 		
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
@@ -128,7 +126,7 @@
 					
 					
 						<div class="u-h6">
-							<p>How to query for relevant AppFlow information</p>
+							<p>Get started</p>
 						</div>
 					
 					
@@ -149,85 +147,13 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h1 id="querying-for-information">Querying for information</h1>
+							<p>There are two approaches available for integrating your application with AppFlow</p>
 
-<p>Your application can query the API for information that will help you to decide what kind of flows can be initiated and what data can be defined in the request.</p>
+<ol>
+  <li><em>Docs first</em> - Follow this guide (steps on the right) which will explain all the relevant AppFlow concepts and allow you to set up the application gradually</li>
+  <li><em>Code first</em> - Jump to the <a href="/pos-android-sdk/guides/pos/quick-guide">quick guide</a> to get your application integrated with AppFlow, allowing you to interact with it and other applications before you dive into detailed documentation</li>
+</ol>
 
-<p>This information is contained with the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/config/PaymentSettings.html">PaymentSettings</a> model object which exposes useful information such as;</p>
-
-<ul>
-  <li>Installed flow services and associated metadata</li>
-  <li>Flow configurations</li>
-  <li>FPS settings</li>
-  <li>AppFlow settings</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">getPaymentSettings</span><span class="o">()</span>
-  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">paymentSettings</span> <span class="o">-&gt;</span> <span class="o">{</span>
-         <span class="c1">// Do something with the `PaymentSettings` object here</span>
-   <span class="o">});</span>
-</code></pre></div></div>
-
-<h2 id="installed-flow-services">Installed flow services</h2>
-<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentFlowServices.html">PaymentFlowServices</a> object can be obtained via <code class="highlighter-rouge">paymentSettings.getPaymentFlowServices()</code>, which can be used to query for collated information across all flow services, or from a specific flow service.</p>
-
-<p>Information relevant for what the current AppFlow environment supports can be reviewed, such as;</p>
-<ul>
-  <li>Supported currencies</li>
-  <li>Supported payment methods</li>
-  <li>Custom request types</li>
-  <li>The functions of a flow service
-    <ul>
-      <li>What stages it supports</li>
-      <li>Whether it can update amounts</li>
-      <li>Whether it can pay amounts</li>
-      <li>And much more…</li>
-    </ul>
-  </li>
-</ul>
-
-<p>In addition, flow service metadata is available such as application name, vendor, version, etc.</p>
-
-<p>This, in combination with the information from the next section, will help you determine what is possible on any given device.</p>
-
-<h2 id="flow-configurations">Flow configurations</h2>
-<p>The <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/config/FlowConfigurations.html">FlowConfigurations</a> model returned via <code class="highlighter-rouge">paymentSettings.getFlowConfigurations()</code> exposes information about all the active flows in FPS.</p>
-
-<p>The flow configurations <strong>alone</strong> determine what functions are available for a client application, such as whether refund is supported or whether a sale can be split or not. These flow configurations are generally defined by AEVI and/or the acquirer/bank to match the requirements for the environment and/or enabled device in which they will be used.</p>
-
-<p>It is assumed that most client applications will have a particular range of functions they support. This API is designed for this, allowing the client to:</p>
-
-<ul>
-  <li>Check whether a given flow type (such as “sale”) is supported</li>
-  <li>Get the defined flows for that flow type (can be zero to many)</li>
-  <li>Check what stages are defined for a given flow</li>
-  <li>And more…</li>
-</ul>
-
-<p>It is also possible to get all or stream all the available flow configs and apply Rx filtering on these to get the results required.</p>
-
-<h2 id="fps-settings">FPS Settings</h2>
-<p>The behaviour of Flow Processing Service (FPS) can to some extent be configured by acquirers and/or merchants.</p>
-
-<p>Examples of such settings are</p>
-
-<ul>
-  <li>Various timeouts relating to flow execution</li>
-  <li>Feature toggles (such as currency conversion, multi-device, etc)</li>
-  <li>UI theming, show/hide controls, etc</li>
-</ul>
-
-<p>See all settings <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/config/FpsSettings.html">here</a>.</p>
-
-<p>These settings can be retrieved via <code class="highlighter-rouge">paymentSettings.getFpsSettings()</code>.</p>
-
-<h2 id="appflow-settings">AppFlow Settings</h2>
-
-<p>As of v2.1.0, this also exposes some general settings that is intended to be useful for any application integrated with AppFlow.</p>
-
-<p>This includes things like date and time formats, primary language/currency, etc.</p>
-
-<p>See all settings <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/config/AppFlowSettings.html">here</a>.</p>
 
 							
 
@@ -255,7 +181,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/pre-requisites">
 												<p class="c-page-nav__heading">Dependencies</p>
 											</a>
@@ -267,7 +193,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/api-overview">
 												<p class="c-page-nav__heading">API overview</p>
 											</a>
@@ -279,7 +205,7 @@
 								
 								
 									
-										<li>
+										<li class="is-active">
 											<a href="/pos-android-sdk/guides/pos/querying-for-information">
 												<p class="c-page-nav__heading">Querying for information</p>
 											</a>
@@ -415,23 +341,21 @@
 							
 							
 							 	
-							
-							 	
-							
-							 	
-							
-							 	
 								  
 									
 									
 									
 									
-										<a href="/pos-android-sdk/guides/pos/api-overview" class="c-arrow-link c-arrow-link--prev u-mr-auto">API overview</a>
 									
-									
-										<a href="/pos-android-sdk/guides/pos/flow-initiation" class="c-arrow-link c-arrow-link--next u-ml-auto">Initiate flows</a>
+										<a href="/pos-android-sdk/guides/pos/pre-requisites" class="c-arrow-link c-arrow-link--next u-ml-auto">Dependencies</a>
 									
 								
+							
+							 	
+							
+							 	
+							
+							 	
 							
 							 	
 							

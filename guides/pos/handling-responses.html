@@ -168,6 +168,8 @@
   <li><code class="highlighter-rouge">BasePaymentResponseListenerService</code> - to listen for <code class="highlighter-rouge">PaymentResponse</code> objects resulting from a <code class="highlighter-rouge">Payment</code> request</li>
 </ul>
 
+<p>See <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentInitiationSample/src/main/java/com/aevi/sdk/pos/flow/paymentinitiationsample/PaymentResponseListenerService.java">PaymentResponseListenerService</a> and <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentInitiationSample/src/main/java/com/aevi/sdk/pos/flow/paymentinitiationsample/ResponseListenerService.java">ResponseListenerService</a> in the <code class="highlighter-rouge">Payment Initiation Sample</code> for trivial implementation that simply start an activity to display the result.</p>
+
 <h2 id="response-service">Response service</h2>
 
 <p>Response services have two callback methods for responses - one for generic responses, such as for any of the defined <a href="/pos-android-sdk/request-types">flow types</a> or custom request types, and one for responses from a <a href="status-update-flows">status update flow</a>. These are delivered separately as many clients may not be interested in responses from status updates.</p>
@@ -233,7 +235,6 @@
 </code></pre></div></div>
 
 <p>How to parse the response data and handle errors are covered in the next sections.</p>
-
 
 							
 

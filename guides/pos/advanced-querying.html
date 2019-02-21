@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Advanced Querying | AEVI AppFlow</title>
+			<title>Querying Code Snippets | AEVI AppFlow</title>
 		
 		
 		
@@ -126,7 +126,7 @@
 					
 					
 						<div class="u-h6">
-							<p>Advanced examples of querying for AppFlow information</p>
+							<p>Querying examples</p>
 						</div>
 					
 					
@@ -147,11 +147,101 @@
 				
 					<div class="o-col-8@lg o-col-7@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<ul>
-  <li>List flow services</li>
-  <li>Check if a type is supported (should be in initiate flows docs!?)</li>
-  <li></li>
-</ul>
+							<p>All the operations documented here assumes that you already have access to the <code class="highlighter-rouge">PaymentSettings,</code> which can be retrieved as per below</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentClient</span><span class="o">.</span><span class="na">getPaymentSettings</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">paymentSettings</span> <span class="o">-&gt;</span> <span class="o">{</span>
+         <span class="c1">// Use for the operations on this page</span>
+   <span class="o">});</span>
+</code></pre></div></div>
+
+<h2 id="flow-configuration-operations">Flow configuration operations</h2>
+
+<p>This lists some useful operations. For a full list of API methods, please see the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/config/FlowConfigurations.html">FlowConfiguration javadocs</a>.</p>
+
+<h4 id="get-a-list-of-all-flow-configurations">Get a list of all flow configurations</h4>
+
+<p>Returns a list of all the current flow configurations.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">FlowConfig</span><span class="o">&gt;</span> <span class="n">flowConfigurations</span> <span class="o">=</span> <span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getAll</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="check-if-a-flow-type-is-supported">Check if a flow type is supported</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>paymentSettings.getFlowConfigurations().isFlowTypeSupported("sale");
+</code></pre></div></div>
+
+<h4 id="get-all-flow-types">Get all flow types</h4>
+
+<p>You can either query for all flow types (pass in <code class="highlighter-rouge">null</code>) or specifically for payment flows or generic flows.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getFlowTypes</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+<span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getFlowTypes</span><span class="o">(</span><span class="n">FlowConfig</span><span class="o">.</span><span class="na">REQUEST_CLASS_PAYMENT</span><span class="o">);</span>
+<span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getFlowTypes</span><span class="o">(</span><span class="n">FlowConfig</span><span class="o">.</span><span class="na">REQUEST_CLASS_GENERIC</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="get-flow-details-from-type">Get flow details from type</h4>
+
+<p>There can be more than one flow per type, differentiated by the <em>flow name</em>. For instance, there may be a flow named <code class="highlighter-rouge">basicSale</code> that has no loyalty apps, whereas <code class="highlighter-rouge">loyaltySale</code> does. They are both of type <code class="highlighter-rouge">sale</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getFlowNamesForType</span><span class="o">(</span><span class="s">"sale"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>The name can then be used to set in the  request to initiate a flow, or to query for flow details</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getFlowConfiguration</span><span class="o">(</span><span class="s">"loyaltySale"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="filter-flow-configurations">Filter flow configurations</h4>
+
+<p>If you want to filter flow configurations by some criteria, you can use <code class="highlighter-rouge">stream()</code>. The below filters based on whether the flow contains the <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> stage or not.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">flowConfig</span> <span class="o">-&gt;</span> <span class="n">flowConfig</span><span class="o">.</span><span class="na">hasStage</span><span class="o">(</span><span class="n">FlowStages</span><span class="o">.</span><span class="na">TRANSACTION_PROCESSING</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">flowConfig</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="c1">// Do something</span>
+                <span class="o">});</span>
+</code></pre></div></div>
+
+<h2 id="flow-service-operations">Flow service operations</h2>
+
+<p>This lists some useful operations. For a full list of API methods, please see the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentFlowServices.html">PaymentFlowServices javadocs</a> and <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentFlowServiceInfo.html">PaymentFlowServiceInfo javadocs</a>.</p>
+
+<h4 id="get-a-list-of-all-flow-services">Get a list of all flow services</h4>
+
+<p>Returns a list of all installed flow services on the device.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">PaymentFlowServiceInfo</span><span class="o">&gt;</span> <span class="n">flowServices</span> <span class="o">=</span> <span class="n">paymentSettings</span><span class="o">.</span><span class="na">getPaymentFlowServices</span><span class="o">().</span><span class="na">getAll</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="filter-flow-services">Filter flow services</h4>
+
+<p>Flow services can be filtered by any of the data that is exposed by them, such as currency or payment methods. In the example, we below, we use <code class="highlighter-rouge">stream()</code> which we then apply a filter to.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getPaymentFlowServices</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">paymentFlowServiceInfo</span> <span class="o">-&gt;</span> <span class="n">paymentFlowServiceInfo</span><span class="o">.</span><span class="na">supportsCurrency</span><span class="o">(</span><span class="s">"EUR"</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">toList</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">paymentFlowServiceInfos</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="c1">// List of flow services that supports "EUR"               </span>
+                <span class="o">});</span>
+</code></pre></div></div>
+
+<h4 id="retrieve-collated-information">Retrieve collated information</h4>
+
+<p>The <code class="highlighter-rouge">PaymentFlowServices</code> model collates information about all the flow services into collections.</p>
+
+<p>Example below provides a set of all the supported currencies.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">allSupportedCurrencies</span> <span class="o">=</span> <span class="n">paymentSettings</span><span class="o">.</span><span class="na">getPaymentFlowServices</span><span class="o">().</span><span class="na">getAllSupportedCurrencies</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="check-for-support">Check for support</h4>
+
+<p>The <code class="highlighter-rouge">PaymentFlowServices</code> model contains some useful “is” methods, like <code class="highlighter-rouge">isCurrencySupported()</code>, which will check across all the flow services.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getPaymentFlowServices</span><span class="o">().</span><span class="na">isCurrencySupported</span><span class="o">(</span><span class="s">"EUR"</span><span class="o">);</span>
+</code></pre></div></div>
+
 
 							
 

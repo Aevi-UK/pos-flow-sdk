@@ -163,9 +163,23 @@
 
 <p>What data is relevant for any given request is defined by the <em>flow type</em>. Please see the documentation in <a href="/pos-android-sdk/request-types">Flow Types</a> for a full list of types and associated data.</p>
 
+<h4 id="check-flow-support">Check flow support</h4>
+
+<p>You can check if a particular flow type is supported via</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">isFlowTypeSupported</span><span class="o">(</span><span class="s">"refund"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Or, get a list of all the supported flow types</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentSettings</span><span class="o">.</span><span class="na">getFlowConfigurations</span><span class="o">().</span><span class="na">getFlowTypes</span><span class="o">();</span>
+</code></pre></div></div>
+
 <h2 id="initiate-a-payment">Initiate a payment</h2>
 
 <p>In order to make a payment, a <code class="highlighter-rouge">Payment</code> object needs to be built. This is done via using the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/PaymentBuilder.html">PaymentBuilder</a> class. At a minimum a <code class="highlighter-rouge">Payment</code> must have a flow type and amounts set. Depending on the type of flow being initiated, other parameters may be defined as well. See <a href="/pos-android-sdk/request-types">Flow Types</a> for examples for each type.</p>
+
+<p>See <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentInitiationSample/src/main/java/com/aevi/sdk/pos/flow/paymentinitiationsample/ui/fragment/PaymentFragment.java">PaymentFragment</a> in the <code class="highlighter-rouge">Payment Initiation Sample</code> for code sample and use the <code class="highlighter-rouge">Initiate a payment</code> section in the application to see it live.</p>
 
 <p>Please note that the base amount set in <code class="highlighter-rouge">Amounts</code> should always be <strong>inclusive</strong> of tax (GST, VAT, etc).</p>
 
@@ -234,10 +248,11 @@
 <div class="callout callout--warn">
   <p>As of AppFlow v2, Responses are no longer returned via the initiation rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. Response handling is covered in future pages.</p>
 </div>
-
 <h2 id="initiate-a-generic-request">Initiate a generic request</h2>
 
-<p>Examples of generic requests are tokenisation orreversal, but they are also used for custom types.</p>
+<p>Examples of generic requests are tokenisation or reversal, but they are also used for custom types.</p>
+
+<p>See <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentInitiationSample/src/main/java/com/aevi/sdk/pos/flow/paymentinitiationsample/ui/fragment/GenericRequestFragment.java">GenericRequestFragment</a> in the <code class="highlighter-rouge">Payment Initiation Sample</code> for code sample and use the <code class="highlighter-rouge">Initiate a non-payment request</code> section in the application to see it live.</p>
 
 <p>For these types of requests, all applications must know what data to expect for any given request type. Please see <a href="/pos-android-sdk/request-types">Flow Types</a> for common requests and code snippets for creating requests and responses.</p>
 

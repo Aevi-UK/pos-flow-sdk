@@ -122,11 +122,11 @@
 			<div class="o-row">
 				<div class="o-col-10@lg o-col-9@xl">
 					
-						<h2 class="u-text-lg u-text-xl@sm">Implementation Checklists</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Developer Bundle</h2>
 					
 					
 						<div class="u-h6">
-							<p>Checklists to help you ensure your application is AppFlow compliant</p>
+							<p>How to use the developer bundle</p>
 						</div>
 					
 					
@@ -145,40 +145,27 @@
 				
 					<div class="o-col-9@lg o-col-8@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<h3 id="general">General</h3>
+							<p>The developer bundle has four purposes;</p>
 
-<ul>
-  <li>Proguarding your app? -&gt; Ensure your have added the <a href="/pos-android-sdk/guides/pos/application-guidelines#proguard">AEVI rules</a> to your configuration file</li>
-  <li>Ensure you have added the correct <a href="/pos-android-sdk/guides/pos/application-guidelines#permissions">permissions</a> in the manifest</li>
-  <li>Make sure you implement the <code class="highlighter-rouge">onError</code> callback for <em>any</em> Rx calls to the API</li>
-</ul>
+<ol>
+  <li>To provide sample applications that can be used to explore how AppFlow works</li>
+  <li>To provide reference applications to test integration of your own application with in a flow</li>
+  <li>To provide code examples of how to interact with the APIs</li>
+  <li>To provide an <code class="highlighter-rouge">AppFlow Configuration Provider</code> (named <em>AppFlow Settings</em>) tailored for the above use cases</li>
+</ol>
 
-<h3 id="flow-initiation">Flow Initiation</h3>
+<h3 id="appflow-settings-app">AppFlow Settings App</h3>
 
-<ul>
-  <li>Ensure that you have implemented the <a href="/pos-android-sdk/guides/pos/flow-response-listeners">response listeners</a> so that your application receives flow outcomes, and launch appropriate user interface to present the outcomes</li>
-  <li>Ensure you <a href="/pos-android-sdk/guides/pos/handling-errors">handle errors</a> properly and present these to the merchant as appropriate</li>
-  <li>Make sure to <a href="/pos-android-sdk/guides/pos/advanced-querying">query</a> for relevant information to check what the supported flows and currencies are, etc</li>
-  <li>Make sure you <code class="highlighter-rouge">finish()</code> any activity after you have received confirmation that the flow was initiated successfully</li>
-  <li>Review that you are using the correct <a href="/pos-android-sdk/request-types">types</a> and <a href="/pos-android-sdk/reference-values">data</a> for when you create requests to initiate a flow</li>
-</ul>
+<p>The <code class="highlighter-rouge">AppFlow Settings</code> application (green icon on launcher) provides a way to manage the <a href="/pos-android-sdk/overview/flow-configurations">flow configurations</a> on the device, as well as the general AppFlow and FPS settings.</p>
 
-<h3 id="flow-services">Flow Services</h3>
+<p>This application comes with a set of pre-defined flows to go with the samples, but in addition, it will scan for AppFlow compliant flow services and automatically add them to the relevant flows and stages.</p>
 
-<ul>
-  <li>It is very important that you <a href="/pos-android-sdk/guides/vaa/expose-app-info">expose the correct information</a> about your application</li>
-  <li>Ensure your service/activity that handles the requests deals with unknown request types and/or missing/incorrect data properly and sends back the appropriate response for these cases</li>
-  <li>Make sure to subscribe to and handle <a href="/pos-android-sdk/guides/vaa/handling-events">flow service events</a> properly</li>
-  <li>Ensure your application activites have the <a href="/pos-android-sdk/guides/vaa/application-guidelines#manifest-flags">recommended maniflags set</a> in order to behave correctly in a flow</li>
-  <li>Review that you are handling <a href="/pos-android-sdk/request-types">types</a> and <a href="/pos-android-sdk/reference-values">data</a> correctly as per documentation to ensure inter-app compatibility</li>
-</ul>
+<p>This means that as a developer, you don’t necessarily <em>have to</em> interact with this application, nor understand the details of flow configurations, in order to test your own application in a flow.</p>
 
-<h4 id="payment-apps">Payment apps</h4>
+<h4 id="limitations">Limitations</h4>
 
-<ul>
-  <li>Important! Make sure to use the <a href="/pos-android-sdk/guides/pa/implementing-services#building-the-transaction-processing-response">correct structure for processed amounts</a></li>
-  <li>If you support both <code class="highlighter-rouge">PAYMENT_CARD_READING</code> and <code class="highlighter-rouge">TRANSACTION_PROCESSING</code>, ensure that the latter stage can also read payment cards as the card reading stage is optional in a flow</li>
-</ul>
+<p>As there is a pre-defined set of flows defined in this bundle, it is possible that it does not provide all the functions that your application requires. For these cases, contact AEVI to discuss options.</p>
+
 
 							
 

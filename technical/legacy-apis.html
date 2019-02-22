@@ -132,49 +132,9 @@
 
 <p>We will be referring to any applications using this old API as <em>legacy</em> apps and these should be migrated to the new AppFlow APIs as soon as possible.</p>
 
-<h2 id="existing-legacy-api-applications">Existing legacy API applications</h2>
+<h2 id="existing-legacy-payment-applications">Existing legacy Payment Applications</h2>
 
-<p>AppFlow provides compatibility support for existing applications that are integrated with the legacy APIs. This means that a legacy VAA can still initiate payments as per before, and legacy Payment Apps
-can still accept request and process payments as per before.</p>
-
-<p>There are however a few restrictions;</p>
-
-<ul>
-  <li>Split payments is not supported as the legacy APIs have no mechanism of passing back more than one transaction</li>
-  <li>Post-card-reading flow apps will never receive card data from legacy Payment Apps</li>
-  <li>Multiple payment apps in a flow is not supported when there are legacy payment apps installed</li>
-</ul>
-
-<h2 id="legacy-components">Legacy components</h2>
-
-<p>Whereas FPS itself supports calling into legacy Payment Apps, additional components are required to support the legacy VAA use cases.</p>
-
-<p>There are two different adapter applications intended for two different scenarios.</p>
-
-<h3 id="payment-request-legacy-app">Payment Request Legacy App</h3>
-
-<p><code class="highlighter-rouge">Payment Request Legacy App (PRLA)</code> is required when there is <strong>no</strong> legacy Payment App on the device. PRLA essentially acts as a fully fledged legacy payment app and proxies the requests through to AppFlow. This is required due to how the legacy APIs are designed, where the legacy VAA calls directly into the legacy Payment App via intent.</p>
-
-<p>PRLA does two things;</p>
-
-<ol>
-  <li>
-    <p>It will handle legacy <code class="highlighter-rouge">PaymentAppConfiguration</code> request by querying FPS for available payment apps, and then using a converter to map the AppFlow <code class="highlighter-rouge">PaymentFlowServiceInfo</code> objects into the legacy <code class="highlighter-rouge">PaymentAppConfiguration</code> objects. If there is more than one payment application, the flow configurations will be parsed to find the eligible candidate. If none can be chosen via this process, the legacy support will report back a failure.</p>
-  </li>
-  <li>
-    <p>It will handle legacy <code class="highlighter-rouge">AeviRequest</code> intents, convert the model to a AppFlow <code class="highlighter-rouge">Payment</code> or <code class="highlighter-rouge">Request</code> and route it to FPS via the <code class="highlighter-rouge">Payment Initiation API</code>.</p>
-  </li>
-</ol>
-
-<p>Note that PRLA should <em>not</em> ever be installed alongside a real legacy Payment App as multiple legacy Payment Apps is not supported.</p>
-
-<h3 id="payment-flow-legacy-app">Payment Flow Legacy App</h3>
-
-<p>Unlike PRLA, Payment Flow Legacy App (PFLA) is intended to be used when there <strong>is</strong> a legacy Payment App installed.</p>
-
-<p>PRLA is not involved in the legacy <code class="highlighter-rouge">PaymentAppConfiguration</code> requests. These go straight from the legacy VAA into the legacy Payment App via intent, as FPS has no way of intercepting this.</p>
-
-<p>PRLA will however be able to intercept requests from v2.5.1+ VAAs via a special hook added, allowing it to perform the same function as PRLA and proxy these requests through to FPS.</p>
+<p>AppFlow provides compatibility support for existing payment applications that are integrated with the legacy APIs for <strong>development and testing purposes</strong>. This means that legacy Payment Apps can still accept request and process payments as per before, whilst you are migrating to the AppFlow APIs.</p>
 
 <h2 id="migration">Migration</h2>
 

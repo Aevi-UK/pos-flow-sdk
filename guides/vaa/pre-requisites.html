@@ -54,7 +54,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -88,7 +88,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +118,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-10">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -151,7 +151,16 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="dependencies">Dependencies</h1>
 
-<p>All our AppFlow artifacts are published to <code class="highlighter-rouge">jcenter</code>, which is automatically used as a Maven repository by Android projects in Android Studio. If you are having problems resolving dependencies, make sure you have <code class="highlighter-rouge">jcenter()</code> defined in your <code class="highlighter-rouge">repositories</code> section in the root project <code class="highlighter-rouge">build.gradle</code>.</p>
+<p>As of AppFlow 2.1.0,  all our AppFlow artifacts and its dependencies are published to <code class="highlighter-rouge">jcenter</code>, which is automatically used as a Maven repository by Android projects in Android Studio.</p>
+
+<p>For releases prior to AppFlow 2.1.0, please include the following in your root <code class="highlighter-rouge">build.gradle</code>,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>repositories {
+    maven {
+        url "http://dl.bintray.com/aevi/aevi-uk"
+    }
+}
+</code></pre></div></div>
 
 <p>The AppFlow APIs are built with Java 8 which means your application must compile with Java 8. Please see the official Android docs for how to <a href="https://developer.android.com/studio/write/java8-support">compile/target Java 8</a>.</p>
 

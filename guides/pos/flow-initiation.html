@@ -54,7 +54,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -88,7 +88,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +118,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-10">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -159,7 +159,7 @@
 
 <p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/Payment.html">Payment</a> is used when some defined amount of money is being transferred as a result of the transaction. Examples are sale (purchase / payment), refund, pre-authorisation, etc. These all involve money being moved from one entity to another - customer to merchant or vice versa, as defined by the client application. The <code class="highlighter-rouge">Payment</code> model has been defined to support these standard point of sale scenarios.</p>
 
-<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/Request.html">Request</a> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow AppFlow applications to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate.</p>
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/model/Request.html">Request</a> on the other hand can be used for a wide range of scenarios whether it involves money or not, such as tokenisation, batch closure, receipt or printing requests, reversals/voids, etc. In order to support these different types of functions, the <code class="highlighter-rouge">Request</code> / <code class="highlighter-rouge">Response</code> model pair was created to allow for fully custom data being passed in either direction. Via this approach, we also allow AppFlow applications to define their own custom request types, which they can advertise via a <code class="highlighter-rouge">PaymentFlowServiceInfo</code> for clients to review and initiate. All generic flows/requests can be set to be processed in the background, invisible to the users.</p>
 
 <p>What data is relevant for any given request is defined by the <em>flow type</em>. Please see the documentation in <a href="/pos-android-sdk/request-types">Flow Types</a> for a full list of types and associated data.</p>
 
@@ -250,7 +250,7 @@
 </div>
 <h2 id="initiate-a-generic-request">Initiate a generic request</h2>
 
-<p>Examples of generic requests are tokenisation or reversal, but they are also used for custom types.</p>
+<p>Examples of generic requests are tokenisation or reversal, but they are also used for custom types and status updates.</p>
 
 <p>See <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentInitiationSample/src/main/java/com/aevi/sdk/pos/flow/paymentinitiationsample/ui/fragment/GenericRequestFragment.java">GenericRequestFragment</a> in the <code class="highlighter-rouge">Payment Initiation Sample</code> for code sample and use the <code class="highlighter-rouge">Initiate a non-payment request</code> section in the application to see it live.</p>
 
@@ -261,6 +261,7 @@
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="n">flowType</span><span class="o">);</span>
 <span class="n">request</span><span class="o">.</span><span class="na">setFlowName</span><span class="o">(</span><span class="n">flowName</span><span class="o">);</span> <span class="c1">// If the flow name is known, it should be set for multi-flow scenarios</span>
 <span class="n">request</span><span class="o">.</span><span class="na">addAdditionalData</span><span class="o">(</span><span class="s">"dataKey"</span><span class="o">,</span> <span class="s">"dataValue"</span><span class="o">);</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setProcessInBackground</span><span class="o">(</span><span class="kc">true</span> <span class="o">/</span> <span class="kc">false</span><span class="o">);</span> <span class="c1">// True here means no UI is allowed</span>
 <span class="n">paymentClient</span><span class="o">.</span><span class="na">initiateRequest</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
   <span class="o">.</span><span class="na">subscribe</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
       <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Request accepted"</span><span class="o">);</span>
@@ -278,8 +279,14 @@
 <div class="callout callout--warn">
   <p>As of AppFlow v2, Responses are no longer returned via the initiation Rx stream due to the nature of Android component lifecycles where there is no guarantee that the component (activity or service) that initiated the request is still alive by the time the flow has completed. Response handling is covered in future pages.</p>
 </div>
+<h3 id="background-processing">Background processing</h3>
+
+<p>Generic flows can be processed in the <em>background</em>, which means that they are executed separately to (and possibly in parallel to) the foreground flows. Applications may not launch any UI in a background flow and the requests are submitted to a <em>request queue</em> which are processed one at a time. <a href="/pos-android-sdk/guides-pos/status-update-flows">Status updates</a> are by definition processed in this manner.</p>
+
+<p>The main use case for a client to set this flag is to indicate that there is no need for any user interaction. As an example, a <em>reversal</em> may be set to process in the background as it may not require a user interface.</p>
 
 <h3 id="initiate-a-custom-request">Initiate a custom request</h3>
+
 <p>AppFlow applications can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the handling application for a custom type. If however such data is required, see <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for more information.</p>
 
 <h2 id="recommended-application-architecture">Recommended application architecture</h2>

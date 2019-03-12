@@ -54,7 +54,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -88,7 +88,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +118,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-10">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -168,7 +168,7 @@ Read more about this <a href="/pos-android-sdk/technical/payment-card-reading">h
 <h3 id="non-payment-functions">Non-payment functions</h3>
 
 <p>For other functions, such as <code class="highlighter-rouge">reversal</code> (<code class="highlighter-rouge">void</code>), <code class="highlighter-rouge">tokenisation</code>, etc, the <code class="highlighter-rouge">GENERIC</code> stage is used.
-See <a href="/pos-android-sdk/request-types">Flow Types</a> for the different generic types and whether your application can support any of these.</p>
+See <a href="/pos-android-sdk/request-types">Flow Types</a> for the different generic types and information on what data is passed in the request and what is required in the response. The generic scenarios are explained in more detail at the end of this page.</p>
 
 <h2 id="the-service">The service</h2>
 
@@ -226,24 +226,40 @@ See <a href="/pos-android-sdk/request-types">Flow Types</a> for the different ge
 
 <p>When your payment app has finished processing the payment and determined the outcome, you should construct an appropriate <code class="highlighter-rouge">TransactionResponse</code> object using the <code class="highlighter-rouge">TransactionResponseBuilder</code> retrieved via <code class="highlighter-rouge">TransactionProcessingModel.getTransactionResponseBuilder()</code>.</p>
 
+<h4 id="transaction-outcome">Transaction outcome</h4>
+
 <p>At a minimum, the outcome must be set via calling either one of the approve methods or the decline method on the builder. If a specific response code is supported via a defined protocol, such as <em>ISO-8583</em>, this should be set via the <code class="highlighter-rouge">withResponseCode()</code> method. In addition, free text information about the outcome can be provided via the <code class="highlighter-rouge">withOutcomeMessage()</code> method.</p>
+
+<h4 id="processed-amounts">Processed amounts</h4>
 
 <div class="callout callout--danger">
   <p>The amounts structure in the response is very important. If the transaction was approved with the full amounts charged, you should use the <i>request</i> amounts (from <code>TransactionRequest</code>) to pass in via the <code>approve(Amounts processedAmounts, String... paymentMethod)</code> method in the builder. </p>
-
-  <p>This is to preserve the integrity of the amounts structure. If the payment application response amounts use a different structure for the processed amounts (for example, sets the total approved as base and ignores the additional amounts), it will be difficult for other AppFlow applications to match additional amounts (such as a donation) and see whether they were processed correctly. It also creates issues for split flows (split bill).</p>
-</div>
+  <p>This is to preserve the integrity of the amounts structure. If the payment application response amounts use a different structure for the processed amounts (for example, sets the total approved as base and ignores the additional amounts), it will be difficult for other AppFlow applications to match additional amounts (such as a donation) and see whether they were processed correctly. It also creates issues for split flows (split bill).</p></div>
 
 <p>If your payment application (host/gateway) supports <em>partial auth</em> and such a scenario occurs, then you can of course not use the request amounts as they were. In this case, it is recommended that you first “fill up” the base amount with the amounts authorised, and then split any remaining amounts uniformly (as a fraction) of the requested additional amounts.</p>
 
-<p>If the payment method used for the transaction was a payment card (and it was read in this stage and not in payment card reading stage), it is strongly recommended that the following fields at a minimum are populated in the <code class="highlighter-rouge">Card</code> model;</p>
+<h4 id="card-details">Card details</h4>
+
+<p>If the payment method used for the transaction was a payment card (and it was read in this stage and not in payment card reading stage), it is strongly recommended that the following fields at a minimum are populated in the <code class="highlighter-rouge">Card</code> model and then set via <code class="highlighter-rouge">withCard()</code> method;</p>
+
 <ul>
   <li>Card network / scheme</li>
   <li>Card entry method</li>
   <li>Card token</li>
 </ul>
 
-<p>In addition, it is recommended that any other relevant information the payment application may have about a transaction is added to the transaction references via the <code class="highlighter-rouge">withReference()</code> method. See <a href="/pos-android-sdk/technical/transactionresponse-references">TransactionResponse References</a> for details. You may also set any custom and bespoke references your payment application and/or host/gateway may have defined.</p>
+<h4 id="transaction-references">Transaction references</h4>
+
+<p>Your application can provide any arbitrary references related to the transaction in the response. This is particularily important for functions that are based on a previously completed payment, such as reversals/voids and pre-auth completions.</p>
+
+<div class="callout callout--danger">
+    <p>It is the responsibility of your application to pass back all the references required for your application to perform reversals/completions at a later stage. </p></div>
+
+<p>See <a href="/pos-android-sdk/request-types/reversal">Reversal</a> and <a href="/pos-android-sdk/request-types/preauthorisation-and-completion">Pre-authorisation / Completion</a> for details on how to manage these types.</p>
+
+<p>This, and any other relevant information the payment application may have about a transaction can be added to the transaction references via the <code class="highlighter-rouge">withReference()</code> method. See <a href="/pos-android-sdk/reference-values/transactionresponse-references">TransactionResponse References</a> for details on defined additional values. You may also set any custom and bespoke references your payment application and/or host/gateway may have defined.</p>
+
+<h4 id="send-the-response">Send the response</h4>
 
 <p>The response is then sent back via calling <code class="highlighter-rouge">TransactionProcessingModel.sendResponse()</code>. This method will generate the response from the builder and send it back to FPS.</p>
 
@@ -251,6 +267,7 @@ See <a href="/pos-android-sdk/request-types">Flow Types</a> for the different ge
 <p>As for transaction processing, the request type is <code class="highlighter-rouge">TransactionRequest</code>, which can be fetched via <code class="highlighter-rouge">CardReadingModel.getTransactionRequest()</code>.</p>
 
 <h3 id="setting-the-response">Setting the response</h3>
+
 <p>If this stage is supported, the expectation is that a <code class="highlighter-rouge">Card</code> object is created and passed back on successful card reading. The card reading can have three outcomes, reflected by these three methods in <code class="highlighter-rouge">CardReadingModel</code></p>
 
 <ul>
@@ -272,8 +289,15 @@ See <a href="/pos-android-sdk/request-types">Flow Types</a> for the different ge
 
 <h2 id="generic-scenarios">Generic scenarios</h2>
 
-<p>The response here is managed via <code class="highlighter-rouge">GenericStageModel</code>. In terms of how to parse the request and create a response for any given type, please see the <a href="/pos-android-sdk/technical/request-types">Flow Types</a> page which details all the supported types.</p>
+<p>The <code class="highlighter-rouge">GenericStageModel</code> provides the input request and a mechanism to send back a response. In terms of how to parse the request and create a response for any given type, please see the <a href="/pos-android-sdk/technical/request-types">Flow Types</a> page which details all the supported types.</p>
 
+<p>A generic flow can be set to be processed in the <em>background</em> either via the flow configuration or via the request data. These flows are executed separately to (and possibly in parallel to) the normal foreground flows and may not require any user interaction. Your application may not launch any UI in a background flow.</p>
+
+<div class="callout callout--info">
+  <p>Your application should check whether or not a Request is defined as background via the Request.shouldProcessInBackground() method. If your application can not fulfill the request in the background, it should send back a failure response immediately to indicate so.</p>
+</div>
+
+<p>Flow types such as reversals are common candidates for background processing.</p>
 
 							
 

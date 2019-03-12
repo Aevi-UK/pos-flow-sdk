@@ -54,7 +54,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -88,7 +88,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +118,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-10">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -262,9 +262,15 @@ If on the other hand you have scenarios where you don’t require user interface
   <p>Note - make sure to read about flow service events further down this page to understand how using the proxy impacts this.</p>
 </div>
 
-<h2 id="handling-status-updates">Handling status updates</h2>
+<h2 id="background-flows">Background flows</h2>
 
-<p><a href="/pos-android-sdk/guides/pos/status-update-flows">Status update flows</a> are a bit different to the other flows in that they are processed in the <em>background</em> and requests are submitted to a <em>request queue</em>. They can be processed in parallel to the standard payment and generic flows.</p>
+<p>A flow can be set to be processed in the <em>background</em>. These flows are executed separately to (and possibly in parallel to) the normal foreground flows. Applications may not launch any UI in a background flow and the requests are submitted to a <em>request queue</em> which are processed one at a time. <a href="/pos-android-sdk/guides/pos/status-update-flows">Status update flows</a> are always processed in the background, and the <em>generic</em> flows can be set to background either via the flow configuration or in the request created by the initiating application.</p>
+
+<div class="callout callout--info">
+  <p>Your application should check whether or not a Request is defined as background via the Request.shouldProcessInBackground() method. If your application can not fulfill the request in the background, it should send back a failure response immediately to indicate so.</p>
+</div>
+
+<h4 id="status-updates">Status updates</h4>
 
 <p>To handle these updates, either extend the <code class="highlighter-rouge">BaseStatusUpdateService</code> or override <code class="highlighter-rouge">onStatusUpdate()</code> method in a <code class="highlighter-rouge">BasePaymentFlowService</code> implementation.
 Applications can choose to finish without passing back any data to the client via the <code class="highlighter-rouge">finish()</code> method in the model, or pass back a set of references via the <code class="highlighter-rouge">finishWithReferences()</code> method.</p>
@@ -272,66 +278,6 @@ Applications can choose to finish without passing back any data to the client vi
 <div class="callout callout--warning">
   <p>Applications that process status updates must ONLY run in the background - i.e handle the update in the service and not launch any activities. The proxy approach may not be used for this.</p>
 </div>
-
-<h2 id="stages-summary">Stages summary</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Stage</th>
-      <th>Intent Action</th>
-      <th>Stage model</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="highlighter-rouge">PRE_FLOW</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_PRE_FLOW</code></td>
-      <td><code class="highlighter-rouge">PreFlowModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">SPLIT</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_SPLIT</code></td>
-      <td><code class="highlighter-rouge">SplitModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">PRE_TRANSACTION</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_PRE_TRANSACTION</code></td>
-      <td><code class="highlighter-rouge">PreTransactionModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">POST_CARD_READING</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_POST_CARD_READING</code></td>
-      <td><code class="highlighter-rouge">PreTransactionModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">POST_TRANSACTION</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_POST_TRANSACTION</code></td>
-      <td><code class="highlighter-rouge">PostTransactionModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">POST_FLOW</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_POST_FLOW</code></td>
-      <td><code class="highlighter-rouge">PostFlowModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">GENERIC</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_GENERIC</code></td>
-      <td><code class="highlighter-rouge">GenericModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">POST_GENERIC</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_POST_GENERIC</code></td>
-      <td><code class="highlighter-rouge">PostGenericModel</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">STATUS_UPDATE</code></td>
-      <td><code class="highlighter-rouge">com.aevi.sdk.flow.action.PROCESS_STATUS_UPDATE</code></td>
-      <td><code class="highlighter-rouge">StatusUpdateModel</code></td>
-    </tr>
-  </tbody>
-</table>
-
 <h2 id="asynchronous-request-handling">Asynchronous request handling</h2>
 
 <p>An application can handle a request asynchronously in a fire-and-forget fashion where FPS does not wait for any response. This is mainly useful for the “post” stages where there may be apps that are interested in the outcome of things (such as for analytics), but do not want to provide any input back or delay the processing completion.</p>
@@ -347,6 +293,68 @@ Applications can choose to finish without passing back any data to the client vi
 <p>You can also call <code class="highlighter-rouge">setStopServiceOnEndOfStream(true)</code> from the service to indicate that you want the service to automatically be stopped after the client (FPS) has closed the connection.</p>
 
 <p>Do note however that if you wish to process data in the background / asynchronously to the flow (via passing back an empty response and continuing parsing the input data - typically for analytics, etc), you need to ensure you don’t call the above method or <code class="highlighter-rouge">stopSelf()</code> too early.</p>
+
+<h2 id="stages-summary">Stages summary</h2>
+
+<p>Base intent action: <code class="highlighter-rouge">com.aevi.sdk.flow.action.</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>Intent Action Postfix</th>
+      <th>Stage model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">PRE_FLOW</code></td>
+      <td><code class="highlighter-rouge">PROCESS_PRE_FLOW</code></td>
+      <td><code class="highlighter-rouge">PreFlowModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">SPLIT</code></td>
+      <td><code class="highlighter-rouge">PROCESS_SPLIT</code></td>
+      <td><code class="highlighter-rouge">SplitModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">PRE_TRANSACTION</code></td>
+      <td><code class="highlighter-rouge">PROCESS_PRE_TRANSACTION</code></td>
+      <td><code class="highlighter-rouge">PreTransactionModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">POST_CARD_READING</code></td>
+      <td><code class="highlighter-rouge">PROCESS_POST_CARD_READING</code></td>
+      <td><code class="highlighter-rouge">PreTransactionModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">POST_TRANSACTION</code></td>
+      <td><code class="highlighter-rouge">PROCESS_POST_TRANSACTION</code></td>
+      <td><code class="highlighter-rouge">PostTransactionModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">POST_FLOW</code></td>
+      <td><code class="highlighter-rouge">PROCESS_POST_FLOW</code></td>
+      <td><code class="highlighter-rouge">PostFlowModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">GENERIC</code></td>
+      <td><code class="highlighter-rouge">PROCESS_GENERIC</code></td>
+      <td><code class="highlighter-rouge">GenericModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">POST_GENERIC</code></td>
+      <td><code class="highlighter-rouge">PROCESS_POST_GENERIC</code></td>
+      <td><code class="highlighter-rouge">PostGenericModel</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">STATUS_UPDATE</code></td>
+      <td><code class="highlighter-rouge">PROCESS_STATUS_UPDATE</code></td>
+      <td><code class="highlighter-rouge">StatusUpdateModel</code></td>
+    </tr>
+  </tbody>
+</table>
+
 
 							
 

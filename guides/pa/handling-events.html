@@ -54,7 +54,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -88,7 +88,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -118,7 +118,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-10">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -162,6 +162,10 @@
 
 <p>All defined events and associated documentation can be found <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/flow/constants/FlowServiceEventTypes.html">here</a>.
 In addition, any data keys to read out data from the <code class="highlighter-rouge">FlowEvent</code> can be found <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/flow/constants/FlowServiceEventDataKeys.html">here</a>.</p>
+
+<div class="callout callout--info">
+  <p>Note that by default, these events are only routed to the service and not to any activity started from that service. If you wish to handle the events in the activity you have started, you can route the event to the activity via the ObservableActivityHelper instance you got back from calling the processInActivity() method. The exception to this rule is if you use the ActivityProxyService, for which all events are automatically routed to the activity.</p>
+</div>
 
 <h2 id="subscribe-to-events">Subscribe to events</h2>
 
@@ -209,7 +213,7 @@ If that is not feasible, then you must ensure that you store state outside of th
 
 <h3 id="handling-response-outcome">Handling response outcome</h3>
 
-<p>Your response will either be accepted or rejected by FPS. If you have augmented the flow data in some way and the response is rejected, it indicates that your application have violated some of the augmentation rules.</p>
+<p>Your response will either be accepted or rejected by FPS. If you have augmented the flow data in some way and the response is rejected, it indicates that your application have violated some of the augmentation rules. Note that you are not able to perform any further actions with AppFlow at this stage and should as such not launch any user interface for the outcome.</p>
 
 <p>As per the code samples above, you can retrieve the reason for the rejection from the event data. This will be a human readable message outlining the reason for the rejection. It is recommended you log/capture/upload this information for troubleshooting and analysis purposes.</p>
 

@@ -52,7 +52,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -86,7 +86,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -116,7 +116,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-10">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-10">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -145,9 +145,9 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h3 id="what-is-appflow">What is AppFlow?</h3>
 
-<p>AppFlow is a solution designed to facilitate standardised integration between applications in a point of sale environment.
-This is made possible via two different APIs that allows applications to initiate <em>flows</em> and for other applications to be called at any point
-in those flows to read and augment relevant data.</p>
+<p>AppFlow is a solution designed to facilitate standardised integration between applications in a point of sale environment in order to manage the ‘checkout’ experience.</p>
+
+<p>This is made possible via two different APIs that allows applications to initiate <em>flows</em> and for other applications to be called at any point in those <em>flows</em> to read and augment relevant data.</p>
 
 <p>The overview goes into more detail how AppFlow works.</p>
 
@@ -157,7 +157,9 @@ in those flows to read and augment relevant data.</p>
 
 <p>AEVI works with merchant acquirers to provide merchants with maximum flexibility with regards to payment devices, value added services and payment solutions.</p>
 
-<p>AEVI does this via providing a <code class="highlighter-rouge">Marketplace</code> that allows acquirers and merchants to browse and install third party applications onto their payment devices that have been sourced from third party developers and are managed via AEVI’s <code class="highlighter-rouge">Device Management System</code>. The acquirers typically build and provide one or multiple payment services/applications that go onto these devices to facilitate transaction processing.</p>
+<p>One of AEVI’s solutions offers a <a href="https://marketplace.aevi.com/">Marketplace</a> that allows acquirers and merchants to browse and install third party applications onto their Android payment devices that are managed via AEVI’s Device Management System. The apps will have been sourced from third party developers.. As part of the Marketplace solution, AEVI provides <a href="https://community.aevi.com/documentation/0-introduction/1/index">tools for app developers</a> to help them develop applications which will work seamlessly across any ‘AEVI enabled devices’.</p>
+
+<p>Typically the Android payment devices will have one or more payment applications to facilitate transaction processing. These applications are generally developed by the device manufacturers, AEVI, or by the acquirers themselves.</p>
 
 <h3 id="terminology">Terminology</h3>
 
@@ -166,8 +168,8 @@ in those flows to read and augment relevant data.</p>
 <ul>
   <li>POS : Point of Sale</li>
   <li>POS application : The POS/ECR application the merchant interacts with to input purchases, orders, etc</li>
-  <li>Flow Service : An application that integrates with <code class="highlighter-rouge">Payment Flow Service API</code> and can be called to read and augment flow data</li>
-  <li>VAA / Value Added Application - a third party application that provides some function for the merchant and/or customer in a flow. A type of <em>flow service</em>.</li>
+  <li>Flow Service : Any application that integrates with <code class="highlighter-rouge">Payment Flow Service API</code> and can be called to read and augment flow data</li>
+  <li>VAA / Value Added Application - a third party application that provides some function for the merchant and/or customer on a device. When called through AppFlow, this will be a type of <em>flow service</em>.</li>
   <li>Payment App : Processes payments, traditionally via a bank host/gateway - another type of flow service.</li>
 </ul>
 

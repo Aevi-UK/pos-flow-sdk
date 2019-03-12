@@ -52,7 +52,7 @@
 		
 
 		
-			<header class="c-header">
+			<header class="c-header u-text-white">
 				<div class="o-container">
 					<div class="o-row">
 						<div class="o-col-12">
@@ -86,7 +86,7 @@
 										
 											<div class="u-ml-5 u-hidden u-block@lg">
 												
-													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
 														Reference
 														<div class="c-btn__icon">
 															<i class="o-icon o-icon--folder"></i>
@@ -116,7 +116,7 @@
 
 
 	
-		<div class="c-hero u-bg-gray-30 u-pt-16 u-pb-5">
+		<div class="c-hero u-bg-primary u-text-white u-pt-16 u-pb-5">
 	
 		<div class="o-container">
 			<div class="o-row">
@@ -154,18 +154,39 @@
   <li>To provide an <code class="highlighter-rouge">AppFlow Configuration Provider</code> (named <em>AppFlow Settings</em>) tailored for the above use cases</li>
 </ol>
 
-<h3 id="appflow-settings-app">AppFlow Settings App</h3>
+<h2 id="appflow-settings-app">AppFlow Settings App</h2>
 
 <p>The <code class="highlighter-rouge">AppFlow Settings</code> application (green icon on launcher) provides a way to manage the <a href="/pos-android-sdk/overview/flow-configurations">flow configurations</a> on the device, as well as the general AppFlow and FPS settings.</p>
 
-<p>This application comes with a set of pre-defined flows to go with the samples, but in addition, it will scan for AppFlow compliant flow services and automatically add them to the relevant flows and stages.</p>
+<p>This application comes with a set of pre-defined flows for use with the samples, but in addition, it will scan for AppFlow compliant flow services and automatically add them to the relevant flows and stages.</p>
 
 <p>This means that as a developer, you don’t necessarily <em>have to</em> interact with this application, nor understand the details of flow configurations, in order to test your own application in a flow.</p>
 
-<h4 id="limitations">Limitations</h4>
+<h3 id="flow-configurations">Flow configurations</h3>
 
-<p>As there is a pre-defined set of flows defined in this bundle, it is possible that it does not provide all the functions that your application requires. For these cases, contact AEVI to discuss options.</p>
+<p>When you start the application the first time, you will be presented with a landing page that explains the distinction between automatic and manual management of the flows. At this stage you can either choose to enable manual configuration, which will stop all automatic management, or you can choose to view the flow configurations in read-only mode.</p>
 
+<h4 id="manual-management">Manual management</h4>
+
+<p>The defined flows can be selected via the drop down at the top of the screen. From that, the list of <em>flow stages</em> will be presented below the drop down. By default, flows and stages which no application installed on the device supports are hidden. This can be changed via the preferences (top right).</p>
+
+<p>A stage can be expanded by clicking on it, which will present the applications supporting that stage. The toggle will indicate whether or not the application is enabled in that stage or not. If it not enabled, it will never be called at runtime for that stage.</p>
+
+<p>When you enable or disable an application for a stage, you may get a popup asking whether you want to enable/disable for all stages. This will happen for applications that supports more than one stage for the current flow. You can choose to enable/disable individual stages, or via the popup apply for all stages.</p>
+
+<p>Applications within a stage can be re-ordered via drag and dropping. You can initiate drag mode via long pressing the application and then dragging it to the desired position.</p>
+
+<p>In addition, any metadata associated with the application can be viewed and modified via clicking the info icon on the right hand side.</p>
+
+<h4 id="define-new-flows">Define new flows</h4>
+
+<p>If you require additional flows, you can either contact AEVI for assistance, or clone the <a href="https://github.com/AEVI-AppFlow/developer-config-provider">developer-config-provider repo</a> and add these yourself.</p>
+
+<p>The flows are defined as JSON files bundled with the apk.</p>
+
+<h4 id="flow-service-sample">Flow Service Sample</h4>
+
+<p>The flow service sample supports all the stages for the <code class="highlighter-rouge">sale</code> flow, but it only enabled for the <code class="highlighter-rouge">POST_CARD_READING</code> and <code class="highlighter-rouge">POST_TRANSACTION</code> stages by default. In AppFlow v2.0.X, enabling and disabling stages could be done via the <code class="highlighter-rouge">Flow Service Sample Settings</code> application, but as of v2.1.X, this can now be achieved via this application instead which allows you to toggle individual stages.</p>
 
 							
 

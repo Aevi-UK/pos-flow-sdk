@@ -19,9 +19,9 @@ import com.aevi.util.json.JsonConverter;
 import com.aevi.util.json.Jsonable;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static com.aevi.sdk.flow.util.Preconditions.checkArgument;
 
@@ -42,7 +42,7 @@ public class Amounts implements Jsonable {
     // Default constructor for deserialisation
     Amounts() {
         baseAmount = 0;
-        additionalAmounts = new HashMap<>();
+        additionalAmounts = createMap(null);
         currency = "XXX";
     }
 
@@ -55,7 +55,7 @@ public class Amounts implements Jsonable {
      * @param currency   The ISO-4217 currency code
      */
     public Amounts(long baseAmount, String currency) {
-        this(baseAmount, currency, new HashMap<>());
+        this(baseAmount, currency, null);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Amounts implements Jsonable {
         checkArgument(baseAmount >= 0 && currency != null && currency.length() == 3, "Base amount and currency must be set correctly");
         this.baseAmount = baseAmount;
         this.currency = currency;
-        this.additionalAmounts = additionalAmounts != null ? additionalAmounts : new HashMap<>();
+        this.additionalAmounts = createMap(additionalAmounts);
     }
 
     /**
@@ -146,6 +146,16 @@ public class Amounts implements Jsonable {
     @NonNull
     public Amount getBaseAmount() {
         return new Amount(baseAmount, currency);
+    }
+
+    /**
+     * Check whether there is an additional amount with the provided identifier defined.
+     *
+     * @param identifier The identifier
+     * @return True if one is defined, false otherwise
+     */
+    public boolean hasAdditionalAmount(String identifier) {
+        return additionalAmounts.containsKey(identifier);
     }
 
     /**
@@ -320,7 +330,7 @@ public class Amounts implements Jsonable {
             throw new IllegalArgumentException("Invalid amounts or trying to combine different currencies");
         }
         long newBaseAmount = a1.getBaseAmountValue() + a2.getBaseAmountValue();
-        Map<String, Long> newAdditionals = new HashMap<>(a1.getAdditionalAmounts());
+        Map<String, Long> newAdditionals = createMap(a1.getAdditionalAmounts());
         Map<String, Long> a2Additionals = a2.getAdditionalAmounts();
         for (String a2Key : a2Additionals.keySet()) {
             if (newAdditionals.containsKey(a2Key)) {
@@ -350,7 +360,7 @@ public class Amounts implements Jsonable {
             throw new IllegalArgumentException("Invalid amounts or trying to combine different currencies");
         }
         long remainingBase = Math.max(a1.getBaseAmountValue() - a2.getBaseAmountValue(), 0);
-        Map<String, Long> newAdditionals = new HashMap<>(a1.getAdditionalAmounts());
+        Map<String, Long> newAdditionals = createMap(a1.getAdditionalAmounts());
         Map<String, Long> a2Additionals = a2.getAdditionalAmounts();
         for (String a2Key : a2Additionals.keySet()) {
             if (newAdditionals.containsKey(a2Key)) {
@@ -364,6 +374,14 @@ public class Amounts implements Jsonable {
         }
 
         return new Amounts(remainingBase, a1.getCurrency(), newAdditionals);
+    }
+
+    private static Map<String, Long> createMap(Map<String, Long> source) {
+        Map<String, Long> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        if (source != null) {
+            map.putAll(source);
+        }
+        return map;
     }
 
     @Override

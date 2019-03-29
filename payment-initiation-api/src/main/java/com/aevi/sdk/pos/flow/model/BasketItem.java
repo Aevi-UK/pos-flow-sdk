@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.aevi.util.json.JsonConverter;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -150,11 +151,13 @@ public class BasketItem {
     /**
      * Get all item references.
      *
-     * @return The item reference map
+     * Note that as a basket item is immutable, this is returning an unmodifiable map.
+     *
+     * @return An unmodifiable copy of the item reference map
      */
     @NonNull
     public Map<String, String> getReferences() {
-        return references != null ? references : new HashMap<>();
+        return Collections.unmodifiableMap(references != null ? references : new HashMap<>());
     }
 
     @Override

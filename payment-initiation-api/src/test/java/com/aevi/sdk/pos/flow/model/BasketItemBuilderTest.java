@@ -85,4 +85,19 @@ public class BasketItemBuilderTest {
         assertThat(newItem.getQuantity()).isEqualTo(1);
     }
 
+    @Test
+    public void referencesShouldBeCaseInsensitive() throws Exception {
+        BasketItemBuilder builder =
+                new BasketItemBuilder().withId("123").withLabel("banana").withQuantity(2).withCategory("fruit").withAmount(200);
+        builder.withReference("bleep", "blarp");
+        builder.withReference("BLEEP", "blarp");
+        builder.withReference("blEEp", "blarp");
+
+        BasketItem item = builder.build();
+
+        assertThat(item.getReferences()).hasSize(1);
+        assertThat(item.getReference("bleep")).isEqualTo("blarp");
+        assertThat(item.getReference("BLEEP")).isEqualTo("blarp");
+    }
+
 }

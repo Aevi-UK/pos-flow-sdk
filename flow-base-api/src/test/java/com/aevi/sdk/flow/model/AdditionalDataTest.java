@@ -163,4 +163,54 @@ public class AdditionalDataTest {
         Map<String, Number> dataOfType = additionalData.getDataOfType(Number.class);
         assertThat(dataOfType).hasSize(4).containsKeys("int", "long", "double", "float");
     }
+
+    @Test
+    public void insertionIsCaseInsensitive() throws Exception {
+        additionalData.addData("cashback", 1);
+        additionalData.addData("CASHBACK", 1);
+        additionalData.addData("cashBack", 1);
+
+        assertThat(additionalData.getKeys()).hasSize(1);
+    }
+
+    @Test
+    public void retrievalIsCaseInsensitive() throws Exception {
+        additionalData.addData("cashBack", 1);
+
+        assertThat(additionalData.hasData("cashback")).isTrue();
+        assertThat(additionalData.hasData("CASHBACK")).isTrue();
+        assertThat(additionalData.hasData("cashBack")).isTrue();
+        assertThat(additionalData.hasData("banana")).isFalse();
+
+        assertThat(additionalData.getValue("cashback")).isEqualTo(1);
+        assertThat(additionalData.getValue("CASHBACK")).isEqualTo(1);
+        assertThat(additionalData.getValue("cashBack")).isEqualTo(1);
+        assertThat(additionalData.getValue("cAsHbAcK")).isEqualTo(1);
+        assertThat(additionalData.getValue("banana")).isNull();
+    }
+
+    @Test
+    public void deserialisedMapIsCaseInsensitive() throws Exception {
+        additionalData.addData("Trump", "Donald");
+        additionalData.addData("trump", "Donald");
+        additionalData.addData("TRUMP", "Donald");
+        additionalData.addData("myInt", 42322);
+        additionalData.addData("myBoolean", true);
+
+        assertThat(additionalData.getKeys()).hasSize(3);
+
+        String json = additionalData.toJson();
+
+        AdditionalData deserialised = AdditionalData.fromJson(json);
+
+        Set<String> keys = deserialised.getKeys();
+
+        assertThat(keys).isNotNull();
+        assertThat(keys).hasSize(3);
+        assertThat(deserialised.getValue("Trump")).isEqualTo("Donald");
+        assertThat(deserialised.getValue("TRUMP")).isEqualTo("Donald");
+        assertThat(deserialised.getValue("trump")).isEqualTo("Donald");
+    }
+
+
 }

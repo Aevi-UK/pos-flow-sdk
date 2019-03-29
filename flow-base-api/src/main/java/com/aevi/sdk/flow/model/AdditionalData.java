@@ -26,7 +26,7 @@ import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Wrapper for generic data that may or may not be typed.
@@ -46,7 +46,7 @@ public class AdditionalData implements Jsonable {
      * Create a new instance with an empty collection of data.
      */
     public AdditionalData() {
-        data = new ConcurrentHashMap<>();
+        data = new ConcurrentSkipListMap<>(String.CASE_INSENSITIVE_ORDER);
     }
 
     /**
@@ -55,7 +55,8 @@ public class AdditionalData implements Jsonable {
      * @param data The data to use as a base
      */
     public AdditionalData(Map<String, JsonOption> data) {
-        this.data = new ConcurrentHashMap<>(data);
+        this();
+        this.data.putAll(data);
     }
 
     /**
@@ -64,7 +65,8 @@ public class AdditionalData implements Jsonable {
      * @param copyFrom The data to copy from
      */
     public AdditionalData(AdditionalData copyFrom) {
-        this.data = new ConcurrentHashMap<>(copyFrom.data);
+        this();
+        this.data.putAll(copyFrom.data);
     }
 
     /**

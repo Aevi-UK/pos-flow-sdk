@@ -27,7 +27,7 @@ public class AmountsTest {
     @Test
     public void checkAddAmounts() throws Exception {
         Amounts amount1 = new Amounts(1000L, "GBP");
-        amount1.addAdditionalAmount("bob", 150L);
+        amount1.addAdditionalAmount("BOB", 150L);
         amount1.addAdditionalAmount("susan", 300L);
         Amounts amount2 = new Amounts(350L, "GBP");
         amount2.addAdditionalAmount("bob", 250L);
@@ -37,7 +37,7 @@ public class AmountsTest {
         assertThat(result.getCurrency()).isEqualTo("GBP");
         assertThat(result.getBaseAmountValue()).isEqualTo(1350L);
         assertThat(result.getTotalAmountValue()).isEqualTo(2170L);
-        assertThat(result.getAdditionalAmountValue("bob")).isEqualTo(400L);
+        assertThat(result.getAdditionalAmountValue("bOb")).isEqualTo(400L);
         assertThat(result.getAdditionalAmountValue("susan")).isEqualTo(300L);
         assertThat(result.getAdditionalAmountValue("harry")).isEqualTo(120L);
     }
@@ -74,7 +74,7 @@ public class AmountsTest {
         amount1.addAdditionalAmount("bob", 450L);
         amount1.addAdditionalAmount("susan", 300L);
         Amounts amount2 = new Amounts(350L, "GBP");
-        amount2.addAdditionalAmount("bob", 250L);
+        amount2.addAdditionalAmount("BOB", 250L);
         amount2.addAdditionalAmount("harry", 120L);
 
         Amounts result = Amounts.subtractAmounts(amount1, amount2, true);
@@ -82,7 +82,7 @@ public class AmountsTest {
         assertThat(result.getBaseAmountValue()).isEqualTo(650L);
         assertThat(result.getTotalAmountValue()).isEqualTo(1150L);
         assertThat(result.getAdditionalAmounts()).containsKeys("bob", "susan");
-        assertThat(result.getAdditionalAmountValue("bob")).isEqualTo(200L);
+        assertThat(result.getAdditionalAmountValue("bOb")).isEqualTo(200L);
         assertThat(result.getAdditionalAmountValue("susan")).isEqualTo(300L);
         assertThat(result.getAdditionalAmountValue("harry")).isEqualTo(0L);
     }
@@ -115,5 +115,25 @@ public class AmountsTest {
         assertThat(amounts.getBaseAmountValue()).isEqualTo(1000L);
         assertThat(amounts.getTotalAmountValue()).isEqualTo(7500L);
         assertThat(amounts.getTotalExcludingAmounts("one", "two")).isEqualTo(4000L);
+    }
+
+    @Test
+    public void checkAdditionalAmountsAreCaseInsensitive() throws Exception {
+        Amounts amounts = new Amounts(1000L, "GBP");
+        amounts.addAdditionalAmount("ONE", 2500L);
+        amounts.addAdditionalAmount("OnE", 3000L);
+        amounts.addAdditionalAmount("one", 1500L);
+        amounts.addAdditionalAmount("two", 2000L);
+
+        assertThat(amounts.getAdditionalAmounts().keySet()).hasSize(2);
+
+        assertThat(amounts.hasAdditionalAmount("one")).isTrue();
+        assertThat(amounts.hasAdditionalAmount("oNe")).isTrue();
+        assertThat(amounts.hasAdditionalAmount("ONE")).isTrue();
+
+        assertThat(amounts.getAdditionalAmount("one").getValue()).isEqualTo(1500L);
+        assertThat(amounts.getAdditionalAmount("ONE").getValue()).isEqualTo(1500L);
+        assertThat(amounts.getAdditionalAmount("oNe").getValue()).isEqualTo(1500L);
+        assertThat(amounts.getAdditionalAmountValue("ONE")).isEqualTo(1500L);
     }
 }

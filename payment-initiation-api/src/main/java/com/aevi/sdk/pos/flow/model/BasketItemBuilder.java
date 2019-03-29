@@ -16,8 +16,8 @@ package com.aevi.sdk.pos.flow.model;
 
 import android.support.annotation.NonNull;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 /**
@@ -179,7 +179,7 @@ public class BasketItemBuilder {
      */
     public BasketItemBuilder withReference(String key, String value) {
         if (references == null) {
-            references = new HashMap<>();
+            references = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         }
         references.put(key, value);
         return this;

@@ -208,10 +208,16 @@
 <span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withBasket</span><span class="o">(</span><span class="n">basket</span><span class="o">);</span>
 </code></pre></div></div>
 
+<p>For further information about what data can be set in the basket or basket items, see <a href="/pos-android-sdk/technical/using-basket">Basket Docs</a> and  <a href="/pos-android-sdk/reference-values/basket-data">Basket Data</a>.</p>
+
 <p>You can ask for the payment to be split across multiple transactions. This is typically used to split a bill across multiple customers in a restaurant for example.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paymentBuilder</span><span class="o">.</span><span class="na">withSplitEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
 </code></pre></div></div>
+
+<p>You can specify a particular payment method to be used, which may impact what payment apps are eligible and/or what the payment app does internally. Note that this should <em>only</em> be set if you know there are payment apps that can handle this method - as otherwise the payment may fail as there are no eligible apps. See <a href="/pos-android-sdk/reference-values/payment-methods">Payment Methods</a> for defined values.</p>
+
+<p><code class="highlighter-rouge">paymentBuilder.withPaymentMethod(paymentMethod);</code></p>
 
 <p>If you have access to a card token for the payment application to use, you can provide it via</p>
 
@@ -287,9 +293,10 @@
 
 <h3 id="initiate-a-custom-request">Initiate a custom request</h3>
 
-<p>AppFlow applications can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the handling application for a custom type. If however such data is required, see <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for more information.</p>
+<p>AppFlow applications can define custom request types, for which FPS will create an ad-hoc flow configuration, allowing client applications to initiate them. These custom request types are initiated and handled in the same way as the generic requests. The main difference is how they are defined and documented. It is possible that no extra data is passed to or from the the handling application for a custom type. If however such data is required, see <a href="/pos-android-sdk/reference-values/bespoke-data">Bespoke Data</a> for more information.</p>
 
 <h2 id="recommended-application-architecture">Recommended application architecture</h2>
+
 <p>As previously explained, the way Android components work with lifecycles and that AppFlow is service driven, means that there is no guarantee an activity will still be alive to receive a response once the flow is completed.</p>
 
 <p>This separation (in rx terms, a broken chain) should not be a major issue for client applications provided that separate activities are used for the initiation and the response handling. Our recommendation is that there is one activity responsible for initiating the flow and another activity responsible for handling the response launched from the response listener service. Any state that is required for both the activities can easily be managed via dependency injection, singletons, etc. Note that the responses contain the originating request data.</p>

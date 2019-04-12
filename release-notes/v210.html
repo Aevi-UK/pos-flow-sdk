@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Bespoke Data | AEVI AppFlow</title>
+			<title>v2.1.0 | AEVI AppFlow</title>
 		
 		
 		
@@ -117,7 +117,7 @@
 		<div class="o-container">
 			<div class="o-row">
 				<div class="o-col-8@lg o-col-7@xl">
-						<h2 class="u-text-lg u-text-xl@sm">Bespoke Data</h2>
+						<h2 class="u-text-lg u-text-xl@sm">v2.1.0</h2>
 				</div>
 			</div>
 		</div>
@@ -126,9 +126,66 @@
 				
 					<div class="o-col-12@lg o-col-11@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>Acquirers and flow service developers may define their own project or application specific data.</p>
+							<p>v2.1.0 comes with a fair few relevant new features and behavioural changes. It is a non-breaking upgrade for existing v2.0.X integrations with a few recommended changes to make the most of this new release.</p>
 
-<p>At this time of writing, there is not yet any acquirer or application specific data.</p>
+<h2 id="general">General</h2>
+
+<ul>
+  <li>Major redesign of the AppFlow UI, including the configuration provider</li>
+  <li>New diagnostics screen to help troubleshoot problems and upload logs for off-device review</li>
+  <li>Websockets are now fully supported as an alternative for Android Messenger for AppFlow application IPC (to work around Android Binder limits)</li>
+  <li>New flow stage <code class="highlighter-rouge">FULFILLED_CHECK</code> that supports offering alternative in-flow payment methods if a transaction is declined or partially fulfilled</li>
+  <li>New <code class="highlighter-rouge">AppFlowSettings</code> model that contains configurable parameters such as date formats, etc that may be relevant for any application integrated with AppFlow.</li>
+  <li>The <code class="highlighter-rouge">api-constants</code> library now also holds models relevant for passing as additional data (starting with <code class="highlighter-rouge">TaxInfo</code> and <code class="highlighter-rouge">TaxRate</code>)</li>
+</ul>
+
+<h2 id="initiation-api">Initiation API</h2>
+
+<ul>
+  <li>New feature: Ability to <a href="/pos-android-sdk/guides-pos/querying-for-responses">query for previous flow responses</a></li>
+  <li>A <code class="highlighter-rouge">Payment</code> can now specify a <em>payment method</em> which will have two effects
+    <ul>
+      <li>FPS will filter eligible payment apps based on reported payment methods</li>
+      <li>A payment app can internally auto-select payment method if more than one is supported</li>
+    </ul>
+  </li>
+  <li>New types of errors added to ErrorConstants
+    <ul>
+      <li>noFlowServices</li>
+      <li>noAvailableFlow</li>
+      <li>duplicateRequestId</li>
+      <li>invalidFlowIdentifier</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="flow-service-api">Flow Service API</h2>
+
+<ul>
+  <li>New concept of <em>flow service events</em> which flow services can (should) subscribe to
+    <ul>
+      <li>FPS will now send an event to indicate that a response with augmentations was accepted or rejected via this</li>
+      <li>The Resume function is now sent as an event for flow services to manage</li>
+      <li>See <a href="/pos-android-sdk/guides-vaa/handling-events">Handling Events</a> for more details</li>
+    </ul>
+  </li>
+  <li>Flow services can now add entries to the <em>audit log</em> via a new stage model method</li>
+  <li>A flow service may now be requested to execute <em>in the background</em> via a new flag in the <code class="highlighter-rouge">Request</code> model</li>
+  <li>A new method has been added in <code class="highlighter-rouge">PaymentFlowServiceInfoProvider</code> to report back any errors with the data reported. See <code class="highlighter-rouge">onServiceInfoError()</code>.</li>
+  <li>It is now optional for <code class="highlighter-rouge">TRANSACTION_PROCESSING</code> applications (payment apps) to report supported currencies and default currency,</li>
+  <li>It is now mandatory for any application that wishes to pay amounts (incl payment apps) to report <code class="highlighter-rouge">canPayAmounts(true)</code> via the <code class="highlighter-rouge">PaymentFlowServiceInfoProvider</code>.</li>
+</ul>
+
+<h2 id="model-additions">Model Additions</h2>
+
+<p>Basket now have the following new concepts. See the new <a href="/pos-android-sdk//technical/using-basket">basket docs</a> for details.</p>
+
+<ul>
+  <li>Basket can be marked as a “primary basket”, which indicates it was set by the initiating application</li>
+  <li>BasketItem now has a measurement field for when an item is measured with a unit (such as “1.25 kg”)</li>
+  <li>BasketItem now supports <em>modifiers</em> to associate information with it (such as tax, extras, discounts, etc)</li>
+  <li>BasketItem now support additional data for arbitrary extra data</li>
+</ul>
 
 							
 

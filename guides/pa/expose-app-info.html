@@ -151,8 +151,7 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<h1 id="exposing-application-info">Exposing application info</h1>
 
-<p>In order for your application to be AppFlow compliant, it must expose certain information. It does this via implementing a content provider and
-exposing it via the application manifest.</p>
+<p>In order for your application to be AppFlow compliant, it must expose certain information. It does this via implementing a content provider and exposing it via the application manifest.</p>
 
 <h2 id="adding-the-service-info-provider">Adding the service info provider</h2>
 
@@ -176,8 +175,26 @@ exposing it via the application manifest.</p>
       <span class="o">.</span><span class="na">withSupportsAccessibilityMode</span><span class="o">(&lt;</span><span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">you</span> <span class="n">support</span> <span class="n">visually</span> <span class="n">impaired</span><span class="o">&gt;)</span>
       <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
   <span class="o">}</span>
+  
+  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">onServiceInfoError</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">errorType</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">errorMessage</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">switch</span> <span class="o">(</span><span class="n">errorType</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nl">RETRIEVAL_TIME_OUT:</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Retrieval of service info timed out"</span><span class="o">);</span>
+        <span class="k">break</span><span class="o">;</span>
+      <span class="k">case</span> <span class="nl">INVALID_STAGE_DEFINITIONS:</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Problems with stage definitions: "</span> <span class="o">+</span> <span class="n">errorMessage</span><span class="o">);</span>
+        <span class="k">break</span><span class="o">;</span>
+      <span class="k">case</span> <span class="nl">INVALID_SERVICE_INFO:</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Invalid service info: "</span> <span class="o">+</span> <span class="n">errorMessage</span><span class="o">);</span>
+        <span class="k">break</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
+
+<h3 id="returning-paymentflowserviceinfo">Returning PaymentFlowServiceInfo</h3>
 
 <p>See <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-flow-service-api/com/aevi/sdk/pos/flow/model/PaymentFlowServiceInfoBuilder.html">PaymentFlowServiceInfoBuilder</a> for complete details of what can be set and the <a href="https://github.com/AEVI-AppFlow/pos-android-sdk/blob/master/PaymentServiceSample/src/main/java/com/aevi/sdk/pos/flow/paymentservicesample/PaymentServiceInfoProvider.java">implementation</a> in the <code class="highlighter-rouge">Payment Service Sample</code>.</p>
 
@@ -193,7 +210,6 @@ exposing it via the application manifest.</p>
 <div class="callout callout--warning">
   <p>Note that if you fail to report that your application can pay amounts here, FPS will reject any such attempts.</p>
 </div>
-
 <p>In addition, it is <em>strongly</em> recommended that the following data is set <em>if possible</em>;</p>
 <ul>
   <li><code class="highlighter-rouge">withSupportedCurrencies()</code> - Restrict what currencies are supported (default is all currencies)</li>
@@ -207,8 +223,16 @@ exposing it via the application manifest.</p>
      to display such data. It is entirely up to your application what data is required and returned and
       whether your service shows any UI for it or not. In order for other applications to know about this type however, it needs to be advertised. See ShowLoyaltyPointsBalance in the Flow Service Sample for illustration.</p>
 </div>
-
 <p>See <a href="/pos-android-sdk/technical/bespoke-data">Bespoke Data</a> for details.</p>
+
+<div class="callout callout--warning">
+  <p>Note that this is a synchronous call and you must return a result within a a few seconds or the call will time out and your application will be rejected. If you rely on
+  retrieving information remotely or asyncronously that your application has not yet cached, we recommend that your application returns a set of default values immediately and then when the data is available in the app, call BasePaymnentFlowServiceInfoProvider.notifyServiceInfoChange() which will trigger a new call to this method.</p>
+</div>
+
+<h3 id="errors">Errors</h3>
+
+<p>Via the optional, but highly recommended, overriden method <code class="highlighter-rouge">onServiceInfoError</code> , your flow service can receive details of when your flow service is rejected for some reason. See <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/constants/ServiceInfoErrors.html">ServiceInfoErrors</a> for a list of possible error types.</p>
 
 <h2 id="expose-via-manifest">Expose via manifest</h2>
 

@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Using Basket | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header u-text-white">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-primary u-text-white u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">Using Basket</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>AppFlow has native support for <em>baskets</em>, used to represent the goods and services that form a transaction.</p>
+
+<p>The <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/Basket.html">Basket</a> model represents a single basket which consists of a name, a list of <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItem.html">BasketItem</a> and optionally additional associated data. A basket will be flagged as a <em>primary</em> basket if it was provided by the initiation (POS) application. Flow services may also add additional baskets that are considered as secondary baskets.</p>
+
+<h2 id="basket-concepts">Basket concepts</h2>
+
+<p>Before we get into building or parsing the basket, it is important to understand some of the less trivial concepts of it. The basket itself is very simple and mainly consists of a list of basket items. The basket items have the expected data associated with it, such as id, label, category, quantity and amount. In addition, it has a few other features discussed below.</p>
+
+<h3 id="quantity-vs-measurement">Quantity vs Measurement</h3>
+
+<p>The quantity field in the basket item can be used to set a whole number quantity, which is sufficient for most cases. However, if the item in question is measured in some form with an associated unit, a floating point representation may be required together with a unit definition, such as “1.25 kilograms”.</p>
+
+<p>AppFlow has a <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/Measurement.html">Measurement</a> class to represent this scenario which can be associated with a basket item.</p>
+
+<p>Both quantity and measurement can be set individually to represent cases such as “2 x 1.25 kilograms of Sand” as an example.</p>
+
+<h3 id="item-modifiers">Item Modifiers</h3>
+
+<p>There are cases where an item may require associated information, such as tax information, extras, deductions or discounts. For these purposes, <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemModifier.html">BasketItemModifier</a> instances can be created and added to the item.</p>
+
+<p>A <code class="highlighter-rouge">BasketItemModifier</code> has five primary fields;</p>
+
+<ul>
+  <li>id : optional identifier</li>
+  <li>name : mandatory name/label of the modifier, such as “Value Added Tax” or “Cheese”</li>
+  <li>type : mandatory type defining what type of modifier it is - see <a href="/pos-android-sdk/reference-values/basket-data">here</a> for examples</li>
+  <li>amount : absolute amount value of the modifier in subunit form, such as <code class="highlighter-rouge">150.0f</code></li>
+  <li>percentage : the percentage value of this modifier as applied to the item amount, such as <code class="highlighter-rouge">2.5f</code> for 2.5%</li>
+</ul>
+
+<p>Either <code class="highlighter-rouge">amount</code> or <code class="highlighter-rouge">percentage</code> must be set - not both are required.</p>
+
+<p>The basket item <code class="highlighter-rouge">amount</code> field represents the <em>total</em> amount for the item, inclusive of any modifiers. The basket item <code class="highlighter-rouge">baseAmount</code> field however represents the item amount value without any modifiers applied.</p>
+
+<p>Below is an example to illustrate this;</p>
+
+<ul>
+  <li>Basket consists of a <code class="highlighter-rouge">Burger</code> basket item - the burger costs $10.00</li>
+  <li>The <code class="highlighter-rouge">Burger</code> item has an “extra” modifier that represents added cheese to the burger, so “+ Cheese $0.50”</li>
+  <li>The item <code class="highlighter-rouge">amount</code> value for this would be <code class="highlighter-rouge">$10.50</code></li>
+  <li>The item <code class="highlighter-rouge">baseAmount</code> value for this would be <code class="highlighter-rouge">$10.00</code></li>
+</ul>
+
+<p>Note that modifiers can also reduce the amount, such as deductions or discounts. In these cases, the <code class="highlighter-rouge">amount</code> may be less than the <code class="highlighter-rouge">baseAmount</code>.</p>
+
+<h3 id="additional-item-data">Additional item data</h3>
+
+<p>Additional item data can be associated with the item via the <code class="highlighter-rouge">itemData</code>. As per all other additional data in AppFlow, this allows for any arbitrary data to be set defined by a key.</p>
+
+<h2 id="building-the-basket">Building the Basket</h2>
+
+<p>The basket requires a basket name to be constructed, and optionally a list of basket items. The items can be added after construction.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Basket</span> <span class="n">basket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basket</span><span class="o">(</span><span class="s">"myBasket"</span><span class="o">);</span>
+<span class="n">basket</span><span class="o">.</span><span class="na">addItems</span><span class="o">(&lt;</span><span class="n">your</span> <span class="n">basket</span> <span class="n">items</span><span class="o">&gt;);</span>
+</code></pre></div></div>
+
+<p>There are various useful utility methods in the basket class for clients that provide a basket.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">hasItemWithId</code> / <code class="highlighter-rouge">getItemById</code> can be used to check if the basket already has an item with the provided id and retrieve it if so</li>
+  <li><code class="highlighter-rouge">incrementItemQuantity</code> / <code class="highlighter-rouge">decrementItemQuantity</code> can be used to increment or decrement the quantity of an item in the basket by item id</li>
+  <li><code class="highlighter-rouge">removeItem</code> / <code class="highlighter-rouge">clearItem</code> can be used to remove an item by id or remove all items</li>
+  <li><code class="highlighter-rouge">addAdditionalData</code> can be used to associate arbitrary data with the basket</li>
+</ul>
+
+<h3 id="constructing-basket-items">Constructing basket items</h3>
+
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItem.html">BasketItem</a> can be constructed via the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemBuilder.html">BasketItemBuilder</a> class. A basket item can optionally be instantiated with an id (typically SKU). If an id is not set, a unique id will be generated automatically. Below is a trivial example of a basket item being constructed. The only mandatory data to set for a basket item is the label.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">BasketItem</span> <span class="n">basketItem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasketItemBuilder</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">withId</span><span class="o">(</span><span class="s">"fruits-123456"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">withLabel</span><span class="o">(</span><span class="s">"banana"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">withCategory</span><span class="o">(</span><span class="s">"fruit"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">withQuantity</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">withAmount</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span> <span class="c1">// Can be negative for discounts, etc</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>A basket item can represent goods and services, but also discounts and deductions. For instance a rewards program may provide a free coffee, in which case there may be items like;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">1 Latte @ $3.00</code></li>
+  <li><code class="highlighter-rouge">1 Reward Free Latte @ -$3.00</code></li>
+</ul>
+
+<p>The basket total for the above would be 0.</p>
+
+<p>The following sub-sections will cover some more advanced features of the basket items. All references to methods with the prefix <code class="highlighter-rouge">with</code>, are in relation to the <code class="highlighter-rouge">BasketItemBuilder</code> class.</p>
+
+<h4 id="quantity--measurement">Quantity / Measurement</h4>
+
+<p>If an item required a measurement as described in the concepts section, you can use the <code class="highlighter-rouge">withMeasurement(float value, String unit)</code> to specify this, such as <code class="highlighter-rouge">1.25 kilograms</code>. You can also specify the quantity separately, allowing definitions such as <code class="highlighter-rouge">2 x 1.25 kilograms of "Sand"</code> for instance.</p>
+
+<p>If you application represents quantity as a floating point internally, you may want to look at the <code class="highlighter-rouge">withFractionalQuantity(float quantity, String unit)</code> method, which is a convenience method that allows passing a floating point quantity with an optional unit value. It will set the item quantity and measurement according to these rules;</p>
+
+<ul>
+  <li>If a unit is set (not null), the provided quantity and unit is set as per the <code class="highlighter-rouge">withMeasurement()</code> method and the quantity defaults to 1 (you can still override and set the quantity separately if required)</li>
+  <li>If no unit is set, then
+    <ul>
+      <li>if the quantity is a whole number (no fractional part), then it is set as per <code class="highlighter-rouge">withQuantity()</code></li>
+      <li>if the quantity does have a fractional part, an exception is thrown as we do not allow a measurement to be set without an associated unit</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="item-modifiers-1">Item modifiers</h4>
+
+<p><code class="highlighter-rouge">BasketItemModifier</code> instances can be created via the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemModifierBuilder.html">BasketItemModifierBuilder</a> and added to the item via the different <code class="highlighter-rouge">withModifiers()</code> methods.</p>
+
+<div class="callout callout--warning">
+  <p>If you add any modifiers, you must also ensure that the amount and baseAmount fields are set correctly as per below.</p>
+</div>
+
+<p>The <code class="highlighter-rouge">withAmount(long amount)</code> represents the <em>total</em> amount of the basket item, <em>inclusive</em> of any modifiers (and always of tax even if it is not a modifier). If you set modifiers, you <strong>must</strong> also ensure to set the <code class="highlighter-rouge">withBaseAmount(long amount)</code> that represents the base item value <em>without</em> the modifiers.</p>
+
+<p>Note that AppFlow itself does <strong>not</strong> validate these modifiers in any way. It is the client responsibility to ensure these are correct and the <code class="highlighter-rouge">amount</code> and <code class="highlighter-rouge">baseAmount</code> values are set appropriately.</p>
+
+<h2 id="parsing-the-basket">Parsing the basket</h2>
+
+<p>Depending on the flow and what models are being interacted with, there can either be a single basket or multiple baskets. The latter is the case when flow services in the flow provide additional baskets, typically as part of an upsell or similar.</p>
+
+<p>It is possible to check whether a particular basket was defined by the initiating (POS) app or not via the <code class="highlighter-rouge">isPrimaryBasket()</code> method.</p>
+
+<p>Below are a few note-worthy basket methods to review the basket contents;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">getBasketItems()</code> - retrieve the list of <code class="highlighter-rouge">BasketItem</code> entries</li>
+  <li><code class="highlighter-rouge">getBasketName()</code> - get the name of the basket</li>
+  <li><code class="highlighter-rouge">getUniqueNumberOfItems()</code> - get the number of unique items (not taking quantities into account)</li>
+  <li><code class="highlighter-rouge">getTotalNumberOfItems()</code> - get the total number of items (taking quantities into account)</li>
+  <li><code class="highlighter-rouge">getTotalBasketValue()</code> - get the total value of the basket in subunit form</li>
+  <li><code class="highlighter-rouge">getAdditionalBasketData()</code> - get any additional data associated with the basket</li>
+</ul>
+
+<h3 id="parsing-the-basket-items">Parsing the basket items</h3>
+
+<p>A <code class="highlighter-rouge">BasketItem</code> will typically have the below data set via their mentioned getters;</p>
+
+<ul>
+  <li><code class="highlighter-rouge">getId()</code> - a client defined (SKU typically) or uniquely generated id that that item</li>
+  <li><code class="highlighter-rouge">getLabel()</code> - the label for the item, such as “Tomato”</li>
+  <li><code class="highlighter-rouge">getCategory()</code> - the category the item belongs to, such as “Vegetables” (optional)</li>
+  <li><code class="highlighter-rouge">getQuantity()</code> - the quantity of this item, such as 5 (whole numbers only - can be 0 or positive)</li>
+  <li><code class="highlighter-rouge">getIndividualAmount()</code> - the cost/value of a single item (can be negative, zero or positive)</li>
+  <li><code class="highlighter-rouge">getTotalAmount()</code> - the cost/value of the item with quantity in mind (individual x quantity) (can be negative, zero or positive)</li>
+</ul>
+
+<p>In addition to the above fairly trivial data, there are also some more advanced concepts.</p>
+
+<h4 id="quantity--measurement-1">Quantity / Measurement</h4>
+
+<p>As mentioned earlier, AppFlow has a <code class="highlighter-rouge">Measurement</code> class to represent scenarios where an item is measured by some unit and you can check if a basket item has an associated measurement via the <code class="highlighter-rouge">hasMeasurement()</code> method, and if there is, retrieve it via the <code class="highlighter-rouge">getMeasurement()</code> method. Note that a unit is mandatory for this class.</p>
+
+<p>Both quantity and measurement can be set to represent cases such as “2 x 1.25 kilograms of Sand” as an example.</p>
+
+<h4 id="item-modifiers-2">Item Modifiers</h4>
+
+<p>You can check if any modifiers have been set via the <code class="highlighter-rouge">hasModifiers()</code> method. If there are modifiers, you can retrieve the list via <code class="highlighter-rouge">getModifiers()</code>.</p>
+
+<p>Note that the <code class="highlighter-rouge">id</code> of the modifier is optional and may not be set.</p>
+
+<p>The <code class="highlighter-rouge">type</code> can be used to determine what type of modifier it is. The AEVI defined types are listed <a href="/pos-android-sdk/reference-values/basket-data">here</a>.</p>
+
+<p>As not both the amount and percentage are mandatory, you must check which is set. Both values are boxed and as such you can simply check <code class="highlighter-rouge">if (modifier.getAmount() != null)</code> or <code class="highlighter-rouge">if (modifier.getPercentage() != null)</code> to see which one is set.</p>
+
+<p>Note that the amount is represented as a floating point to allow for cases where a percentage is applied and it does not end up as whole number. In certain situations, adding the individual values up will then have an impact of the final rounding. You can get the the value as a float via the <code class="highlighter-rouge">getFractionalAmount()</code> if that is required.</p>
+
+<p>Both amounts and percentage can be negative, zero or positive values. The positive values adds cost to the item and the negative values subtract cost from the item.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

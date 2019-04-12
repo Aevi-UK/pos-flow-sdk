@@ -9,7 +9,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 		
-			<title>Payment Methods | AEVI AppFlow</title>
+			<title>Basket Data | AEVI AppFlow</title>
 		
 		
 		
@@ -117,7 +117,7 @@
 		<div class="o-container">
 			<div class="o-row">
 				<div class="o-col-8@lg o-col-7@xl">
-						<h2 class="u-text-lg u-text-xl@sm">Payment Methods</h2>
+						<h2 class="u-text-lg u-text-xl@sm">Basket Data</h2>
 				</div>
 			</div>
 		</div>
@@ -126,57 +126,52 @@
 				
 					<div class="o-col-12@lg o-col-11@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>For use by flow services to report what payment methods they support, and what payment method was used for a given transaction.</p>
+							<h3 id="general-data">General data</h3>
 
-<p>What payment methods are supported can be retrieved via <code class="highlighter-rouge">PaymentFlowServices.getAllSupportedPaymentMethods()</code> or for individual flow services via <code class="highlighter-rouge">PaymentFlowServiceInfo.getSupportedPaymentMethods()</code>.</p>
-
-<p>What payment method was used for a particular transaction can be retrieved via <code class="highlighter-rouge">TransactionResponse.getPaymentMethod()</code>.</p>
-
-<p>See <a href="https://github.com/AEVI-AppFlow/api-constants/blob/master/api-constants/src/main/java/com/aevi/sdk/flow/constants/PaymentMethods.java">PaymentMethods</a> for defined constants.</p>
+<p>General basket data keys.</p>
 
 <table>
   <thead>
     <tr>
-      <th>Payment method</th>
+      <th>Key</th>
+      <th>Value Type</th>
+      <th>Format / Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>“taxInfo”</td>
+      <td><a href="https://github.com/AEVI-AppFlow/api-constants/blob/master/api-constants/src/main/java/com/aevi/sdk/flow/models/TaxInfo.java">TaxInfo</a></td>
+      <td><a href="/pos-android-sdk/technical/handling-tax">See Tax Info</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="basketitemmodifier-types">BasketItemModifier types</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>“card”</td>
-      <td>Paid via payment card</td>
+      <td>“tax”</td>
+      <td>Represents tax applied to the item, such as value added tax or state tax</td>
     </tr>
     <tr>
-      <td>“cash”</td>
-      <td>Paid with cash</td>
+      <td>“extra”</td>
+      <td>Item extras/add-ons, such as add “Cheese” for a Burger or “Extra shot” for a Coffee</td>
     </tr>
     <tr>
-      <td>“points”</td>
-      <td>Used points from a loyalty scheme</td>
+      <td>“deduction”</td>
+      <td>Item deduction, such as remove “Fries” from a Burger Meal</td>
     </tr>
     <tr>
-      <td>“reward”</td>
-      <td>Used a reward or bonus obtained in a previous transaction</td>
-    </tr>
-    <tr>
-      <td>“cheque”</td>
-      <td>Paid with cheque</td>
-    </tr>
-    <tr>
-      <td>“bankTransfer”</td>
-      <td>Transferred money from bank account</td>
-    </tr>
-    <tr>
-      <td>“gift”</td>
-      <td>Paid using a prepaid stored-value money card</td>
-    </tr>
-    <tr>
-      <td>“ebt”</td>
-      <td>Paid using a Electronic Benefit Transfer (EBT) card</td>
-    </tr>
-    <tr>
-      <td>“invoice”</td>
-      <td>Paid via invoice</td>
+      <td>“discount”</td>
+      <td>Discount applies to the item, such as “Half price off”</td>
     </tr>
   </tbody>
 </table>

@@ -136,11 +136,11 @@
 
 <h3 id="querying-for-responses">Querying for responses</h3>
 
-<p><code class="highlighter-rouge">PaymentClient</code> has a new method that allows querying for responses to previous flows. This may not generally be useful for POS applications that keep its own transaction history, but in the event where a response has not been received as expected, this can be used to query for the outcome of that flow.</p>
+<p><code class="highlighter-rouge">PaymentClient</code> has a new method that allows querying for responses to previous flows. This may not generally be useful for POS applications that keep their own transaction history, but in the event where a response has not been received as expected, this can be used to query for the outcome of that flow.</p>
 
 <h3 id="setting-payment-method">Setting payment method</h3>
 
-<p>The <code class="highlighter-rouge">Payment</code> model now has a field for <em>payment method</em>, which FPS will use to filter eligible payment applications and payment apps internally can use to pre-select what method to use. This should only be set in very specific scenarios where there is a specific requirement to use a particular payment method and hence payment app. In general, it is best to leave it blank to let AppFlow itself together with the merchant decide what payment method to use.</p>
+<p>The <code class="highlighter-rouge">Payment</code> model now has a field for <em>payment method</em>, which FPS will use to filter eligible payment applications and payment apps internally can use to pre-select what method to use. This should only be set in scenarios where there is a specific requirement to use a particular payment method and hence payment app. In general, it is best to leave it blank to let AppFlow and the merchant decide what payment method to use.</p>
 
 <h3 id="new-basket-concepts">New basket concepts</h3>
 

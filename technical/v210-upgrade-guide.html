@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+
+	<html lang="en-GB">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+		
+			<title>Upgrade to v2.1.X | AEVI AppFlow</title>
+		
+		
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:400,400i,500,500i,700,700i">
+		<link rel="stylesheet" href="/pos-android-sdk/dox-theme/assets/css/style.css">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="32x32">
+		<link rel="icon" href="/pos-android-sdk/icon_large.png" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="/pos-android-sdk/icon_large.png">
+		<meta name="msapplication-TileImage" content="/pos-android-sdk/icon_large.png">
+	</head>
+	<body>
+		
+			<div class="c-offcanvas">
+				<div class="c-offcanvas__inner">
+					
+						<ul class="c-nav c-nav--stacked u-mx-auto">
+							
+								<li><a href="/pos-android-sdk/intro">Introduction</a></li>
+							
+								<li><a href="/pos-android-sdk/explore">Explore</a></li>
+							
+								<li><a href="/pos-android-sdk/downloads">Downloads</a></li>
+							
+								<li><a href="/pos-android-sdk/support">Support</a></li>
+							
+						</ul><!-- /.c-nav -->
+					
+					
+						
+							<a href="/reference" class="c-btn c-btn--md c-btn--gray u-text-md">
+								Reference
+								<div class="c-btn__icon">
+									<i class="o-icon o-icon--folder"></i>
+								</div>
+							</a>
+						
+					
+				</div><!-- /.c-offcanvas__inner -->
+			</div><!-- /.c-offcanvas -->
+		
+
+		
+			<header class="c-header u-text-white">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12">
+							<div class="u-flex u-items-center">
+								
+									<div class="c-logo">
+										<a href="/pos-android-sdk/" class="c-logo__link">
+											<img src="/pos-android-sdk/aevi_logo.svg">
+										</a><!-- /.c-logo__link -->
+									</div><!-- /.c-logo -->
+								
+								
+									<div class="u-flex u-items-center u-ml-auto">
+										
+											<ul class="c-nav u-mb-0 u-hidden u-block@lg">
+												
+													
+													<li class=""><a href="/pos-android-sdk/intro">Introduction</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/explore">Explore</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/downloads">Downloads</a></li>
+												
+													
+													<li class=""><a href="/pos-android-sdk/support">Support</a></li>
+												
+											</ul><!-- /.c-nav -->
+										
+										
+											<div class="u-ml-5 u-hidden u-block@lg">
+												
+													<a href="/pos-android-sdk/reference" class="c-btn c-btn--md c-btn--white u-text-md">
+														Reference
+														<div class="c-btn__icon">
+															<i class="o-icon o-icon--folder"></i>
+														</div>
+													</a>
+												
+											</div>
+										
+									</div>
+								
+								<button class="c-hamburger-icon c-hamburger-icon--slider js-hamburger-icon js-offcanvas-toggle u-ml-auto u-hidden@lg" type="button">
+									<span class="c-hamburger-icon__box">
+										<span class="c-hamburger-icon__inner"></span>
+									</span><!-- /.c-hamburger-icon__box -->
+								</button><!-- /.c-hamburger-icon -->
+							</div>
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</header><!-- /.c-header -->
+		
+
+
+<div class="u-bg-primary u-text-white u-pt-8 u-pb-10">
+</div>
+
+
+		<div class="o-container">
+			<div class="o-row">
+				<div class="o-col-8@lg o-col-7@xl">
+						<h2 class="u-text-lg u-text-xl@sm">Upgrade to v2.1.X</h2>
+				</div>
+			</div>
+		</div>
+		<div class="o-container">
+			<div class="o-row">
+				
+					<div class="o-col-12@lg o-col-11@xl">
+						<div class="c-post u-mb-3@lg js-post">
+							<p>This guide helps you upgrade your v2.0.X AppFlow integration to the new v2.1.X release.</p>
+
+<h2 id="pos-applications-initiators">POS applications (initiators)</h2>
+
+<h3 id="error-handling">Error handling</h3>
+
+<p>As per the release notes, there are four new error constants that your POS application should look out for. See <a href="/pos-android-sdk/guides/pos/handling-errors">Handling errors</a> for how to handle the errors.</p>
+
+<h3 id="querying-for-responses">Querying for responses</h3>
+
+<p><code class="highlighter-rouge">PaymentClient</code> has a new method that allows querying for responses to previous flows. This may not generally be useful for POS applications that keep its own transaction history, but in the event where a response has not been received as expected, this can be used to query for the outcome of that flow.</p>
+
+<h3 id="setting-payment-method">Setting payment method</h3>
+
+<p>The <code class="highlighter-rouge">Payment</code> model now has a field for <em>payment method</em>, which FPS will use to filter eligible payment applications and payment apps internally can use to pre-select what method to use. This should only be set in very specific scenarios where there is a specific requirement to use a particular payment method and hence payment app. In general, it is best to leave it blank to let AppFlow itself together with the merchant decide what payment method to use.</p>
+
+<h3 id="new-basket-concepts">New basket concepts</h3>
+
+<p>There are a few new basket concepts to support more complex scenarios. See the new <a href="/pos-android-sdk//technical/using-basket">basket docs</a> for details.</p>
+
+<h2 id="flow-services">Flow services</h2>
+
+<h3 id="handling-flow-service-events">Handling flow service events</h3>
+
+<p>It is strongly recommended that your flow service is updated to handle the new  <a href="/pos-android-sdk/guides-vaa/handling-events">flow service events</a>. In particular, the resume function will not work otherwise, and it is also advisable to track whether or not the flow service augmentation was accepted or not.</p>
+
+<h3 id="audit-logging">Audit logging</h3>
+
+<p>Your flow service can now add entries to the <em>audit log</em>, which are primarily intended for troubleshooting purposes. If your application makes certain decisions based on some criteria, or can not perform its function for some reason, it is advisable that you log this into the audit log.</p>
+
+<h3 id="background-execution">Background execution</h3>
+
+<p>The generic <code class="highlighter-rouge">Request</code> model now has a flag that can be queried via <code class="highlighter-rouge">shouldProcessInBackground()</code> method. This flag can be set by the initiating (POS) app or via the flow configuration to indicate that this flow should not be visible to users. It is highly recommended this flag is checked and if your service can not process the request in the background when requested, it should send back a failed response explaning this. See the tokenisation handling in <code class="highlighter-rouge">GenericStageHandler</code> in the samples as an example.</p>
+
+<p>If your service <em>can</em> process in the background when the flag is set, it simply means that no activities or other form of UI should be launched - it should all be handled in the service.</p>
+
+<h3 id="paymentflowserviceinfo-errors">PaymentFlowServiceInfo errors</h3>
+
+<p>There is a new optional method that can be overridden from <code class="highlighter-rouge">BasePaymentFlowServiceInfoProvider</code> in order to receive a callback for when the <code class="highlighter-rouge">getPaymentServiceInfo()</code> call has failed or validation of the data failed.  The method has the signature <code class="highlighter-rouge">protected boolean onServiceInfoError(@NonNull String errorType, @NonNull String errorMessage)</code>.</p>
+
+<p>The <code class="highlighter-rouge">errorType</code> variable can be mapped to one of the constants in <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/flow/constants/ServiceInfoErrors.html">ServiceInfoErrors</a>. The <code class="highlighter-rouge">errorMessage</code> is for informative purposes.</p>
+
+<h3 id="payment-apps">Payment apps</h3>
+
+<p>It is no longer mandatory for payment applications to report supported currencies, but it is still recommended where possible. This change is to support currency-agnostic payment method such as cash.</p>
+
+<p>On the other hand, it <em>is</em> now mandatory for payment applications to set the <code class="highlighter-rouge">canPayAmounts(true)</code> in the <code class="highlighter-rouge">PaymentFlowServiceInfo</code> to indicate that it can pay amounts.</p>
+
+							
+
+						</div><!-- /.c-post -->
+					</div><!-- /.o-col -->
+				
+			</div><!-- /.o-row -->
+		</div><!-- /.o-container -->
+
+
+
+
+		
+			<footer class="c-footer">
+				<div class="o-container">
+					<div class="o-row">
+						<div class="o-col-12 u-mt-6 u-mt-8@md u-mb-4 u-mb-6@md">
+							
+								<p class="c-logo u-mb-1">
+									AEVI AppFlow
+								</p><!-- /.c-logo -->
+							
+							
+								<p>Copyright &copy;2019. - AEVI International GmbH <br>All rights reserved.</p>
+							
+						</div><!-- /.o-col -->
+					</div><!-- /.o-row -->
+				</div><!-- /.o-container -->
+			</footer><!-- /.c-footer -->
+		
+
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/vendor/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/pos-android-sdk/dox-theme/assets/js/scripts.min.js"></script>
+
+		
+
+	</body>
+</html>
+

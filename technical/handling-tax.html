@@ -126,7 +126,7 @@
 				
 					<div class="o-col-12@lg o-col-11@xl">
 						<div class="c-post u-mb-3@lg js-post">
-							<p>Tax is applied to goods and services around the world and requires special attention in some regions. AppFlow itself does not require or make use of tax amounts as a concept, but supports it being defined where required.</p>
+							<p>Tax is applied to goods and services around the world and requires special attention in some regions. AppFlow itself does not require or make use of tax amounts as a concept, but supports it being defined where required. Note that in general all amounts are <em>inclusive</em> of tax in AppFlow. This is the case for the <code class="highlighter-rouge">Amount</code> and <code class="highlighter-rouge">Amounts</code> classes, as well as the <code class="highlighter-rouge">amount</code> in <code class="highlighter-rouge">BasketItem</code>, etc. Any tax information provided is simply a breakdown of what tax is applied to those amounts.</p>
 
 <p>Tax information can be applied in two ways - <a href="https://github.com/AEVI-AppFlow/api-constants/blob/master/api-constants/src/main/java/com/aevi/sdk/flow/models/TaxInfo.java">TaxInfo</a> added to additional data for any model that supports this, or as a modifier to a basket item. Note that the <code class="highlighter-rouge">TaxInfo</code> is part of the <code class="highlighter-rouge">api-constants</code> library (v2.2.1+) and not the core AppFlow APIs.</p>
 

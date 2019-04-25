@@ -128,11 +128,17 @@
 						<div class="c-post u-mb-3@lg js-post">
 							<p>v2.1.0 comes with a fair few relevant new features and behavioural changes. It is a non-breaking upgrade for existing v2.0.X integrations with a few recommended changes to make the most of this new release.</p>
 
+<p>Please see the <a href="/pos-android-sdk/technical/v210-upgrade-guide">Upgrade from 2.0.0 Guide</a> for information on how to upgrade from an existing v2.0.X integration.</p>
+
 <h2 id="general">General</h2>
 
 <ul>
   <li>Major redesign of the AppFlow UI, including the configuration provider</li>
-  <li>New diagnostics screen to help troubleshoot problems and upload logs for off-device review</li>
+  <li>New diagnostics screen to help troubleshoot problems and upload logs for off-device review
+    <ul>
+      <li>Uploading of logs require the <code class="highlighter-rouge">AEVI Data Storage App</code> - please contact AEVI for assistance with this</li>
+    </ul>
+  </li>
   <li>Websockets are now fully supported as an alternative for Android Messenger for AppFlow application IPC (to work around Android Binder limits)</li>
   <li>New flow stage <code class="highlighter-rouge">FULFILLED_CHECK</code> that supports offering alternative in-flow payment methods if a transaction is declined or partially fulfilled</li>
   <li>New <code class="highlighter-rouge">AppFlowSettings</code> model that contains configurable parameters such as date formats, etc that may be relevant for any application integrated with AppFlow.</li>

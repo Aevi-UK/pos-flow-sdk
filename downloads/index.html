@@ -134,7 +134,7 @@
 
 <ul>
   <li><code class="highlighter-rouge">Flow Processing Service (FPS)</code> - handles initiation requests and processes the flows</li>
-  <li><code class="highlighter-rouge">AppFlow Settings</code> - provides flow configurations and settings tailored for developers</li>
+  <li><code class="highlighter-rouge">AppFlow Configuration</code> - provides flow configurations and settings tailored for developers</li>
   <li><code class="highlighter-rouge">Payment Initiation Sample</code> - sample to query AppFlow and initiate flows</li>
   <li><code class="highlighter-rouge">Flow Service Sample</code> - sample that provides value added functions in the flow</li>
   <li><code class="highlighter-rouge">Payment Service Sample</code> - sample that illustrates the function of a payment application in AppFlow</li>
@@ -144,14 +144,15 @@
 
 <p>If any of these components changes, a new bundle will be created and published to this page for downloads. In the table below you can see what versions of each component is and what API version they are integrated with.</p>
 
-<p>The first official bundle with AppFlow v2 is <code class="highlighter-rouge">v6</code> (v1 - v5 were internal releases).</p>
+<p>Note that these components require Android API level 21+ (v5.0, Lollipop and above). Also note that AppFlow is <em>not supported</em> on the Albert device.</p>
 
-<p>Note that these components require Android API level 21+ (v5.0, Lollipop and above).</p>
+<h3 id="bundles">Bundles</h3>
 
 <table>
   <thead>
     <tr>
       <th>Bundle</th>
+      <th>Release Date</th>
       <th>FPS</th>
       <th>Config Provider</th>
       <th>API + Samples</th>
@@ -159,22 +160,32 @@
   </thead>
   <tbody>
     <tr>
-      <td><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/wiki/downloads/AppFlow-Developer-Bundle-v6.zip">v6</a></td>
+      <td>v9</td>
+      <td>2019-04-26</td>
+      <td>2.1.0</td>
+      <td>2.1.0</td>
+      <td>2.1.0</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/wiki/downloads/AppFlow-Developer-Bundle-v8.zip">v8</a></td>
+      <td>2019-03-14</td>
       <td>2.0.0</td>
       <td>2.0.0</td>
-      <td>2.0.0</td>
+      <td>2.0.2</td>
     </tr>
     <tr>
       <td><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/wiki/downloads/AppFlow-Developer-Bundle-v7.zip">v7</a></td>
+      <td>2019-03-11</td>
       <td>2.0.0</td>
       <td>2.0.0</td>
       <td>2.0.1</td>
     </tr>
     <tr>
-      <td><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/wiki/downloads/AppFlow-Developer-Bundle-v8.zip">v8</a></td>
+      <td><a href="https://github.com/AEVI-AppFlow/pos-android-sdk/wiki/downloads/AppFlow-Developer-Bundle-v6.zip">v6</a></td>
+      <td>2018-11-27</td>
       <td>2.0.0</td>
       <td>2.0.0</td>
-      <td>2.0.2</td>
+      <td>2.0.0</td>
     </tr>
   </tbody>
 </table>
@@ -182,15 +193,20 @@
 <p>See <a href="/pos-android-sdk/bundle-usage">here</a> for more details on what is in the bundle and how to use the apps.</p>
 
 <div class="callout callout--danger">
-  <p>Please ensure you install a version of FPS that matches the version of the API you are using in your application. i.e. for API 2.0.X please install FPS v2.0.X</p>
+  <p>Please ensure you install a version of FPS that matches the version of the API you are using in your application. i.e. for API 2.0.X please install FPS v2.0.X.</p>
 </div>
+
 <h3 id="release-notes">Release notes</h3>
 
-<p>See <a href="/pos-android-sdk/release-notes">Release notes</a> page for information on noteworthy releases.</p>
+<p>See <a href="/pos-android-sdk/release-notes">Release notes</a> page for information on major updates to the APIs or other components.</p>
 
 <h4 id="v9">v9</h4>
 
-<p>See <a href="/pos-android-sdk//release-notes/v210">v2.1.0</a>.</p>
+<p>See <a href="/pos-android-sdk/release-notes/v210">v2.1.0</a> release notes.</p>
+
+<div class="callout callout--info">
+  <p>Please note that FPS (Flow Processing Service) has been signed with a new key for this release and hence requires an uninstall of old version before this can be installed. </p>
+</div>
 
 <h4 id="v8">v8</h4>
 

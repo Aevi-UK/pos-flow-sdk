@@ -194,7 +194,7 @@
 
 <h3 id="constructing-basket-items">Constructing basket items</h3>
 
-<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItem.html">BasketItem</a> can be constructed via the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemBuilder.html">BasketItemBuilder</a> class. A basket item can optionally be instantiated with an id (typically SKU). If an id is not set, a unique id will be generated automatically. Below is a trivial example of a basket item being constructed. The only mandatory data to set for a basket item is the label.</p>
+<p>A <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItem.html">BasketItem</a> can be constructed via the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemBuilder.html">BasketItemBuilder</a> class. A basket item can optionally be instantiated with an id (typically SKU). If an id is not set, a unique id will be generated automatically. Below is a trivial example of a basket item (without modifiers) being constructed. The only mandatory data to set for a basket item is the label.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">BasketItem</span> <span class="n">basketItem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasketItemBuilder</span><span class="o">()</span>
                 <span class="o">.</span><span class="na">withId</span><span class="o">(</span><span class="s">"fruits-123456"</span><span class="o">)</span>
@@ -234,15 +234,15 @@
 
 <h4 id="item-modifiers-1">Item modifiers</h4>
 
-<p><code class="highlighter-rouge">BasketItemModifier</code> instances can be created via the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemModifierBuilder.html">BasketItemModifierBuilder</a> and added to the item via the different <code class="highlighter-rouge">withModifiers()</code> methods.</p>
+<p><code class="highlighter-rouge">BasketItemModifier</code> instances can be created via the <a href="https://s3-eu-west-1.amazonaws.com/pos-flow-docs/javadocs/latest/payment-initiation-api/com/aevi/sdk/pos/flow/model/BasketItemModifierBuilder.html">BasketItemModifierBuilder</a> and added to the item together with a base amount via the different <code class="highlighter-rouge">withBaseAmountAndModifiers()</code> methods.</p>
 
 <div class="callout callout--warning">
-  <p>If you add any modifiers, you must also ensure that the amount and baseAmount fields are set correctly as per below.</p>
+  <p>Note that the base amount provided is to be exclusive of the modifiers. The amount, including modifiers, is then calculated internally.</p>
 </div>
 
-<p>The <code class="highlighter-rouge">withAmount(long amount)</code> represents the <em>total</em> amount of the basket item, <em>inclusive</em> of any modifiers (and always of tax even if it is not a modifier). If you set modifiers, you <strong>must</strong> also ensure to set the <code class="highlighter-rouge">withBaseAmount(long amount)</code> that represents the base item value <em>without</em> the modifiers.</p>
+<p>The <code class="highlighter-rouge">withAmount(long amount)</code> may not be set when this approach is used - any attempt to do so will throw an exception.</p>
 
-<p>Note that AppFlow itself does <strong>not</strong> validate these modifiers in any way. It is the client responsibility to ensure these are correct and the <code class="highlighter-rouge">amount</code> and <code class="highlighter-rouge">baseAmount</code> values are set appropriately.</p>
+<p>If you are using item modifiers, the rounding of the basket total becomes relevant. You can specify a rounding of up, down or nearest via the <code class="highlighter-rouge">Basket.setRoundingStrategy(RoundingStrategy)</code> method. This is then taken into account when calculating the basket total from all the items.</p>
 
 <h2 id="parsing-the-basket">Parsing the basket</h2>
 

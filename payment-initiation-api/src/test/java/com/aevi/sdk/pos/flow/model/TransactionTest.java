@@ -1,6 +1,7 @@
 package com.aevi.sdk.pos.flow.model;
 
 
+import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -38,6 +39,16 @@ public class TransactionTest {
 
         Amounts expectedProcessed = new Amounts(350, "GBP");
         assertThat(transaction.getProcessedAmounts()).isEqualTo(expectedProcessed);
+    }
+
+    @Test
+    public void checkTwoTransactionsAreEquivalentButNotEqual() {
+        Transaction transaction1 = new Transaction(new Amounts(1000, "GBP"), null, null, null);
+        Transaction transaction2 = new Transaction(new Amounts(1000, "GBP"), null, null, null);
+
+        Assertions.assertThat(transaction1.equivalent(transaction2)).isTrue();
+        Assertions.assertThat(transaction1.equals(transaction2)).isFalse();
+
     }
 
     private static TransactionResponse getResponse(Amounts amounts) {

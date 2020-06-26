@@ -16,6 +16,7 @@ package com.aevi.sdk.flow.model;
 
 
 import android.support.annotation.NonNull;
+
 import com.aevi.util.json.Sendable;
 
 public abstract class BaseModel implements Sendable {
@@ -54,6 +55,27 @@ public abstract class BaseModel implements Sendable {
         BaseModel baseModel = (BaseModel) o;
 
         return id != null ? id.equals(baseModel.id) : baseModel.id == null;
+    }
+
+    /**
+     * Used to check that an AppFlow object is equivalent to this one.
+     *
+     * i.e. All the same field values but a different id
+     *
+     * @param o The object to compare to
+     * @return True if the obect given is equivalent
+     */
+    abstract public boolean equivalent(Object o);
+
+    protected boolean doEquivalent(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

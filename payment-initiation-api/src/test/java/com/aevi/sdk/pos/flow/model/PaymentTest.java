@@ -41,6 +41,15 @@ public class PaymentTest {
         Payment.fromJson("{}ahjj");
     }
 
+    @Test
+    public void checkTwoPaymentRequestsAreEquivalent() {
+        Payment payment1 = getValidRequest(1000, "GBP", "sale");
+        Payment payment2 = getValidRequest(1000, "GBP", "sale");
+
+        assertThat(payment1.equivalent(payment2)).isTrue();
+        assertThat(payment1.equals(payment2)).isFalse();
+    }
+
     private Payment toFromJson(Payment payment) {
         return JsonConverter.deserialize(payment.toJson(), Payment.class);
     }

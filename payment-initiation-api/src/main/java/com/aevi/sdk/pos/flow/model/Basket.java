@@ -450,15 +450,27 @@ public class Basket extends BaseModel {
 
     @Override
     public boolean equals(Object o) {
+        return doEquals(o, false);
+    }
+
+    @Override
+    public boolean equivalent(Object o) {
+        return doEquals(o, true);
+    }
+
+    private boolean doEquals(Object o, boolean equiv) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
+        if (equiv && !super.doEquivalent(o)) {
+            return false;
+        } else if (!equiv && !super.equals(o)) {
             return false;
         }
+
         Basket basket = (Basket) o;
         return Objects.equals(basketName, basket.basketName) &&
                 Objects.equals(displayItems, basket.displayItems) &&

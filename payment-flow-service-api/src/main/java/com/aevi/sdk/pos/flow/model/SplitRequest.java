@@ -17,12 +17,14 @@ package com.aevi.sdk.pos.flow.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.aevi.sdk.flow.model.BaseModel;
 import com.aevi.sdk.flow.model.DeviceAudience;
 import com.aevi.util.json.JsonConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class SplitRequest extends BaseModel {
@@ -170,5 +172,50 @@ public class SplitRequest extends BaseModel {
 
     public static SplitRequest fromJson(String json) {
         return JsonConverter.deserialize(json, SplitRequest.class);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return doEquals(o, false);
+    }
+
+    @Override
+    public boolean equivalent(Object o) {
+        return doEquals(o, true);
+    }
+
+    private boolean doEquals(Object o, boolean equiv) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (equiv && !super.doEquivalent(o)) {
+            return false;
+        } else if (!super.equals(o)) {
+            return false;
+        }
+
+        SplitRequest that = (SplitRequest) o;
+        return Objects.equals(sourcePayment, that.sourcePayment) &&
+                Objects.equals(accumulatedRequestTotals, that.accumulatedRequestTotals) &&
+                Objects.equals(transactions, that.transactions) &&
+                deviceAudience == that.deviceAudience;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), sourcePayment, accumulatedRequestTotals, transactions, deviceAudience);
+    }
+
+    @Override
+    public String toString() {
+        return "SplitRequest{" +
+                "sourcePayment=" + sourcePayment +
+                ", accumulatedRequestTotals=" + accumulatedRequestTotals +
+                ", transactions=" + transactions +
+                ", deviceAudience=" + deviceAudience +
+                '}';
     }
 }

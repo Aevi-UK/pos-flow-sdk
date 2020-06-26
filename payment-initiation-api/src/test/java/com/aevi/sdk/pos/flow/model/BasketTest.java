@@ -2,6 +2,7 @@ package com.aevi.sdk.pos.flow.model;
 
 
 import com.aevi.util.json.JsonConverter;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -199,8 +200,8 @@ public class BasketTest {
     @Test
     public void canGetItemsByCategory() throws Exception {
         sourceBasket.addItems(new BasketItem("123", "Coke", "Drinks", 1000, 1000, 1, null, null, null, null),
-                              new BasketItem("456", "Fanta", "Drinks", 1000, 1000, 1, null, null, null, null),
-                              new BasketItem("789", "Pork", "Meat", 1000, 1000, 1, null, null, null, null));
+                new BasketItem("456", "Fanta", "Drinks", 1000, 1000, 1, null, null, null, null),
+                new BasketItem("789", "Pork", "Meat", 1000, 1000, 1, null, null, null, null));
 
         List<BasketItem> drinks = sourceBasket.getBasketItemsByCategory("Drinks");
         assertThat(drinks).hasSize(2).containsExactlyInAnyOrder(sourceBasket.getItemById("123"), sourceBasket.getItemById("456"));
@@ -209,7 +210,7 @@ public class BasketTest {
     @Test
     public void totalValueHandlesNegativeItemsCorrectly() throws Exception {
         sourceBasket.addItems(new BasketItem("123", "Coke", "Drinks", 1000, 1000, 1, null, null, null, null),
-                              new BasketItem("456", "Fanta", "Drinks", -500, -500, 1, null, null, null, null));
+                new BasketItem("456", "Fanta", "Drinks", -500, -500, 1, null, null, null, null));
 
         long total = sourceBasket.getTotalBasketValue();
         assertThat(total).isEqualTo(500);
@@ -226,9 +227,19 @@ public class BasketTest {
     @Test
     public void totalShouldCalculateFromAmountFieldIfNoModifiers() throws Exception {
         sourceBasket.addItems(new BasketItem("123", "Coke", "Drinks", 1000, 0, 1, null, null, null, null),
-                              new BasketItem("456", "Fanta", "Drinks", 500, 0, 1, null, null, null, null));
+                new BasketItem("456", "Fanta", "Drinks", 500, 0, 1, null, null, null, null));
 
         assertThat(sourceBasket.getTotalBasketValue()).isEqualTo(1500);
+    }
+
+    @Test
+    public void checkTwoBasketsAreEquivalent() {
+        Basket basket1 = new Basket("basket");
+        basket1.addItems(defaultItemOne, defaultItemTwo);
+        Basket basket2 = new Basket("basket");
+        basket2.addItems(defaultItemOne, defaultItemTwo);
+
+        assertThat(basket1.equivalent(basket2)).isTrue();
     }
 
     @Test
@@ -237,13 +248,13 @@ public class BasketTest {
                 .withLabel("vanilla")
                 .withQuantity(2)
                 .withBaseAmountAndModifiers(500, new BasketItemModifierBuilder("tax1", "tax").withFractionalAmount(202.05f).build(),
-                                            new BasketItemModifierBuilder("tax2", "tax").withPercentage(24.56f).build()).build();
+                        new BasketItemModifierBuilder("tax2", "tax").withPercentage(24.56f).build()).build();
 
         BasketItem basketItem2 = new BasketItemBuilder()
                 .withLabel("ice")
                 .withQuantity(1)
                 .withBaseAmountAndModifiers(150, new BasketItemModifierBuilder("tax4", "tax").withFractionalAmount(-5.5f).build(),
-                                            new BasketItemModifierBuilder("tax5", "tax").withPercentage(-25.003f).build()).build();
+                        new BasketItemModifierBuilder("tax5", "tax").withPercentage(-25.003f).build()).build();
 
         sourceBasket.addItems(basketItem1, basketItem2);
 

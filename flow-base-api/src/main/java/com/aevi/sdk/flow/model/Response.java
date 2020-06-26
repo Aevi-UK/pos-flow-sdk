@@ -17,6 +17,7 @@ package com.aevi.sdk.flow.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.aevi.util.json.JsonConverter;
 
 import java.util.Objects;
@@ -200,15 +201,27 @@ public class Response extends BaseModel {
 
     @Override
     public boolean equals(Object o) {
+        return doEquals(o, false);
+    }
+
+    @Override
+    public boolean equivalent(Object o) {
+        return doEquals(o, true);
+    }
+
+    private boolean doEquals(Object o, boolean equiv) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
+        if (equiv && !super.doEquivalent(o)) {
+            return false;
+        } else if (!equiv && !super.equals(o)) {
             return false;
         }
+
         Response response = (Response) o;
         return success == response.success &&
                 Objects.equals(originatingRequest, response.originatingRequest) &&

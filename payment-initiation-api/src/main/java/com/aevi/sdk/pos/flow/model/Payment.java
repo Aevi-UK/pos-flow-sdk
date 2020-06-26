@@ -17,6 +17,7 @@ package com.aevi.sdk.pos.flow.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
 import com.aevi.sdk.flow.model.AdditionalData;
 import com.aevi.sdk.flow.model.BaseModel;
 import com.aevi.sdk.flow.model.Customer;
@@ -273,15 +274,28 @@ public class Payment extends BaseModel {
 
     @Override
     public boolean equals(Object o) {
+        return doEquals(o, false);
+    }
+
+    @Override
+    public boolean equivalent(Object o) {
+        return doEquals(o, true);
+    }
+
+    private boolean doEquals(Object o, boolean equiv) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
+
+        if (equiv && !super.doEquivalent(o)) {
+            return false;
+        } else if (!equiv && !super.equals(o)) {
             return false;
         }
+
         Payment payment = (Payment) o;
         return splitEnabled == payment.splitEnabled &&
                 isExternalId == payment.isExternalId &&
@@ -300,7 +314,7 @@ public class Payment extends BaseModel {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), flowType, flowName, amounts, paymentMethod, basket, customer, splitEnabled, cardToken, additionalData,
-                            isExternalId, source, deviceId);
+                isExternalId, source, deviceId);
     }
 
     @Override

@@ -1,4 +1,4 @@
-version = "2.2.1"
+version = "2.2.2-SNAPSHOT"
 ext.sampleVersionCode = 2020101 // semver based, MMmmppbb (major minor patch build) without leading 0 for MM
 
 buildscript {

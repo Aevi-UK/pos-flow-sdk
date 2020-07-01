@@ -18,6 +18,8 @@ import com.aevi.sdk.flow.BaseApiClient;
 import com.aevi.util.json.JsonConverter;
 import com.aevi.util.json.Jsonable;
 
+import java.util.Objects;
+
 /**
  * An internal object used to serialise the query data for
  * Response requests via {@link BaseApiClient#queryResponses(ResponseQuery)}
@@ -139,4 +141,22 @@ public final class ResponseQuery implements Jsonable {
         return responseType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResponseQuery that = (ResponseQuery) o;
+        return startDate == that.startDate &&
+                endDate == that.endDate &&
+                maxResults == that.maxResults &&
+                Objects.equals(requestId, that.requestId) &&
+                Objects.equals(flowName, that.flowName) &&
+                Objects.equals(flowType, that.flowType) &&
+                Objects.equals(responseType, that.responseType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requestId, flowName, flowType, startDate, endDate, maxResults, responseType);
+    }
 }

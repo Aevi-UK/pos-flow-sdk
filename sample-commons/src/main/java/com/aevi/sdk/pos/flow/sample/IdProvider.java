@@ -1,4 +1,4 @@
-package com.aevi.sdk.pos.flow.paymentservicesample.util;
+package com.aevi.sdk.pos.flow.sample;
 
 public final class IdProvider {
 

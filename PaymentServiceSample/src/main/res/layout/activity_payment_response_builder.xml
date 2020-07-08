@@ -44,6 +44,32 @@
                 android:layout_marginBottom="@dimen/send_button_vert_margin"
                 android:gravity="center_horizontal"
                 android:text="@string/ask_a_question" />
+
+            <Button
+                android:id="@+id/request_some_input"
+                style="@style/DefaultButtonPadded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_horizontal"
+                android:layout_marginTop="@dimen/send_button_vert_margin"
+                android:layout_marginRight="@dimen/margin_horizontal"
+                android:layout_marginBottom="@dimen/send_button_vert_margin"
+                android:gravity="center_horizontal"
+                android:text="@string/request_some_input" />
+
+            <Button
+                android:id="@+id/request_final_amount"
+                style="@style/DefaultButtonPadded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/margin_horizontal"
+                android:layout_marginTop="@dimen/send_button_vert_margin"
+                android:layout_marginRight="@dimen/margin_horizontal"
+                android:layout_marginBottom="@dimen/send_button_vert_margin"
+                android:gravity="center_horizontal"
+                android:text="@string/request_final_amount" />
         </LinearLayout>
 
         <View

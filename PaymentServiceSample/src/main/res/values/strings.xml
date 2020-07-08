@@ -16,6 +16,8 @@
 
     <string name="send_response">Send response</string>
     <string name="ask_a_question">Ask a question</string>
+    <string name="request_some_input">Request some input</string>
+    <string name="request_final_amount">Request final amount</string>
     <string name="defaults_to_requested_amounts">(Defaults to requested amounts)</string>
     <string name="pss_txn_processing">Transaction processing</string>
     <string name="pss_card_reading">Payment card reading</string>
@@ -41,5 +43,7 @@
     <string name="event_question">Does the customer have their card?</string>
     <string name="card_yes">Yes</string>
     <string name="card_no">No</string>
+
+    <string name="event_input_title">Please enter some text</string>
 </resources>
 

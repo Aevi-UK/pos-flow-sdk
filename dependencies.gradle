@@ -28,7 +28,7 @@ ext {
 
     // Sample AEVI deps
     aeviUiLibraryVersion = "2.0.1"
-    appFlowConstantsVersion = '2.3.2'
+    appFlowConstantsVersion = '2.3.5'
 
     projectTargetSdkVersion = 28
     projectMinSdkVersion = 21

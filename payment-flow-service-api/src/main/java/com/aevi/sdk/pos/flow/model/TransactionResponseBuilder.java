@@ -15,10 +15,10 @@
 package com.aevi.sdk.pos.flow.model;
 
 import android.support.annotation.NonNull;
+
 import com.aevi.sdk.flow.model.AdditionalData;
 
-import static com.aevi.sdk.flow.util.Preconditions.checkArgument;
-import static com.aevi.sdk.flow.util.Preconditions.checkNotNull;
+import static com.aevi.sdk.flow.util.Preconditions.*;
 import static com.aevi.sdk.pos.flow.model.TransactionResponse.Outcome;
 
 /**
@@ -168,6 +168,15 @@ public final class TransactionResponseBuilder {
     }
 
     /**
+     * @deprecated Use {@link #addReference(String, Object[])}
+     */
+    @Deprecated
+    @NonNull
+    public <T> TransactionResponseBuilder withReference(String key, T... values) {
+        return addReference(key, values);
+    }
+
+    /**
      * Add an extra/optional reference to pass back to the calling application.
      *
      * Examples of this might be the merchant id used, date time of the transaction, etc.
@@ -180,7 +189,7 @@ public final class TransactionResponseBuilder {
      * @return This builder
      */
     @NonNull
-    public <T> TransactionResponseBuilder withReference(String key, T... values) {
+    public <T> TransactionResponseBuilder addReference(String key, T... values) {
         references.addData(key, values);
         return this;
     }
@@ -189,6 +198,8 @@ public final class TransactionResponseBuilder {
      * Add extra/optional references to pass back to the calling application.
      *
      * Examples of this might be the merchant id used, date time of the transaction, etc.
+     *
+     * This will clear any previous references added using {@link #addReference(String, Object[])}
      *
      * @param references The map of references
      * @return This builder.

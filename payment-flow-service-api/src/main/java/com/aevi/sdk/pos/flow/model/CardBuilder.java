@@ -15,6 +15,7 @@
 package com.aevi.sdk.pos.flow.model;
 
 import android.support.annotation.NonNull;
+
 import com.aevi.sdk.flow.model.AdditionalData;
 import com.aevi.sdk.flow.model.Token;
 
@@ -95,6 +96,8 @@ public class CardBuilder {
      *
      * Examples could be aid, service code, card entry method, etc.
      *
+     * This will clear any additional data previously added with {@link #addAdditionalData(String, Object[])}
+     *
      * @param additionalData Additional data
      * @return This builder
      */
@@ -102,6 +105,15 @@ public class CardBuilder {
     public CardBuilder withAdditionalData(AdditionalData additionalData) {
         this.additionalData = additionalData;
         return this;
+    }
+
+    /**
+     * @deprecated Use {{@link #addAdditionalData(String, Object[])}}
+     */
+    @Deprecated
+    @NonNull
+    public <T> CardBuilder withAdditionalData(String key, T... values) {
+        return addAdditionalData(key, values);
     }
 
     /**
@@ -115,7 +127,7 @@ public class CardBuilder {
      * @return This builder
      */
     @NonNull
-    public <T> CardBuilder withAdditionalData(String key, T... values) {
+    public <T> CardBuilder addAdditionalData(String key, T... values) {
         additionalData.addData(key, values);
         return this;
     }

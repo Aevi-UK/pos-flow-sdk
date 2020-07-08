@@ -16,6 +16,7 @@ package com.aevi.sdk.pos.flow.sample;
 
 
 import com.aevi.sdk.flow.constants.CardEntryMethods;
+import com.aevi.sdk.flow.model.AdditionalData;
 import com.aevi.sdk.flow.model.Customer;
 import com.aevi.sdk.pos.flow.model.Card;
 import com.aevi.sdk.pos.flow.model.CardBuilder;
@@ -50,18 +51,13 @@ public class CardProducer {
                 .withMaskedPan(maskedPan)
                 .withExpiryDate(EXPIRY_DATE)
                 .withCardholderName(cardholderName)
-                .withAdditionalData(CARD_DATA_NETWORK, cardNetwork)
-                .withAdditionalData(CARD_DATA_ENTRY_METHOD, CardEntryMethods.CARD_ENTRY_METHOD_INSERT);
+                .withAdditionalData(getCardAdditionalData(includeEmvDetails, cardNetwork));
 
         if (includeToken) {
             cardBuilder.withCardToken(customer.getTokens().get(0));
         }
-        if (includeEmvDetails) {
-            cardBuilder
-                    .withAdditionalData(CARD_DATA_AID, getAidForNetwork(cardNetwork))
-                    .withAdditionalData(CARD_DATA_LANGUAGES, LANGUAGES);
-        }
-        cardBuilder.withAdditionalData(WE_BUILT_THIS_CARD_KEY, true);
+
+        cardBuilder.addAdditionalData(WE_BUILT_THIS_CARD_KEY, true);
 
         return cardBuilder.build();
     }
@@ -95,5 +91,17 @@ public class CardProducer {
             default:
                 return VISA_AID;
         }
+    }
+
+    private static AdditionalData getCardAdditionalData(boolean withEmv, String cardNetwork) {
+        AdditionalData additionalData = new AdditionalData();
+        if (withEmv) {
+            additionalData.addData(CARD_DATA_BRAND, "EUROWAG");
+            additionalData.addData(CARD_DATA_AID, getAidForNetwork(cardNetwork));
+            additionalData.addData(CARD_DATA_LANGUAGES, LANGUAGES);
+        }
+        additionalData.addData(CARD_DATA_NETWORK, cardNetwork);
+        additionalData.addData(CARD_DATA_ENTRY_METHOD, CardEntryMethods.CARD_ENTRY_METHOD_INSERT);
+        return additionalData;
     }
 }

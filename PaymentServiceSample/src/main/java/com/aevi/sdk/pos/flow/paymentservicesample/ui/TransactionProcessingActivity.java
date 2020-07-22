@@ -178,7 +178,7 @@ public class TransactionProcessingActivity extends BaseSampleAppCompatActivity {
                     .withOutcomeMessage("User approved manually")
                     .withResponseCode(APPROVED_RESP_CODE)
                     .withCard(getCard())
-                    .withReferences(getReferences())
+                    .withReferences(getReferences(transactionRequest))
                     .addReference(TransactionProcessingActivity.INTERNAL_ID_KEY, UUID.randomUUID().toString())
                     .build();
         } else {
@@ -239,12 +239,7 @@ public class TransactionProcessingActivity extends BaseSampleAppCompatActivity {
             return null;
         }
 
-        // If the card details passed on via the request is from our app in the card reading step, we use that again
-        if (CardProducer.cardWasProducedHere(transactionRequest.getCard())) {
-            return transactionRequest.getCard();
-        }
-        // If not, let's just return the default card
-        return CardProducer.getDefaultCard();
+        return CardProducer.getCard(transactionRequest);
     }
 
     @Override

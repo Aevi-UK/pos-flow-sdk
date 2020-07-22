@@ -19,10 +19,14 @@ import java.util.Currency;
 
 public class AmountFormatter {
 
+    public static String formatAmount(String currencyCode, long amountValue) {
+        return formatAmount(currencyCode, amountValue, true);
+    }
+
     /**
      * Format amount to a readable format, taking currency sub-unit fractions into account
      */
-    public static String formatAmount(String currencyCode, long amountValue) {
+    public static String formatAmount(String currencyCode, long amountValue, boolean withSymbol) {
         if (currencyCode != null) {
             String symbol;
             int subUnitFractions;
@@ -34,7 +38,11 @@ public class AmountFormatter {
                 symbol = currencyCode;
                 subUnitFractions = 2;
             }
-            return symbol + BigDecimal.valueOf(amountValue).movePointLeft(subUnitFractions).toString();
+            if (withSymbol) {
+                return symbol + BigDecimal.valueOf(amountValue).movePointLeft(subUnitFractions).toString();
+            } else {
+                return BigDecimal.valueOf(amountValue).movePointLeft(subUnitFractions).toString();
+            }
         } else {
             return "0.00";
         }

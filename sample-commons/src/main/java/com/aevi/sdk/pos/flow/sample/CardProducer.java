@@ -15,11 +15,14 @@
 package com.aevi.sdk.pos.flow.sample;
 
 
+import android.support.annotation.NonNull;
+
 import com.aevi.sdk.flow.constants.CardEntryMethods;
 import com.aevi.sdk.flow.model.AdditionalData;
 import com.aevi.sdk.flow.model.Customer;
 import com.aevi.sdk.pos.flow.model.Card;
 import com.aevi.sdk.pos.flow.model.CardBuilder;
+import com.aevi.sdk.pos.flow.model.TransactionRequest;
 
 import static com.aevi.sdk.flow.constants.CardDataKeys.*;
 import static com.aevi.sdk.flow.constants.CardNetworks.*;
@@ -37,6 +40,16 @@ public class CardProducer {
     private static final String[] LANGUAGES = new String[]{"en", "de", "fr"};
 
     private static final String WE_BUILT_THIS_CARD_KEY = "cardProducedInSample"; // We built this card on rock'n'roll...
+
+    @NonNull
+    public static Card getCard(TransactionRequest transactionRequest) {
+        // If the card details passed on via the request is from our app in the card reading step, we use that again
+        if (CardProducer.cardWasProducedHere(transactionRequest.getCard())) {
+            return transactionRequest.getCard();
+        }
+        // If not, let's just return the default card
+        return CardProducer.getDefaultCard();
+    }
 
     public static Card getDefaultCard() {
         return buildCard(CARD_NETWORK_VISA, true, false, false);

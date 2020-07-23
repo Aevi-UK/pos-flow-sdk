@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/send_response"
@@ -31,7 +31,7 @@
                 android:layout_marginBottom="@dimen/send_button_vert_margin"
                 android:gravity="center_horizontal"
                 android:text="@string/send_response" />
-
+<!--
             <Button
                 android:id="@+id/ask_a_question"
                 style="@style/DefaultButtonPadded"
@@ -70,6 +70,7 @@
                 android:layout_marginBottom="@dimen/send_button_vert_margin"
                 android:gravity="center_horizontal"
                 android:text="@string/request_final_amount" />
+                -->
         </LinearLayout>
 
         <View

@@ -199,27 +199,27 @@ public class TransactionProcessingActivity extends BaseSampleAppCompatActivity {
         finish();
     }
 
-    @OnClick(R.id.ask_a_question)
-    public void onSendFlowEvent() {
-        ConfirmationOption[] opts = new ConfirmationOption[2];
-        opts[0] = new ConfirmationOption(CONFIRMATION_OPTION_YES, getString(R.string.card_yes));
-        opts[1] = new ConfirmationOption(CONFIRMATION_OPTION_NO, getString(R.string.card_no));
-        FlowEvent flowEvent = new FlowEvent(EVENT_CONFIRMATION_REQUEST, new ConfirmationRequest(CONFIRMATION_TYPE_CARD, getString(R.string.event_question), opts));
-        transactionProcessingModel.sendEvent(flowEvent);
-    }
-
-    @OnClick(R.id.request_some_input)
-    public void requestSomeInput() {
-        ConfirmationRequest confirmationRequest = new ConfirmationRequest(CONFIRMATION_TYPE_SIGNATURE, getString(R.string.event_input_title), new ConfirmationInput(CONFIRMATION_INPUT_TYPE_TEXT, 2, 10));
-        FlowEvent flowEvent = new FlowEvent(EVENT_CONFIRMATION_REQUEST, confirmationRequest);
-        transactionProcessingModel.sendEvent(flowEvent);
-    }
-
-    @OnClick(R.id.request_final_amount)
-    public void requestFinalAmount() {
-        FlowEvent flowEvent = new FlowEvent(EVENT_FINAL_AMOUNT_REQUEST, new FinalAmountRequest(1000));
-        transactionProcessingModel.sendEvent(flowEvent);
-    }
+//    @OnClick(R.id.ask_a_question)
+//    public void onSendFlowEvent() {
+//        ConfirmationOption[] opts = new ConfirmationOption[2];
+//        opts[0] = new ConfirmationOption(CONFIRMATION_OPTION_YES, getString(R.string.card_yes));
+//        opts[1] = new ConfirmationOption(CONFIRMATION_OPTION_NO, getString(R.string.card_no));
+//        FlowEvent flowEvent = new FlowEvent(EVENT_CONFIRMATION_REQUEST, new ConfirmationRequest(CONFIRMATION_TYPE_CARD, getString(R.string.event_question), opts));
+//        transactionProcessingModel.sendEvent(flowEvent);
+//    }
+//
+//    @OnClick(R.id.request_some_input)
+//    public void requestSomeInput() {
+//        ConfirmationRequest confirmationRequest = new ConfirmationRequest(CONFIRMATION_TYPE_SIGNATURE, getString(R.string.event_input_title), new ConfirmationInput(CONFIRMATION_INPUT_TYPE_TEXT, 2, 10));
+//        FlowEvent flowEvent = new FlowEvent(EVENT_CONFIRMATION_REQUEST, confirmationRequest);
+//        transactionProcessingModel.sendEvent(flowEvent);
+//    }
+//
+//    @OnClick(R.id.request_final_amount)
+//    public void requestFinalAmount() {
+//        FlowEvent flowEvent = new FlowEvent(EVENT_FINAL_AMOUNT_REQUEST, new FinalAmountRequest(1000));
+//        transactionProcessingModel.sendEvent(flowEvent);
+//    }
 
     private TransactionResponseBuilder setProcessedAmounts(TransactionResponseBuilder transactionResponseBuilder) {
         int chosenSelection = processedAmountsSpinner.getSelectedItemPosition();

@@ -21,8 +21,8 @@ import android.util.Log;
 import com.aevi.sdk.pos.flow.model.Merchant;
 import com.aevi.sdk.pos.flow.model.PaymentFlowServiceInfo;
 import com.aevi.sdk.pos.flow.model.PaymentFlowServiceInfoBuilder;
-import com.aevi.sdk.pos.flow.sample.IdProvider;
 import com.aevi.sdk.pos.flow.provider.BasePaymentFlowServiceInfoProvider;
+import com.aevi.sdk.pos.flow.sample.IdProvider;
 
 import static com.aevi.sdk.flow.constants.AppMessageTypes.FLOW_EVENT;
 import static com.aevi.sdk.flow.constants.FlowTypes.*;
@@ -44,7 +44,7 @@ public class PaymentServiceInfoProvider extends BasePaymentFlowServiceInfoProvid
                 .withSupportedCurrencies(supportedCurrencies)
                 .withDefaultCurrency(supportedCurrencies[0])
                 .withSupportedFlowTypes(FLOW_TYPE_SALE, FLOW_TYPE_REFUND, FLOW_TYPE_REVERSAL, FLOW_TYPE_PRE_AUTHORISATION, FLOW_TYPE_PRE_AUTH_COMPLETION, FLOW_TYPE_TOKENISATION, FLOW_TYPE_BATCH_CLOSURE)
-                .withCustomRequestTypes(FLOW_EVENT)
+                .withCustomRequestTypes(FLOW_EVENT, "handshake") // handshake is specific to Chase/xPap
                 .withMerchants(new Merchant(IdProvider.getMerchantId(), IdProvider.getMerchantName()))
                 .withManualEntrySupport(false)
                 .withSupportsAccessibilityMode(false)
